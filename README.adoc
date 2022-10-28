@@ -6,7 +6,6 @@ Vous pouvez utiliser ce cours de différentes manières :
 
 * Depuis le présent dépôt en commençant par le premier link:document/01-0-a-lire-avant-de-commencer.adoc[chapitre du cours] en passant au chapitre suivant grâce au lien situé en bas de chaque partie.
 
-
 * Depuis les fichiers pdf générés à partir de ce dépôt.
 ** Il existe une link:uml_le_diagramme_de_classes_v0.0.23_etu.pdf[version pdf sans la correction des exercices] (version idéale pour les apprentis)
 ** Il existe une link:uml_le_diagramme_de_classes_v0.0.23_correction.pdf.pdf[version pdf avec les corrections des exercices] (version idéale pour les formateurs)
