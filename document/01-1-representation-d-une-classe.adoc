@@ -50,6 +50,7 @@ class NomDeLaClasse <<stéréotype>> {
 endif::[]
 
 (((Visibilité des membres)))
+
 == Précisions sur la visibilité des membres
 
 * Le signe `-` désigne une visibilité privée.
