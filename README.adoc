@@ -8,7 +8,7 @@ Vous pouvez utiliser ce cours de différentes manières :
 
 * Depuis les fichiers pdf générés à partir de ce dépôt.
 ** Il existe une link:uml_le_diagramme_de_classes_v0.0.23_etu.pdf[version pdf sans la correction des exercices] (version idéale pour les apprentis)
-** Il existe une link:uml_le_diagramme_de_classes_v0.0.23_correction.pdf.pdf[version pdf avec les corrections des exercices] (version idéale pour les formateurs)
+** Il existe une link:uml_le_diagramme_de_classes_v0.0.23_correction.pdf[version pdf avec les corrections des exercices] (version idéale pour les formateurs)
 
 == Comment est construit ce cours (techniquement parlant)
 
