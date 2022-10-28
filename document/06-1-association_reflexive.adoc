@@ -1,0 +1,207 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+//titre de la section
+[[l_association_réflexive]]
+= L'association réflexive
+ifndef::_main_loaded[]
+include::../config/header_attributes.adoc[]
+{empty}
+Point précédent :
+link:implementation_des_cardinalites.adoc[L'implémentation des cardinalités]
+endif::_main_loaded[]
+
+*Une association réflexive est un lien entre deux objets de même type.*
+
+Imaginons un technicien qui peut être le supérieur hiérarchique d'autres techniciens.
+Le diagramme suivant illustre cette relation :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=reflexive-technician-to-technician,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class "Technician" as superior
+class "Technician" as subordinate
+
+superior - "0..*" subordinate : is the superior
+....
+//_show_plantuml
+endif::[] 
+
+Comme les deux classes mobilisées sont identiques, il ne faut en utiliser qu'une seule et donc faire un lien qui point sur elle-même :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=reflexive-technician-himself,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+'hide members
+
+class Technician
+
+Technician ---->  "0..* subordinates" Technician : is the superior of
+
+note as N
+Un technicien est le supérieur
+de 0 a plusieurs autres techniciens
+end note
+....
+//_show_plantuml
+endif::[] 
+
+C'est équivalent à cette représentation :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=reflexive-technician-without-link,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Technician {
+- subordinates: Technician[0..*]
+}
+....
+//_show_plantuml
+endif::[] 
+
+
+Voici la même modélisation mais avec une bidirectionnalité :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=reflexive-technician-bidirectionnal,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+'hide members
+
+class Technician
+
+Technician "0..1" ---- "0..* subordinates" Technician : is the superior of
+
+note as N
+Un technicien est le supérieur
+de 0 a plusieurs autres techniciens.
+Un technicien a 0 ou un supérieur.
+end note
+....
+//_show_plantuml
+endif::[] 
+
+Ce qui est équivalent à :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=reflexive-technician-bidirectionnal-without-link,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Technician {
+- subordinates: Technician[0..*]
+- superior: Technician[0..1]
+}
+....
+//_show_plantuml
+endif::[] 
+
+[.question]
+****
+*Q{counter:_question})*
+Travail à faire
+
+[loweralpha]
+. Implémentez le diagramme suivant (il n'y a rien de nouveau, cela reste une association bidirectionnelle comme nous savons les implémenter) :
++
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=reflexive-technician-bidirectionnal-implementation,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Technician
+
+Technician "0..1" ---- "0..* subordinates" Technician : is the superior of
+....
+//_show_plantuml
+endif::[]
+. Vous veillerez à ce qu'un technicien ne puisse pas être son propre subordonné ou supérieur.
+
+****
+
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+Nous allons implémenter le diagramme en plusieurs étapes :
+
+. Création de la classe `Tehchnician` avec navigabilité depuis un supérieur vers ses subordonnées (propriété de type collection nommée `subordinates`)
+. Ajout de la navigabilité du subordonné vers son supérieur
+. Ajout du contrôle sur l'impossibilité d'un technicien à être son propre subordonné ou supérieur
+
+// cette ligne de commentaire est nécessaire pour que l'élément qui suit soit "détaché" de l'élément précédent.
+* Création de la classe `Technician` (navigabilité vers une collection de subordonnés) :
+
+[source%linenums,php]
+----
+include::../assets/source_code/implementation_technician_zeroone_to_multiple_technician_bi.php[tags=!*;class_Technician;mutator_accessor_of_subordinates]
+----
+
+* Ajout de la navigabilité vers un supérieur (ajout d'un attribut d'objet nommé `superior` pouvant stocker une instance de `Technician`:
+
+[source%linenums,php]
+----
+//Seule les mutateurs et accesseurs concernés par la navigabilité vers le technicien supérieur sont repris ici. Ce code est à ajouter au code précédent.
+include::../assets/source_code/implementation_technician_zeroone_to_multiple_technician_bi.php[tags=!*;class_Technician;property_superior;mutator_accessor_of_superior]
+----
+
+* Il ne reste que la gestion de la mise à jour de la classe inverse à faire.
+Il faut déterminer la classe propriétaire.
+Nous savons que c'est la classe qui est à l'opposé de la cardinalité maximale à 1, soit ici la classe `Technician` (mais du côté du subordonné).
+Lorsqu'un subordonné sa voit lié ou "délié" d'un supérieur, il faut indiquer à ce supérieur qu'il a un nouveau subordonné ou qu'il en a un en moins.
+
+[source%linenums,php]
+----
+include::../assets/source_code/implementation_technician_zeroone_to_multiple_technician_bi.php[tags=!*;class_Technician;property_superior;mutator_accessor_of_superior;maj_inverse_superior]
+----
+<1> on met à jour l'ancien supérieur qui n'a plus le technicien courant comme subordonné
+<2> on met à jour le nouveau supérieur en lui indiquant qu'il a un nouveau subordonné
+
+// cette ligne de commentaire est nécessaire pour que l'élément qui suit soit "détaché" de l'élément précédent.
+* Il faut encore contrôler qu'un technician ne soit pas son propre supérieur :
+
+[source%linenums,php]
+----
+//code à ajouter au début de la méthode "setSuperior"
+include::../assets/source_code/implementation_technician_zeroone_to_multiple_technician_bi.php[tags=!*;check_superior_is_not_himself]
+----
+
+* Et pour terminer, il faut contrôler que le technicien ne soit pas son propre subordonné :
+
+[source%linenums,php]
+----
+//code à ajouter au début de la méthode "addSubordinate"
+include::../assets/source_code/implementation_technician_zeroone_to_multiple_technician_bi.php[tags=!*;check_subordinate_is_not_himself]
+----
+
+* Nous pouvons tester le code en affectant à un technicien un supérieur qui est lui-même et un subordonné qui est également lui-même :
+
+[source%linenums,php]
+----
+include::../assets/source_code/implementation_technician_zeroone_to_multiple_technician_bi.php[tags=!*;meo_1]
+----
+
+****
+//end _show_correction
+endif::[]
+
+ifndef::_main_loaded[]
+Point suivant : 
+link:08-1-l-agregation.adoc[L'agrégation]
+include::../config/index.adoc[]
+endif::_main_loaded[]
+
+
+

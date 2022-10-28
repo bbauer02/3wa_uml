@@ -1,0 +1,494 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+//titre de la section
+[[implémentation_d_une_association_bidirectionnelle_simple]]
+= Implémentation d'une association bidirectionnelle simple
+ifndef::_main_loaded[]
+include::../config/header_attributes.adoc[]
+{empty}
+Point précédent :
+link:implementation-d-une-association-unidirectionnelle-multiple.adoc[Implémentation d'une association bidirectionnelle simple]
+endif::_main_loaded[]
+
+
+[NOTE]
+====
+*Rappel 1* : une association entre deux classes `A` et `B` traduit un lien de contenance.
+Dans ce cas `A` doit prévoir un attribut permettant de stocker une instance de  `B` et/ou vice-versa.
+
+
+*Rappel 2* : une association bidirectionnelle est navigable dans les deux sens (de `A` vers `B` *ET* de `B` vers `A`).
+
+*Rappel 3* : Une association est qualifiée de simple lorsque zéro ou une seule instance de `B` est liée à `A` (ou l'inverse).
+====
+
+[[mise_en_place_de_la_navigation_bidirectionnelle]]
+== Mise en place de la navigation bidirectionnelle
+
+Le diagramme suivant exprime une association bidirectionnelle simple quel que soit le sens de navigation.
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=asso_uni_simple,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Vehicle {
+- registerNumber: string
++__toString():string
+}
+
+class Technician {
+-name: string
++__toString():string
+}
+
+Vehicle "0..1" -- "0..1" Technician : maintains
+
+note right of Technician::__toString
+Retourne le nom du technicien et
+du véhicule qui lui est associé.
+end note
+
+....
+// end _show_plantuml
+endif::[]
+
+
+Lecture de l'association : Un véhicule est maintenu par 0 ou 1 technicien et un technicien maintient 0 ou un véhicule.
+
+L'association représentée indique clairement au développeur le code qu'il doit écrire.
+Si deux développeurs doivent implémenter ce diagramme, le code doit être le même !
+
+Commençons par la classe `Technician` sans nous soucier de la navigabilité :
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_bi_simple.php[tags=!*;class_Technician]
+----
+
+Faisons de même pour la classe `Vehicle` :
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_bi_simple.php[tags=!*;class_Vehicle]
+----
+
+Maintenant, nous pouvons nous intéresser à la navigabilité entre les deux classes.
+
+Tout d'abord, il y a une navigabilité simple de `Vehicule` vers `Technician` (cardinalité maximale à 1).
+Nous savons déjà implémenté cette situation dans la partie sur la <<implémentation_nav_unidirectionnelle_simple,navigabilité unidirectionnelle simple>>.
+Il suffit donc de refaire la même chose.
+
+Nous ajoutons un attribut `technician` qui va permettre de stocker une instance de `Technician` dans la classe `Vehicle` :
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_bi_simple.php[tags=!*;method_vehicle_constructor;property_technician]
+----
+
+Puis le mutateur et l'accesseur de l'attribut `technician` :
+
+[source%linenums,php]
+----
+//classe Vehicle
+include::../assets/source_code/_implementation_asso_bi_simple.php[tags=!*;mutator_accessor_of_technician]
+----
+
+Ajoutons la méthode `__toString` qui retourne le technicien associé au véhicule :
+
+[source%linenums,php]
+----
+//classe Vehicle
+include::../assets/source_code/_implementation_asso_bi_simple.php[tags=!*;method_vehicle_to_string]
+----
+
+Nous avons mis en place la navigabilité dans le sens `Vehicle` vers `Technician`.
+Il nous faut mettre en place la navigabilité de `Technician` vers `Vehicle`.
+Cela nécessite un attribut `vehicle` qui va stocker l'instance de véhicule associé au technicien :
+
+[source%linenums,php]
+----
+//classe Technician
+include::../assets/source_code/_implementation_asso_bi_simple.php[tags=!*;method_technician_constructor;property_vehicle]
+----
+
+Il faut le mutateur et l'accesseur de cet attribut d'objet :
+
+[source%linenums,php]
+----
+//classe Technician
+include::../assets/source_code/_implementation_asso_bi_simple.php[tags=!*;mutator_accessor_of_vehicle]
+----
+
+Implémentons la méthode `__toString` de la classe `Technician` :
+[source%linenums,php]
+----
+//classe Technician
+include::../assets/source_code/_implementation_asso_bi_simple.php[tags=!*;method_technician_to_string]
+----
+
+Comme vous pouvez le remarquer, l'aspect "bidirectionnel" ne change rien à l'implémentation (pour l'instant).
+Nous avons géré la navigabilité dans les deux sens de lecture de l'association.
+
+[[la_problématique_de_l_association_bidirectionnelle]]
+== La problématique de l'association bidirectionnelle
+
+Observons la mise en oeuvre de cette navigabilité bidirectionnelle.
+
+Nous commençons par associer un technicien à un véhicule :
+
+[source%linenums,php]
+----
+//classe Technician
+include::../assets/source_code/_implementation_asso_bi_simple.php[tags=!*;meo_1]
+----
+
+Puis en affichant le véhicule, on mobilise la navigabilité vers l'instance de `Technician` liée :
+
+[source%linenums,php]
+----
+//classe Technician
+include::../assets/source_code/_implementation_asso_bi_simple.php[tags=!*;meo_2]
+----
+
+Résultat :
+----
+Je suis le véhicule immatriculé AAAA. Mon technicien est Paul.
+----
+
+La navigation est bien fonctionnelle.
+Depuis le véhicule, nous avons accès à son technicien.
+
+Puisque nous sommes dans une navigation bidirectionnelle, la navigation doit être possible dans l'autre sens (du technicien vers son véhicule) :
+
+[source%linenums,php]
+----
+//classe Technician
+include::../assets/source_code/_implementation_asso_bi_simple.php[tags=!*;meo_3]
+----
+<1> Nous nous attendons logiquement à voir une instance de `Vehicle` puisque nous sommes censés pouvoir naviguer d'un technicien vers son véhicle.
+
+Résultat :
+----
+NULL
+----
+
+Nous venons de mettre en avant la [[problematique_maj_asso_bidirectionnelle]]*[.keyword]#((problématique de la mise à jour d'une association bidirectionnelle))#*.
+
+[WARNING]
+====
+*La navigation d'un objet vers l'autre n'est pas automatiquement réciproque*.
+Ce n'est pas parce que vous liez un objet `B` à un objet `A` que `A` sera lié à `B`.
+
+Si la navigabilité est bidirectionnelle, cela signifie que si l'on navigue d'un objet à l'autre, il faut pouvoir le faire dans les deux sens !
+Cela nécessite donc de mettre à jour la navigabilité dans l'autre sens.
+
+La mise à jour de l'objet lié peut être fait de deux façons, soit manuellement, soit automatiquement.
+====
+
+[[mise_à_jour_manuelle_de_l_association_bidirectionnelle]]
+== Mise à jour manuelle de l'association bidirectionnelle
+
+Ce qu'il faut bien comprendre, c'est que lorsque nous associons un technicien à un véhicule, ce technicien ne sait pas qu'il est associé à ce véhicule.
+Nous pouvons le faire manuellement  :
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_bi_simple.php[tags=!*;meo_4]
+----
+
+Résultat :
+----
+Je suis le véhicule immatriculé BBBB. Mon technicien est Anna.
+
+Je suis le technicien nommé Anna. La voiture dont j'ai la charge a pour immatriculation BBBB.
+----
+
+Nous pouvons être satisfaits du résultat.
+Les deux objets associés se connaissent réciproquement.
+La navigabilité est bien bidirectionnelle.
+
+[WARNING]
+====
+Il faut toujours garder en tête que l'association des objets liés dans une association bidirectionnelle n'est pas réciproque.
+
+La solution de mettre à jour manuellement les liens entre les objets souffre d'une limite importante :
+*le développeur ne doit pas oublier de faire l'association dans les deux sens !*
+
+Heureusement, il est possible d'éviter cette situation en prévoyant la mise à jour automatique de l'objet lié.
+====
+
+[[Mise_à_jour_automatique_de_l_association_bidirectionnelle]]
+== Mise à jour automatique de l'association bidirectionnelle
+
+Rappelons le processus de mise à jour d'une association bidirectionnelle entre un objet de type `A` et un objet de type `B` :
+
+. L'objet `B` est lié à l'objet `A` en faisant `$a->setB($b)` 
+. L'objet `A` est ensuite lié à l'objet `B` en faisant `$b->setA($a)`
+
+Pour automatiser ces deux étapes, il suffit  lors de l'étape 1 de déclencher l'étape 2.
+
+Si l'on prend la méthode `Vehicle::setTechnician()` suivante :
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_bi_simple.php[tags=!*;method_set_technician]
+----
+
+Nous avons stocké le technicien dans l'attribut `technician` de la classe `Vehicle`.
+Pour cela nous avons mobilisé la méthode `setTechnician()`.
+Cela correspond à la première étape de la mise à jour de l'association bidirectionnelle.
+Nous allons imbriquer dans cette étape l'étape 2 (l'association d'une voiture à un technicien) :
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_bi_simple.php[tags=!*;method_set_technician;maj_inverse_technicien]
+----
+
+Désormais, lorsqu'un technicien est affecté à une voiture, l'association inverse est également réalisée :
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_bi_simple.php[tags=!*;meo_7]
+----
+
+Nous avons bien depuis le technicien accès au véhicule.
+
+
+
+[WARNING]
+====
+Si nous sommes dans le cas où le véhicule est associé une première fois à un technicien puis une seconde fois à un autre technicien, le premier technicien sera encore lié au véhicule alors qu'il ne le devrait plus (la navigabilité bidirectionnelle est rompue).
+Il faut alors indiquer à cet ancien technicien qu'il n'est plus lié au véhicule courant :
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_bi_simple.php[tags=!*;method_set_technician;maj_inverse_technicien;maj_inverse_ancien_technicien]
+----
+<1> L'ancien technicien n'est plus lié au véhicule courant, d'où la valeur null passée en argument (et parce que le diagramme nous indique que l'attribut est nullable du fait de la cardinalité minimale à 0)
+
+ifeval::[{_show_note_prof} == 1]
+.Note pour le professeur
+[.note_prof]
+****
+Dans le cas où il s'agit d'une association multiple et qu'il fallait désassocier les anciens technicien, il faudrait également intervenir dans la méthode `setXXXs` en bouclant sur l'ancienne collection de techniciens pour désassocier chacun d'eux du véhicule courant.
+//end note_prof
+****
+//end _show_note_prof
+endif::[]
+
+Désormais, lorsqu'un nouveau technicien sera associé à la voiture, l'ancien ne le sera plus :
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_bi_simple.php[tags=!*;meo_5]
+----
+
+Tout fonctionne comme attendu.
+En faisant une seule association, les deux objets sont liés réciproquement (et l'ancien lien est correctement "défait").
+
+====
+
+
+C'est super mais que se passe-t-il si le lien est initié depuis une instance de `Technician` ?
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_bi_simple.php[tags=!*;meo_6]
+----
+<1> Il n'est pas possible de naviguer de l'instance de `Vehicle` vers l'instance de `Technician`.
+
+*Que s'est-il passé ?*
+
+L'association d'un technicien et d'un véhicule a été initiée via la méthode `Technician::setVehicle()`.
+Cette méthode ne fait qu'associer un véhicule à un technicien.
+Elle ne s'occupe donc pas d'associer au véhicule ce technicien.
+
+[IMPORTANT]
+====
+Dans le cas d'une association bidirectionnelle, seul un des deux objets liés est responsable de la mise à jour de l'autre.
+
+Par conséquent, dans notre cas, l'association doit obligatoirement être réalisée depuis une instance de `Vehicle` via sa méthode `setTechnician` puisque cette dernière contient l'appel à l'association inverse.
+La classe `Vehicle` est responsable de la mise à jour de l'association dans les deux sens.
+
+Attention : il faut savoir déterminer la classe responsable de cette mise à jour !
+C'est l'objetif du point suivant.
+====
+
+[[choisir_l_objet_qui_sera_responsable_de_la_mise_à_jour_de_l_objet_lié]]
+== Choisir l'objet qui sera responsable de la mise à jour de l'objet lié
+
+Nous venons de voir que dans le cadre d'une association bidirectionnelle, il faut associer deux objets depuis l'objet qui est responsable de la mise à jour de l'objet lié (ou objet inverse).
+
+La classe qui est responsable de la mise à jour de l'objet lié est appelée [[keyword_classe_propriétaire]]*[.keyword]#((classe propriétaire))#* (on peut trouver le terme de [[keyword_classe_possédante]]*[.keyword]#((classe possédante))#* ou de [[keyword_classe_dominante]]*[.keyword]#((classe dominante))#*.
+L'objet lié est appelé [[keyword_objet_inverse]]*[.keyword]#((objet inverse))#* (ou [[keyword_classe_inverse]]*[.keyword]#((classe inverse))#* si on parle de classe.)
+
+En parallèle, si l'on parle des instances de ces classes, on pourra utiliser les termes d'*[.keyword]#((objet possédant))#* ou d'*[.keyword]#((objet propriétaire))#* ou d'*[.keyword]#((objet dominant))#* ou tout simplement d'*[.keyword]#((objet responsable de la mise à jour))#* de l'objet associé.
+
+Précédemment, nous avons travaillé avec ce diagramme :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=asso_uni_simple_copy_1,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Vehicle {
+- registerNumber: string
++__toString():string
+}
+
+class Technician {
+-name: string
++__toString():string
+}
+left to right direction
+Vehicle "0..1" --- "0..1" Technician : maintains
+....
+// end _show_plantuml
+endif::[]
+
+Nous avons placé dans la méthode `Vehicle::setTechnician()` l'appel à `Technician::setVehicle` afin de mettre à jour l'association dans le sens inverse.
+
+J'avais arbitrairement choisi la classe `Vehicle` pour être la classe possédante, c'est-à-dire la classe qui est responsable de la mise à jour de l'objet lié.
+
+Le choix de la classe possédante ne doit pas être fait au hasard.
+
+[WARNING]
+====
+*La classe propriétaire doit être celle qui est à l'opposée de la cardinalité maximale à 1*.
+
+Appliquer cette règle se révèlera très utile si jamais les instances des classes liées doivent être persistées en base de données.
+
+S'il y a une cardinalité maximale à 1 de chaque côté de l'association, alors ce peut être l'une ou l'autre classe.
+
+S'il y a une cardinalité maximale à plusieurs de chaque côté de l'association, alors là aussi, ce peut être l'une ou l'autre classe.
+
+Lorsque la classe possédante peut être l'une ou l'autre des classes associées, il faut retenir la classe depuis laquelle il est le plus logique de faire l'association.
+Par exemple, s'il paraît plus naturel de partir d'un véhicule pour lui associer un technicien, alors c'est que la classe `Vehicle` domine la classe `Technician`.
+Ce sera donc elle qui sera responsable de la mise à jour de l'objet inverse.
+====
+
+[.question]
+****
+*Q{counter:_question})*
+Voici différents diagrammes.
+Pour chacun d'eux, précisez quelle sera la classe propriétaire et justifiez votre choix.
+
+[loweralpha, start=1]
+. Diagramme :
++
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=asso_bi_simple_copy_2,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+left to right direction
+Vehicle "0..1" --- "0..1" Technician : maintains
+....
+// end _show_plantuml
+endif::[]
+
+[loweralpha, start=2]
+. Diagramme :
++
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=asso_bi_simple_copy_3,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+left to right direction
+Vehicle "*" --- "0..1" Technician : maintains
+....
+// end _show_plantuml
+endif::[]
+
+[loweralpha, start=3]
+. Diagramme :
++
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=asso_bi_simple_copy_4,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+left to right direction
+Vehicle "*" --- "*" Technician : maintains
+....
+// end _show_plantuml
+endif::[]
+[loweralpha, start=4]
+. Diagramme :
++
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=asso_bi_simple_copy_5,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+left to right direction
+Vehicle "1" --- "0..1" Technician : maintains
+....
+// end _show_plantuml
+endif::[]
+[loweralpha, start=5]
+. Diagramme :
++
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=asso_bi_multiple,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+left to right direction
+Vehicle "1" --- "*" Technician : maintains
+....
+// end _show_plantuml
+endif::[]
+
+//end _question
+****
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+[loweralpha, start=1]
+. La classe propriétaire peut être `Vehicle` ou `Technician`.
+Les cardinalités maximales de chaque association sont à 1.
+Si l'on "travaille" à partir des véhicules, alors il est préférable d'utiliser `Vehicle` comme classe possédante.
+S'il est plus logique de partir du technicien pour lui associer un véhicule, alors la classe possédante sera `Technician`
+. La classe propriétaire est `vechicle` car un véhicule est lié à 1 technicien maximum.
+. La classe propriétaire peut être l'une ou l'autre des deux classes. Il faut voir s'il est plus logique de partir du technicien pour lui associer un véhicule, ou de partir d'un véhicule pour lui associer un technicien.
+. Les cardinalités maximales sont à 1 de chaque côté de l'association. On peut penser que l'une ou l'autre classe peut être la classe propriétaire.
+Cependant, comme un objet de type `Technician` sera toujours lié à un véhicule, c'est la classe `Technician` qui sera la classe propriétaire, tout simplement parce que le lien est plus fort dans ce sens puisqu'il est obligatoire.
+. La classe `Technician` est la classe propriétaire car elle est liée à une seule instance de `Vehicule` au maximum.
+****
+//end _show_correction
+endif::[]
+
+[IMPORTANT]
+====
+Je le répète avant de terminer cette partie car c'est vraiment très important :
+
+*La classe propriétaire doit être celle qui est à l'opposée de la cardinalité maximale à 1 lorsque c'est possible. A défaut ce sera la classe qui domine l'autre du fait de son utilisation naturelle.*
+
+====
+
+ifndef::_main_loaded[]
+Point suivant : 
+link:implementation-d-une-association-bidirectionnelle-multiple.adoc[Implémentation d'une association bidirectionnelle multiple]
+include::../config/index.adoc[]
+endif::_main_loaded[]
+
+
+
+
+
+
+

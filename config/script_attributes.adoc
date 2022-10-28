@@ -1,0 +1,61 @@
+// Attributs utilisés par le script de publication
+//Attributs qui ne doivent pas être utilisés dans le fichier custom_attributes car
+//ils seront écrasés par le présent fichier
+// Leur valeur est par contre totalement personnalisable (compte tenu de leur type !)
+// Ces attributs sont utilisés dans le document et / ou par le script de publication
+//ATTENTION : le nom des attributs ne doit pas être modifié car le script de publication les utilise. Il ne doit y avoir aucun espace dans les deux points qui encadrent un nom d'attribut
+//------------------------------------------------------------------------------
+
+//*** Définition des noms des dossiers utilisés par le script
+//nom du dossier contenant les fichiers qui composent le document (sans slash)
+:script_folder_document: doc
+//nom du dossier contenant les fichiers des différentes versions pdf publiées (sans slash)
+:script_folder_versions_pdf: versions
+//nom du dossier de cache sans slash
+:script_folder_cache: cache
+//nom du dossier de configuration
+:script_folder_config: config
+
+//*** Définition des noms de fichiers utilisés par le script
+//nom du fichier principal depuis lequel est généré le fichier pdf (il doit être placé dans le répertoire définit par l'attribut :script_folder_config:
+:file_main: main.adoc
+//nom du fichier qui contient toutes les inclusions à faire dans le document principal
+:file_index: 00-content-to-include.adoc
+
+// *************************************
+// Définition des noms d'attribut à utiliser dans le document ET dans le script
+// **************************************
+
+//nom du fichier qui contient toutes les informations de version qui peuvent être incluses dans le document final dans la partie "Informations de version"
+:file_cache_version_info: version_info.adoc
+//nom du fichier qui contient le numéro de version
+:file_cache_version_number: number_version.adoc
+//nom du fichier qui contient la date de version
+:file_cache_version_date: date_version.adoc
+//nom de l'attribut qui doit être défini dans le fichier contenant la date de la version (sans les deux points)
+:attribute_name_date_version: document_date_version
+//nom de l'attribut qui doit être écrit dans le fichier contenant le numéro de la version (sans les deux points)
+:attribute_name_number_version: document_current_version
+//affichage des infos de versions (reprend la liste des messages des commits associés aux tags de version) : 0 pour ne pas afficher les informations de version, 1 pour afficher les informations de version
+:display_version_information: 1
+
+
+// ****************************************
+// attributs utilisés exclusivement dans le script de suivi
+// ****************************************
+
+//url du dépôt git si le cours doit être synchronisé avec un dépôt distant qui lui est propre.
+:script_remote_git: git@gitlab.com-perso:gemkod/testsync.git
+//spécifie le protocole à utiliser pour accéder au dépôt
+:script_remote_git_protocol: ssh
+
+
+
+
+
+
+
+
+
+
+

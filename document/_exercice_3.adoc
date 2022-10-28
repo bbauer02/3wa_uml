@@ -1,0 +1,51 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+
+== Implémenter une association unidirectionnelle multiple avec cardinalité minimum à 0
+
+
+[.question]
+****
+*Q{counter:_question})*
+Travail à faire
+
+* Implémentez le diagramme suivant :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=exo-3,format=svg]
+....
+include::../assets/source_code/exo-3.puml[]
+....
+//end _show_plantuml
+endif::[]
+
+* Créez le conducteur Paul dont la date de naissance le conduit à être majeur
+* Créez la conductrice Juliette dont la date de naissance la conduit à être mineure
+* Créez les véhicules A, B, C, D et E avec les caractéristiques de votre choix
+* Tentez d'affecter les véhicules A, C et E à Paul
+* Tentez d'affecter les véhicules A et B à Juliette
+* Faire avancer les véhicules A et C respectivement de 120km et 84km
+* Faire reculer le véhicule C de 25km
+* Afficher la liste des véhicules affectés à Paul
+* Afficher la liste des véhicules affectés à Juliette
+* Retirez les véhicules A et E à Paul
+* Afficher la liste des véhicules restant à Paul
+****
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+[source%linenums,php]
+----
+include::../assets/source_code/exo-3-correction.php[]
+----
+<1> Ne pas oublier d'initialiser la collection
+<2> La méthode `diff` sur un objet de type DateTimeInterface permet de calculer un écart entre deux dates.
+<3> Formate l'intervalle de façon à retourner le nombre d'années sous forme de chaîne (qui est ensuite casté pour être un entier)
+
+****
+//end _show_correction
+endif::[]

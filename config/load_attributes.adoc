@@ -1,0 +1,15 @@
+//le doctype est obligatoire si l'on définit un titre de niveau 0 ce que l'on veut systématiquement
+:doctype: book
+
+include::attributes.adoc[]
+
+//si le document est chargé depuis le point d'entrée principal, le titre définit dans le fichier attributes.adoc est utilisé, sinon ce sera le titre défini dans le fichier "partial"
+//ifdef::_main_loaded[]
+//:_title_of_document: {_document_title}
+//endif::_main_loaded[]
+//ifndef::_main_loaded[]
+//:_title_of_document: {_partial_document_title}
+//endif::_main_loaded[]
+
+//= {_document_title}
+//include::header_attributes.adoc[]

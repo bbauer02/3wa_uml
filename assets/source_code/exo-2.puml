@@ -1,0 +1,51 @@
+@startuml
+hide circle
+skinparam classAttributeIconSize 0
+
+class Vehicle {
+- registrationNumber {unique}
+- nbWheels : int
+- color : string
+- typeEngine : string
+- position: int = 0
++ movesForward(int nbKm):self
++ movesBack(int nbKm):self
++ getPosition():int
++ __toString():string
+}
+
+class Driver {
+- name: string
+- birthDate: DateTimeImmutable|null
++ isLegal(): bool
+- messageIsNotLegal():void
+}
+
+Vehicle "0..1"<-- Driver
+
+note "Une conducteur ne\npeut conduire une voiture\nque s'il est majeur" as N1
+
+note right of Driver::birthDate
+    Prévoir un mutateur qui
+    permet de modifier la
+    date de naissance
+    après instanciation.
+end note
+
+
+note left of Driver::isLegal
+retourne true si le
+conducteur est majeur,
+false dans le cas contraire
+end note
+
+note right of Driver::messageIsNotLegal
+Affiche un message
+indiquant que la
+personne ne peut pas
+avoir de véhicule
+car elle est mineure.
+(utile dans la classe)
+end note
+
+@enduml

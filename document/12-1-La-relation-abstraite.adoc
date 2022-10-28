@@ -1,0 +1,306 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+//titre de la section
+[[la_relation_abstraite]]
+= La relation abstraite (classe abstraite)
+ifndef::_main_loaded[]
+include::../config/header_attributes.adoc[]
+{empty}
+Point précédent :
+link:11-1-relation-heritage.adoc[La relation d'héritage]
+endif::_main_loaded[]
+
+
+== Comprendre le sens de l'adjectif "abstrait"
+
+La relation abstraite reprend les principes de la relation d'héritage :
+
+* Les membres communs (attributs et méthodes) sont généralisés dans une classe mère.
+* Les membres spécifiques (attributs et méthodes) aux sous classes sont spécifiés dans ces dernières.
+
+La difficulté majeure pour comprendre cette partie de cours est la connaissance du mot "abstrait".
+Comprendre ce terme aide clairement à comprendre ce que cela implique.
+
+*Une "chose" abstraite n'a pas d'existence dans la réalité.*
+
+Une [.keyword]#((classe abstraite))# est une classe dont les instances n'ont pas de sens dans la réalité.
+Cela signifie qu'il n'y a aucun intérêt à instancier la classe car les "objets" instanciés ne seront jamais utilisés.
+*Une classe abstraite est donc une classe qui ne peut pas être instanciée.*
+*Elle est obligatoirement héritée.*
+
+Pour bien comprendre ce concept, nous allons partir du diagramme suivant : 
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=inheritence_without_abstract_class,format=png]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class File {
+    #name
+    #fileSize
+    #author
+    #isSecret
+    +getAge()
+    +isObsolete()
+}
+class FileText {
+}
+class FileVideo {
+    -duration
+    +compressMovie()
+}
+class FileImage {
+    -with
+    -height
+    +resize()
+}
+
+class FileOther {
+    -extension
+}
+FileText -up-|> File
+FileImage -up-|> File
+FileVideo -up-|> File
+FileOther -up-|> File
+....
+// end _show_plantuml
+endif::[]
+
+La classe mère est la classe `File`.
+Les sous-classes héritent des membres de la classe mère (s'ils ne sont pas privés bien sûr).
+
+Nous avons 4 sous-types (un pour le texte, un pour la vidéo, un pour les images et un pour tous les autres types de fichiers).
+Cela signifie que si un fichier n'est pas du texte, une vidéo ou une image, ce sera forcément un fichier de type "autre" `FileOther`.
+Le type `File` est donc totalement inutile.
+Cette classe ne sera jamais instanciée !
+Son existence n'est là que pour généraliser des membres communs aux sous-types.
+Puisqu'il n'y aura jamais d'instance de `File`, on peut affirmer que le type `File` ne correspond à rien de réel, c'est un type abstrait.
+
+[NOTE]
+====
+Lorsqu'une classe n'est pas abstraite, on parle de classe concrète.
+
+Une [.keyword]#((classe concrète))# est une classe qui peut être instanciée.
+Les instances représentent un objet du réel.
+====
+
+== Représentation UML d'une classe abstraite
+
+Le nom d'une classe abstraite est écrit en italique :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=inheritence_with_abstract_class,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+abstract class File {
+}
+class FileText {
+}
+class FileVideo {
+}
+class FileImage {
+}
+
+class FileOther {
+}
+FileText -up-|> File
+FileImage -up-|> File
+FileVideo -up-|> File
+FileOther -up-|> File
+
+note right of File
+Le nom de la classe
+est écrit en italic
+ce qui signifie que
+c'est une classe
+abstraite
+end note
+....
+// end _show_plantuml
+endif::[]
+
+Il est également possible de spécifier que la classe est abstraite grâce à son stéréotype :
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=inheritence_with_abstract_class_stereotype,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class File <<abstract>> {
+}
+....
+// end _show_plantuml
+endif::[]
+
+La flèche qui représente le lien d'héritage reste inchangée.
+
+
+== Implémentation d'une classe abstraite
+
+L'implémentation d'une classe abstraite est très simple, il suffit (en PHP) de préfixer la déclaration de celle-ci avec le mot `abstract` :
+
+[source%linenums,php]
+----
+include::../assets/source_code/abstract_file_class_empty.php[]
+
+----
+<1> Le mot `abstract` permet de rendre la classe abstraite.
+<2> Que l'héritage provienne d'une classe concrète ou abstraite, le mot `extends` est à utiliser dans les deux cas dans les classes filles.
+
+Comme dit précédemment, une classe abstraite ne peut pas être instanciée mais si c'est tout de même la cas ...
+
+[source%linenums,php]
+----
+$file = new File();
+----
+
+\... une erreur fatale sera générée  :
+----
+Fatal error: Uncaught Error: Cannot instantiate abstract class File in ...
+----
+
+
+
+== Les méthodes aussi peuvent être abstraites
+
+L'héritage à pour objectif de factoriser des membres au sein d'une classe afin que d'autres puissent les utiliser.
+
+Puisqu'une classe abstraite ne peut pas être instanciée, il est tout à fait possible de prévoir une méthode qui n'a aucun corps (même pas les accolades qui marquent le début et la fin de la méthode !).
+Cette méthode est une [.keyword]#((méthode abstraite))# .
+Cela ne pose aucun problème puisqu'il ne sera pas possible d'appeler cette méthode puisque la classe qui la contient est abstraite.
+
+Mais quelle utilité peut avoir une méthode sans corps me direz-vous !
+
+N'oubliez pas que nous sommes dans un contexte d'héritage.
+
+Une classe abstraite est forcément prévue pour être héritée (sans quoi elle n'a absolument aucune utilité).
+Si une classe hérite d'une classe abstraite qui contient une méthode abstraite, cela signifie que la classe fille hérite de cette méthode sans corps.
+Mais comme la classe fille est concrète, celle-ci doit prévoir le corps de la méthode abstraite de la mère puisqu'il sera possible de l'appeler depuis la classe fille.
+
+Nous allons illustrer ce concept avec ce diagramme :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=class-with-abstract-method,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+abstract class File {
+{abstract} +getSize():int
+}
+class FileText {
+<color:#red>+getSize():int
+}
+FileText -up-|> File
+
+note right of File::getSize
+
+La méthode abstraite est écrite
+en italique.
+Elle n'aura pas de corps.
+end note
+
+note right of FileText::getSize
+Cette méthode DOIT être reprise
+dans la classe fille car elle
+doit être implémentée
+(puisqu'elle ne l'est pas
+dans la classe mère)
+end note
+....
+// end _show_plantuml
+endif::[]
+
+Voyons ce que cela donne au niveau du code :
+
+[source%linenums,php, highlight=11..15]
+----
+abstract class File {
+    //ici les membres "factorisés" de la classe
+
+    //méthode abstraite
+    abstract public function getSize():int; //<1>
+}
+
+class FileText extends File {
+    //ici les membres spécifiques de FileText
+
+    //l'implémentation de la méthode abstraite (qui est obligatoire)
+    public function getSize():int { //<2>
+        //ici le code qui retourne un entier.
+    }
+}
+----
+<1> La méthode abstraite est déclaré avec le mot `abstract` comme c'est le cas pour la classe.
+La méthode n'a pas de corps, donc pas d'accolade.
+<2> La méthode abstraite est obligatoirement implémentée dans la classe fille.
+Elle n'a pas le choix !
+
+*Une méthode [.keyword]#((abstraite))# est très pratique lorsque l'on souhaite "forcer" les classes filles à implémenter une méthode particulière avec des arguments et des retours dont le type est imposé.*
+Celle-ci permet de prévoir les contraintes à respecter par les classes filles, c'est-à-dire [.keyword]#((la signature de la méthode))#.
+
+Imaginons que notre diagramme évolue et qu'une nouvelle classe hérite de la classe `File` :
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=class-with-abstract-method-inheritence,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+abstract class File {
+{abstract} +getSize():int
+}
+class FileText {
++getSize():int
+}
+
+class FileVideo #pink {
+<color:#red>+getSize():int
+}
+FileText -up-|> File
+FileVideo -up-|> File
+
+
+note right of FileVideo::getSize
+La méthode getSize() DOIT être reprise
+dans la classe fille car elle
+doit être implémentée
+(puisqu'elle ne l'est pas
+dans la classe mère)
+end note
+....
+// end _show_plantuml
+endif::[]
+
+Dès lors, la classe `FileVideo` doit obligatoirement prévoir la méthode `getSize()`
+
+[source%linenums,php]
+----
+class FileVideo extends File {
+    //ici les membres spécifique à FileVideo
+
+    //obligation d'implémenter les méthodes abstraites de la classe mère
+    public function getSize():int {
+        //ici l'implémentation
+    }
+}
+----
+
+Petite précision avant de clore cette partie :
+
+[NOTE]
+====
+J'ai précisé tout à l'heure qu'il était possible de prévoir une méthode abstraite dans une classe abstraite.
+
+Il faut également faire le raisonnement inverse : +
+*Dès lors qu'il y a une méthode abstraite dans une classe, cette dernière doit également être abstraite* (sans quoi, on pourrait tenter d'utiliser la méthode abstraite ce qui n'est pas possible !)
+====
+
+ifndef::_main_loaded[]
+Point suivant :
+link:13-1-L-interface.adoc[L'interface]
+include::../config/index.adoc[]
+endif::_main_loaded[]

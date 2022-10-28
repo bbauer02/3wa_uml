@@ -1,0 +1,20 @@
+//attributs d'entête de document
+//{document_author} | v.{document_current_version} | {document_date_version}
+{_document_author}
+:revnumber: {_current_version}
+:revdate: {_date_version}
+//:revremark: Summertime!
+:docinfo: private
+:doctype: book
+:icons: font
+:sectnums:
+:sectnumlevels: 5
+:chapter-signifier: {_chapter_label}
+:source-highlighter: rouge
+//:rouge-style: monokai
+:experimental:
+:backend: html5
+:toc:
+:toclevels: 5
+:toc-title: Table des matières
+:pdf-theme: {_pdf_theme}

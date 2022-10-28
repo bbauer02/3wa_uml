@@ -1,0 +1,110 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+//titre de la section
+[[la_navigabilité_d_une_association]]
+= La navigabilité d'une association
+ifndef::_main_loaded[]
+include::../config/header_attributes.adoc[]
+{empty}
+Point précédent :
+link:04-1-les-cardinalites.adoc[Les cardinalités d'une association]
+endif::_main_loaded[]
+
+La [[keyword_navigabilité]]*[.keyword]#((navigabilité))#* désigne le fait de connaître à partir d’une instance de classe la ou les instances d’une autre classe.
+Autrement dit, la navigabilité permet de savoir qu'une instance d'une classe A contient une ou des instances de la classe B.
+
+Illustrons ce concept avec ce diagramme :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,format=svg,role=class]
+....
+hide circle
+skinparam classAttributeIconSize 0
+hide members
+
+Vehicle "1..*" -> "0..1" Technician : maintains <
+
+note as N1
+Ici, il est indiqué grâce à la flèche que l'on
+peut naviguer de Vehicle vers Technician mais
+pas l'inverse.
+end note
+....
+//_show_plantuml
+endif::[]
+
+Cette modélisation nous permet d'affirmer qu'une instance de `Vehicle` contient zéro ou une instance de `Technician`.
+La classe `Vehicle` doit prévoir un attribut capable de contenir une instance de `Technician`.
+Nous retrouvons la <<keyword_relation_de_contenance, relation de contenance>> abordée lors de la découverte de la notion d'<<keyword_association,association>>.
+
+Lorsqu'un objet de type `Vehicle` a un attribut qui peut contenir un objet de type `Technician`, on dit que l'on peut *naviguer* de `Vehicle` vers `Technician`.
+
+Le *sens de la navigabilité* doit être explicitement précisé sur l'association.
+Effectivement, la navigabilité peut être exprimée :
+
+* *dans un seul sens* : de `A` vers `B` OU de `B` vers `A`.
+Dans ce cas, on parle de [[keyword_navigabilité_unidirectionnelle]]*[.keyword]#((navigabilité unidirectionnelle))#*.
++
+ifeval::[{_show_plantuml} == 1]
+[plantuml,format=svg,role=class]
+....
+hide circle
+skinparam classAttributeIconSize 0
+hide members
+
+left to right direction
+Vehicle "1..*" ---> "0..1" Technician : maintains
+....
+//_show_plantuml
+endif::[]
+La [[keyword_représentation_de_la_navigabilité_unidirectionnelle]]*[.keyword]#((représentation de la navigabilité unidirectionnelle))#* est modélisée par une flèche qui pointe l'objet vers lequel il est possible de naviguer.
+
+* *dans les deux sens* : de `A` vers `B` ET de `B` vers `A`.
+Dans ce cas, on parle de [[keyword_navigabilité_bidirectionnelle]]*[.keyword]#((navigabilité bidirectionnelle))#*.
++
+ifeval::[{_show_plantuml} == 1]
+[plantuml,format=svg,role=class]
+....
+hide circle
+skinparam classAttributeIconSize 0
+hide members
+
+left to right direction
+Vehicle "1..*" --- "0..1" Technician : maintains
+....
+//_show_plantuml
+endif::[]
+La [[keyword_représentation_de_la_navigabilité_bidirectionnelle]]*[.keyword]#((représentation de la navigabilité bidirectionnelle))#* est modélisée par *l'absence de flèches sur le lien associatif*.
+
+Sachez qu'il est possible de trouver une représentation avec une flèche de chaque côté de l'association.
+Mais ce formalisme est peu utilisé :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,format=svg,role=class]
+....
+hide circle
+skinparam classAttributeIconSize 0
+hide members
+
+left to right direction
+Vehicle "1..*" <---> "0..1" Technician : maintains
+....
+//_show_plantuml
+endif::[]
+
+Comprendre la navigabilité est indispensable car elle se traduit par du code à écrire dans la classe depuis laquelle on navigue vers l'objet lié.
+
+
+ifndef::_main_loaded[]
+Point suivant : 
+link:implementation-d-une-association-unidirectionnelle-simple.adoc[Implémentation d'une association]
+include::../config/index.adoc[]
+endif::_main_loaded[]
+
+
+
+
+
+
+

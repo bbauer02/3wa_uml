@@ -1,0 +1,9 @@
+/* config/hotfix.css */
+
+p {
+    color: red !important;
+}
+
+/*.listingblock {*/
+/*    break-inside: avoid;*/
+/*}*/

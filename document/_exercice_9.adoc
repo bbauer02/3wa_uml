@@ -1,0 +1,74 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+
+=== Implémenter un héritage
+
+[.question]
+****
+*Q{counter:_question})*
+
+* Implémentez le diagramme suivant :
+
+//todo : terminer le sujet de l'exercice sur l'héritage et faire la correction
+
+_Pourl'implémentation du type ENUM et de son utilisation, veuillez prendre connaissance de la https://www.php.net/manual/fr/language.types.enumerations.php[documentation sur le type [.keyword]#((`enum`))#]._
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=ex-9,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+include::../assets/source_code/exo-9.puml[]
+....
+//end _show_plantuml
+endif::[]
+
+
+****
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+* Implémentation de la classe `Furniture` :
+
+[source%linenums,php]
+----
+include::../assets/source_code/exo-9-correction.php[tags=class_Furniture]
+----
+<1> gestion de la collection qui permet de naviguer vers les isntances de `MaterialPiece`
+
+* Implémentation de la classe `MaterialPiece` :
+----
+include::../assets/source_code/exo-9-correction.php[tags=class_MaterielPiece]
+----
+
+* Implémentation de la classe `WoodPiece` :
+----
+include::../assets/source_code/exo-9-correction.php[tags=class_woodpiece]
+----
+
+* Implémentation de la classe `MetalPiece` :
+----
+include::../assets/source_code/exo-9-correction.php[tags=class_MetalPiece]
+----
+
+* Implémentation de la classe `PlasticPiece` :
+----
+include::../assets/source_code/exo-9-correction.php[tags=class_PlasticPiece]
+----
+
+* Mise en oeuvre des classes
+----
+include::../assets/source_code/exo-9-correction.php[tags=meo]
+----
+
+* Sortie
+----
+----
+****
+//end _show_correction
+endif::[]

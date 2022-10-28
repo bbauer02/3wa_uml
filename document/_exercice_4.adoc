@@ -1,0 +1,48 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+
+== Implémenter une association unidirectionnelle multiple avec cardinalité minimum à 1
+
+
+[.question]
+****
+*Q{counter:_question})*
+Travail à faire
+
+* Implémentez le diagramme suivant :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=exo-4,format=svg]
+....
+include::../assets/source_code/exo-4.puml[]
+....
+//end _show_plantuml
+endif::[]
+
+* Créez le conducteur Paul dont la date de naissance le conduit à être majeur.
+Il conduira le véhicule A.
+* Affectez un véhicule supplémentaire B à Paul
+* Créez un véhicule C (sans conducteur)
+* Faire avancer les véhicules A et C respectivement de 123km et 257km
+* Faire reculer le véhicule A de 70km
+* Afficher depuis la variable référençant Paul la liste de ses véhicules et leur position.
+* Retirez les véhicules A et *C* à Paul
+* Afficher depuis la variable référençant Paul la liste de ses véhicules et leur position.
+****
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+[source%linenums,php]
+----
+include::../assets/source_code/exo-4-correction.php[]
+----
+<1> à l'instanciation d'un `Driver`, il est attendu un véhicule afin de l'associer au conducteur dès sa création
+<2> on ajoute le premier véhicule au conducteur
+<3> lorsque l'on retire un véhicule à un conducteur, il faut s'assurer qu'il lui en reste forcément un avant de procéder à sa suppression
+****
+//end _show_correction
+endif::[]

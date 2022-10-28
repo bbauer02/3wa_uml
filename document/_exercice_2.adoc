@@ -1,0 +1,57 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+
+== Implémenter une association unidirectionnelle simple
+
+[.question]
+****
+*Q{counter:_question})*
+Travail à faire
+
+* Implémentez le diagramme suivant :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=exo-2,format=svg]
+....
+include::../assets/source_code/exo-2.puml[]
+....
+//end _show_plantuml
+endif::[]
+
+[NOTE]
+====
+Si un véhicule est associé à un conducteur mineur, l'association ne doit pas se faire.
+Un message devra s'afficher indiquant que la personne est mineure et qu'il n'est pas possible d'associer un véhicule à un mineur.
+Attention à la situation qui consisterait à changer la date de naissance après que la personne se soit vue affecter un véhicule.
+====
+
+* Testez votre implémentation en essayant d'affecter un conducteur mineur à un premier véhicule et un autre conducteur à un second véhicule qui avance et recule selon votre bon vouloir.
+
+* Donnez via le code la position du véhicule du conducteur majeur depuis la variable qui référence celui-ci.
+****
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+[source%linenums,php]
+----
+include::../assets/source_code/exo-2-correction.php[]
+----
+
+Sortie console :
+[source%linenums,shell]
+----
+==== DEBUT DU TEST EXERCICE 2 ====
+
+ La personne est mineure, il n'est pas possible de lui associer un véhicule.
+
+ La position du véhicule de Juliette est 180
+==== FIN DU TEST EXERCICE 2 ====
+----
+
+****
+//end _show_correction
+endif::[]

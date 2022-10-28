@@ -1,0 +1,351 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+//titre de la section
+[[les_cardinalités_d_une_association]]
+= Les cardinalités d'une association
+ifndef::_main_loaded[]
+include::../config/header_attributes.adoc[]
+{empty}
+Point précédent :
+link:03-1-l-association.adoc[L'association]
+endif::_main_loaded[]
+
+
+Des [[keyword_cardinalités]]*[.keyword]#((cardinalités))#* peuvent être ajoutées afin d’exprimer une [[keyword_multiplicité_du_lien_entre_deux_classes]]*[.keyword]#((multiplicité du lien associatif entre deux classes))#*.
+*C’est utile lorsque l’on souhaite indiquer qu’une instance de classe peut être liée (sémantiquement) à plusieurs instances d’une autre classe.*
+
+Dans le cas ci-après, il est impossible de savoir si plusieurs techniciens entretiennent un même véhicule ou si un véhicule est entretenu par plusieurs techniciens.
+
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=association-without-cardinality,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+hide members
+
+Vehicle - Technician
+....
+//_show_plantuml
+endif::[]
+
+Les règles de gestion à exprimer sur le diagramme sont les suivantes :
+
+* Un technicien entretien zéro, un ou plusieurs véhicules.
+* Un véhicule est entretenu par au moins un technicien
+
+Voici notre diagramme à jour de ces dernières informations :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=association-vehicle-technician-with-cardinality,format=svg]
+
+....
+hide circle
+skinparam classAttributeIconSize 0
+hide members
+
+Vehicle "0..*" -- "1..*" Technician : maintains <
+
+note as N1
+Un  véhicule est entretenu par un à plusieurs techniciens.
+Un technicien entretien zéro à plusieurs véhicules.
+end note
+....
+//_show_plantuml
+endif::[]
+
+Afin de bien comprendre le sens de lecture, voici de nouvelles règles de gestion :
+
+* Un technicien entretien au moins 1 véhicule
+* Un véhicule est entretenu par 1 seul technicien
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=association-vehicle-technician-with-cardinality-2,format=svg]
+
+....
+hide circle
+skinparam classAttributeIconSize 0
+hide members
+
+Vehicle "1..*" -- "1" Technician : maintains <
+
+note as N1
+Un technicien entretien au moins 1 véhicule.
+Un véhicule est entretenu par 1 seul technicien.
+end note
+....
+//_show_plantuml
+endif::[]
+
+Voici quelques exemples de cardinalités :
+
+
+|===
+|Exemple de cardinalité | Interprétation
+
+|1
+|Un et un seul. On n'utilise pas la notation 1..1.
+
+|1..*
+|Un à plusieurs
+
+|1..5
+|1 à 5 (maximum)
+
+|1-5
+|1 à 5 (maximum)
+
+|3..7
+|3 à 7 (maximum)
+
+|3-7
+|3 à 7 (maximum)
+
+|0..1
+|0 ou 1 seul
+
+|1,5
+|1 *ou* 5
+
+|1,5,7
+|1 *ou* 5 *ou* 7
+
+|0..*
+|0, 1 ou plusieurs
+
+|*
+|0, 1 ou plusieurs
+|===
+
+WARNING: Si vous avez l’habitude de faire de l’analyse selon la méthode Merise, vous aurez remarqué que les cardinalités sont inversées par rapport à celles d’UML.
+
+La cardinalité est très utile au développeur pour savoir s'il doit contrôler le nombre d'objets B qu'il est possible d'associer à un objet A.
+
+[.question]
+****
+*Q{counter:_question})*
+Pour chaque diagramme, exprimez la relation en prenant en compte les cardinalités.
+
+[loweralpha]
+. )
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=association-person-animal,format=svg]
+
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Person
+left to right direction
+Person "1" --- "*" Animal : use >
+....
+//_show_plantuml
+endif::[]
+
+[loweralpha, start=2]
+. )
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=association-waiter-table-with-cardinality,format=svg]
+
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Waiter
+left to right direction
+Waiter "1..*" --- "0..*" Table : serves
+....
+//_show_plantuml
+endif::[]
+
+[loweralpha, start=3]
+. )
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=association-person-person-with-cardinality,format=svg]
+
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Person
+Person "0..2  parent" -- "0..* child" Person
+....
+//_show_plantuml
+endif::[]
+****
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+
+[loweralpha]
+. )
+* Une personne utilise 0 à plusieurs animaux
+* un animal est utilisé par une seule personne (donc toujours la même)
+
+. )
+* Un serveur sert 0 à plusieurs tables
+* une table est servie par au moins un serveur
+
+. )
+* Une personne est le parent de 0, 1 ou plusieurs enfants
+* Un enfant a 0, 1 ou 2 parents
+
+****
+//_show_correction
+endif::[]
+
+[NOTE]
+====
+Lorsqu'une association exprime un lien vers un maximum de 0 ou une instance de l'objet lié, on parle d'[[keyword_association_simple]]*[.keyword]#((association simple))#*.
+
+Lorsqu'une association exprime un lien vers un maximum de plusieurs instances de l'objet lié, on parle d'[[keyword_association_multiple]]*[.keyword]#((association multiple))#*.
+====
+
+
+[.question]
+****
+*Q{counter:_question})*
+Pour chaque diagramme, indiquer s'il s'agit d'une association simple ou d'une association multiple en fonction du sens de lecture.
+
+[loweralpha]
+. )
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=association-person-animal,format=svg]
+
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Person
+left to right direction
+Person "1" --- "*" Animal : use >
+....
+//_show_plantuml
+endif::[]
+
+[loweralpha, start=2]
+. )
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=association-waiter-table-with-cardinality,format=svg]
+
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Waiter
+left to right direction
+Waiter "1..*" --- "0..*" Table : serves
+....
+//_show_plantuml
+endif::[]
+
+[loweralpha, start=3]
+. )
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=association-person-person-with-cardinality,format=svg]
+
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Person
+Person "0..2  parent" -- "0..* child" Person
+....
+//_show_plantuml
+endif::[]
+****
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+[loweralpha, start=1]
+. L'association entre `Person` et `Animal` est une association multiple.
+De `Animal` à `Person`, l'association est simple.
+. L'association entre `Waiter` et `Table` est une association multiple.
+De `Table` à `Waiter`, l'association est multiple.
+. L'association entre `Person` (parent) et `Person`  (enfant) est une association multiple.
+De `Person` (enfant) à `Person` (parent), l'association est multiple.
+****
+//end _show_correction
+endif::[]
+
+
+[.question]
+****
+*Q{counter:_question})*
+
+Réalisez le diagramme de classes correspondant au domaine de gestion décrit ci-après :
+
+Une entreprise gère des hôtels.
+Des clients peuvent réserver des chambres dans ces hôtels.
+Une réservation ne peut porter que sur une seule chambre.
+Des prestations supplémentaires (petit déjeuner, réveil par l'accueil, encas nocturne) peuvent compléter la mise à disposition d'une chambre. Ces prestations peuvent être prévues lors de la réservation ou ultérieurement.
+Une chambre est équipé ou non de différentes options (lit simple / double, micro-onde, lit enfant, baignoire de type balnéo, etc)
+
+Les associations doivent être nommées et les cardinalités précisées.
+//end _question
+****
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=diagramme-classes-reservation-chambre,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Customer {
+}
+
+class Hostel {
+}
+
+class Room {
+}
+
+class Reservation {
+}
+
+class Benefit{
+}
+
+class Option {
+}
+
+left to right direction
+Hostel "1" -up- "1..*" Room : be part of
+Room "1" -- "*" Reservation : concern
+Customer "1" -- "*" Reservation : make
+Benefit "*" -- "*" Reservation : consume
+Option "*" -- "*" Room : equip
+
+....
+// end _show_plantuml
+endif::[]
+****
+//end _show_correction
+endif::[]
+
+L'implémentation des cardinalités nécessite de savoir implémenter la navigabilité.
+Nous reviendrons alors sur ce sujet dans la partie sur l'<<implémentation_des_cardinalités,implémentation des cardinalités>>.
+
+ifndef::_main_loaded[]
+Point suivant :
+link:02-3-la-navigabilite.adoc[La navigabilité d'une association]
+include::../config/index.adoc[]
+endif::_main_loaded[]

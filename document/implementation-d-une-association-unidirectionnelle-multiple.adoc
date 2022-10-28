@@ -1,0 +1,301 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+//titre de la section
+[[implémentation_d_une_association_unidirectionnelle_multiple]]
+= Implémentation d'une association unidirectionnelle multiple
+ifndef::_main_loaded[]
+include::../config/header_attributes.adoc[]
+{empty}
+Point précédent :
+link:implementation-d-une-association-unidirectionnelle-simple.adoc[Implémentation d'une association unidirectionnelle simple]
+endif::_main_loaded[]
+
+
+[NOTE]
+====
+Rappel 1 : une association entre deux classes `A` et `B` traduit un lien de contenance.
+Dans ce cas `A` doit prévoir un attribut permettant de stocker une instance de  `B` et/ou vice-versa.
+
+
+Rappel 2 : une association unidirectionnelle n'est navigable que dans un sens (de `A` vers `B` OU de `B` vers `A`).
+
+Rappel 3 : Une association est qualifiée de multiple lorsque zéro ou une ou plusieurs instances de `B` sont liées à `A` (ou l'inverse en fonction du sens de navigabilité).
+====
+
+Le diagramme suivant exprime une association unidirectionnelle multiple.
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=asso_uni_multiple,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Vehicle {
+- registerNumber: string
++__toString():string
+}
+
+class Technician {
+-name: string
+}
+
+Vehicle "1..*" -up-> "*" Technician : maintains
+
+note right of Vehicle::__toString
+Retourne la liste des noms des
+techniciens du véhicule
+end note
+....
+// end _show_plantuml
+endif::[]
+
+Lecture de l'association : Un véhicule est maintenu par 0 à plusieurs techniciens.
+
+L'association représentée indique clairement au développeur le code qu'il doit écrire.
+Si deux développeurs doivent implémenter ce diagramme, le code doit être le même !
+
+Nous allons commencer par la classe `Technician` :
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_uni_simple.php[tags=!*;class_Technician]
+----
+
+Maintenant, implémentons la classe `Vehicle` comme si elle n'était pas liée à `Technician` :
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;class_Vehicle]
+----
+
+Nous avons nos deux classes mais le lien associatif n'apparaît pas dans le code.
+C'est maintenant qu'il faut regarder le sens de navigabilité.
+Il faut exprimer le lien depuis l'objet qui peut naviguer vers l'objet lié soit ici la classe `Vehicle`.
+Puisqu'une association traduit un lien de contenance, la classe `Vechicle` doit *prévoir un attribut qui va contenir zéro à plusieurs instances* de `Technician` :
+
+Concrètement, il faut ajouter dans la classe `Vehicle` un attribut `$technicians` (au pluriel) qui va *contenir* zéro à plusieurs instances de type `Technician`.
+Cet attribut est qualifié de [[keyword_collection]]*[.keyword]#((collection))#*.
+Une collection regroupe des objets de même type.
+Ici, il s'agit de stocker une collection d'instances de type `Technician`.
+
+[WARNING]
+====
+Dans le cas d'une navigabilité vers plusieurs instances liées, l'attribut qui va contenir ces instances doit permettre de stocker une collection.
+====
+
+Ajoutons l'attribut `technicians` dont le pluriel indique bien qu'il s'agit d'une collectionj de techniciens.
+Par défaut, cet attribut est une collection vide (en PHP, ce sera un tableau vide).
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;method_constructor;property_technicians]
+----
+<1> l'attribut `technicians` au pluriel est un tableau qui va contenir 0 à plusieurs instances de `Technician`.
+Cet attribut est une collection.
+
+[WARNING]
+====
+L'attribut qui contient la collection doit toujours être initialisé avant d'être manipulé.
+
+Cet oubli est une erreur courante qu'il faut veiller à ne pas faire !
+====
+
+Il faut prévoir le mutateur et l'accesseur de notre attribut `technicians`.
+Comme il s'agit d'une collection, les méthodes habituelles `getXXX` et `setXXX` ne conviennent pas.
+
+Quand on manipule une collection, soit on ajoute un élément à la collection, soit on en retire un.
+Cela signifie qu'il y a deux mutateurs à prévoir :
+
+* un mutateur `addTechnician()` qui comme son nom l'indique doit permettre d'ajouter une instance de `Technician` à la collection.
+* un mutateur `removeTechnician` qui comme son nom l'indique doit permettre de retirer une instance de `Technician` de la collection.
+
+Commençons par la méthode `addTechnician` qui permet d'ajouter un technicien :
+
+[source%linenums,php]
+----
+//à ajouter à la classe Vehicle
+include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;method_add_technician]
+----
+<1> On vérifie que le technicien à ajouter à la collection n'y serait pas déjà (par défaut, on considère que l'on ne stocke pas plusieurs fois la même instance dans une collection)
+<2> Le technicien est ajouté à  la collection
+
+Ajoutons la possibilité de retirer un technicien de la collection (s'il y figure bien entendu) :
+
+[source%linenums,php]
+----
+//à ajouter à la classe Vehicle
+include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;method_remove_technician]
+----
+<1> On recherche la position du technicien à retirer dans la collection (tableau).
+Si le technicien n'est pas dans le tableau, la fonction `array_search()` retourne `false`.
+<2> La référence à l'instance de `Technician` stockée à l'index `$key` est effacée.
+
+Maintenant que nous sommes capables de lier des techniciens à un véhicule, nous pouvons implémenter le code de la méthode `__toString()` de façon à ce qu'elle retourne leur nom :
+
+[source%linenums,php]
+----
+//à ajouter à la classe Vehicle
+include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;method_to_string]
+----
+
+Testons cela en affectant 3 techniciens à un véhicule :
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;meo_1]
+----
+
+Résultat :
+----
+Je suis le véhicule immatriculé AAAA.
+Je suis associé à un ou plusieurs techniciens :
+- Paul
+- Sofien
+- Anna
+----
+
+Retirons un technicien :
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;meo_2]
+----
+
+Résultat :
+----
+Je suis associé à un ou plusieurs techniciens :
+- Sofien
+- Anna
+----
+
+Si nous avons nos deux mutateurs, nous n'avons pas encore d'accesseur afin d'accéder à la collection de techniciens.
+Le voici :
+
+[source%linenums,php]
+----
+//à ajouter à la classe Vehicle
+include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;method_get_technicians]
+----
+
+Voici comment utiliser ce mutateur `getTechnians()`:
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;meo_3]
+----
+<1> La collection fait l'objet d'une itération afin de naviguer vers chaque technicien lié au véhicule.
+
+Parfois, il peut être utile  de passer une collection en une fois plutôt que d'ajouter les items un par un.
+Dans ce cas, une méthode nommée `setTechnicians()` peut être pertinente.
+C'est en fait un troisième mutateur qui vient compléter `addTechnician()` et `removeTechnician()`.
+
+Voici le code de la méthode `Vehicle::setTechnicians()` :
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;method_set_technicians;init_technicians_from_array]
+----
+<1> La collection est entièrement initialisée avec le tableau passé en argument.
+Si une collection était déjà stockée dans l'attribut `technicians`, elle est écrasée par la nouvelle.
+
+Mettons en oeuvre cette nouvelle méthode :
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;meo_4]
+----
+
+Résultat :
+----
+Je suis associé à un ou plusieurs techniciens :
+- Cédric
+- Baptiste
+----
+
+Notez qu'une collection peut également être directement passée au constructeur de `Vehicle` :
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;meo_5]
+----
+
+La méthode `setTechnicians` attend en argument un tableau mais en PHP, il n'est pas possible de "dire" que l'on souhaite un tableau ne contenant que des instances de `Technician`.
+Ainsi, rien n'empêche d'initialiser un véhicule avec un tableau ne contenant que des entiers :
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;meo_6]
+----
+<1> L'instanciation est réalisée sans problème.
+Le constructeur attendait un tableau en second argument et c'est bien un tableau qui lui a été passé.
+
+Par contre, ça se gâte si on cherche à afficher  le véhicule :
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;meo_6;echo_vehicle_error]
+----
+<1> Le fait d'afficher le véhicule va appeler la méthode `__toString()` qui va tenter d'itérer sur la collection de techniciens qui n'est autre qu'un tableau de chaînes de caractères.
+
+Résultat :
+----
+Fatal error: Uncaught Error: Call to a member function getName() on int in ...
+----
+
+Le message est explicite.
+Un entier n'a pas de méthode `getName()`.
+C'est une simple [[keyword_valeur_scalaire]]*[.keyword]#((valeur scalaire))#* (des chiffres ou une chaîne de caractères.)
+
+Pour éviter ce problème, il faut contrôler chaque item de la collection.
+C'est en fait très simple à faire.
+Il suffit de boucler sur la collection passée en argument et d'ajouter à la collection de technicien chacun des items parcourus :
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;method_set_technicians;init_technicians_with_check_array]
+----
+<1> La tableau passé en argument est parcouru afin d'accéder à chacun de ses items
+<2> Chaque item du tableau est passé à la méthode `addTechnician`.
+Cette méthode attend une instance de `Technician`.
+Si ce n'est pas le cas, un erreur fatale sera générée.
+Il n'est alors plus possible d'avoir une collection qui ne contiendrait pas que des techniciens.
+
+Nous allons vérifier cela en affectant un tableau d'entiers en guise de collection de techniciens :
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;meo_7]
+----
+<1> Une erreur doit indiquer qu'une instance de `Technicien` est attendue.
+
+Résultat :
+----
+Fatal error: Uncaught TypeError: Vehicle::addTechnician(): Argument #1 ($technician) must be of type Technician, int given
+----
+
+Nous avons contrôlé qu'une collection d'objets de type `Technician` étaient passée en argument de `setTechnicians`.
+Cependant, il est toujours possible de passer un tableau d'entiers à l'instanciation d'un véhicule !
+Heureusement, nous pouvons faire appel au travail que l'on vient de faire en appelant la méthode `setTechnicians()` depuis le constructeur :
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;method_constructor;check_array_technicians_from_constructor]
+----
+<1> En faisant appel à la méthode `setTechnicians()`, on s'assure de contrôler chaque élément du tableau passé en argument.
+
+
+[IMPORTANT]
+====
+*Ce qu'il faut retenir*
+
+* Une association avec cardinalité multiple nécessite d'utiliser un attribut de type *collection*.
+* L'attribut stockant la collection doit être initialisé avec un tableau vide en PHP.
+* Un attribut qui stocke une "collection" doit être encapsulé avec 4 méthodes :
+** une méthode `addXXX` qui permet d'ajouter une instance de `XXX` dans la collection
+** une méthode `removeXXX` qui permet de retirer une instance de `XXX` dans la collection
+** une méthode `getXXXs` *(avec `XXX` au pluriel)* qui retourne la collection complète
+** une méthode `setXXXs` *(avec `XXX` au pluriel)* qui initialise la collection en une fois.
+* En PHP, il faut contrôler que chaque item ajouté à la collection est bien du type attendu.
+====
+
+ifndef::_main_loaded[]
+Point suivant : 
+link:implementation-d-une-association-bidirectionnelle-simple.adoc[Implémentation d'une association bidirectionnelle simple]
+include::../config/index.adoc[]
+endif::_main_loaded[]

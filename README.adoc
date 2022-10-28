@@ -1,0 +1,38 @@
+= Comment utiliser ce dépôt ?
+
+
+== Comment lire le cours ?
+Vous pouvez utiliser ce cours de différentes manières :
+
+* Depuis le présent dépôt en commençant par le premier link:document/01-0-a-lire-avant-de-commencer.adoc[chapitre du cours] en passant au chapitre suivant grâce au lien situé en bas de chaque partie.
+
+
+* Depuis les fichiers pdf générés à partir de ce dépôt.
+** Il existe une link:le-diagramme-de-classes-uml_v2.0.9_a-support.pdf[version pdf sans la correction des exercices] (version idéale pour les apprentis)
+** Il existe une link:le-diagramme-de-classes-uml_v2.0.9_c-correction.pdf[version pdf avec les corrections des exercices] (version idéale pour les formateurs)
+
+== Comment est construit ce cours (techniquement parlant)
+
+Ce cours a été écrit en ASCIIDOC.
+C'est un langage de balisage léger à l'instar de Markdown mais en *beaucoup beaucoup* plus puissant !
+
+Le fichier principal est link:config/main.adoc[`config/main.adoc`].
+Mais je ne conseille son ouverture que pour avoir un aperçu du contenu global via la table des matières.
+Effectivement, le contenu sera tronqué par gitlab ou github car trop long.
+
+Les parties du présent cours sont placées dans le dossier link:document/[`document/`].
+Pour connaître l'ordre dans lequel ils sont inclus, veuillez vous référer à la source du fichier link:document/00-content-to-include.adoc[`document/00-content-to-include.adoc`].
+
+Le code source des exemples et des exercices sont la plupart du temps écrit dans des fichiers à part situés dans link:assets/source_code/[`assets/source_code/`].
+
+== Options de configuration
+
+Un fichier de configuration permet de personnaliser certains attributs qui vont impacter le rendu du document.
+Pour voir les attributs configurables, il faut afficher la source du fichier link:config/attributes.adoc[`config/attributes.adoc`].
+
+
+Il est possible de changer le titre du document, l'auteur, etc.
+
+Par exemple, dans ce fichier, vous pouvez modifier la valeur de l'attribut `:_show_correction:` pour 1 au lieu de 0 pour afficher la correction.
+
+Ce qui est formidable, c'est que ces valeurs sont prises en compte depuis le dépôt gitlab ou github !

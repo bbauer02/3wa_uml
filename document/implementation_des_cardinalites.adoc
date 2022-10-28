@@ -1,0 +1,363 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+//titre de la section
+[[implémentation_des_cardinalités]]
+= Implémentation des cardinalités
+ifndef::_main_loaded[]
+include::../config/header_attributes.adoc[]
+{empty}
+Point précédent :
+link:implementation-d-une-association-bidirectionnelle-multiple.adoc[Implémentation d'une association bidirectionnelle multiple]
+endif::_main_loaded[]
+
+Nous avons appris lors de l'étude de la <<les_cardinalités_d_une_association,notion de cardinalité>> qu'elle permet d'exprimer une contrainte
+
+Dans la partie du cours sur les <<les_cardinalités_d_une_association,cardinalités>>, nous avons vu que les cardinalités exprimait une contrainte sur le nombre d'objets B associés à un objet A.
+
+Le développeur doit tenir compte de celles-ci dans l'implémentation de la classe.
+
+[IMPORTANT]
+====
+Pour prendre en compte la cardinalité à l'extrémité d'une association navigable, le développeur doit compter le nombre d'instances liées et s'assurer que ce nombre respecte cette cardinalité.
+En PHP, la fonction `count` retourne le nombre d'éléments dans un tableau (utile pour dénombrer une collection).
+
+Les cardinalités minimale et maximale doivent être vérifiées par le développeur.
+====
+
+
+Il n'y a aucune difficulté dans le contrôle des cardinalités.
+Ainsi, vous pouvez attaquer les exercices qui suivent.
+
+[.question]
+****
+*Q{counter:_question})*
+Dans le diagramme ci-dessous, y a-t-il des cardinalités à contrôler ?
+Si oui, indiquez pour chacune d'elle si le contrôle doit être fait dès l'instanciation de l'objet depuis lequel commence la navigabilité ou après (dans ce cas préciser depuis quelle méthode).
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=waiter_one_to_many_table_bi,format=svg]
+
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Waiter {
+
+}
+left to right direction
+Waiter "1..*" --- "0..*" Table : serves
+....
+//_show_plantuml
+endif::[]
+//end _question
+****
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+* Il n'y a qu'une seule cardinalité à contrôler.
+Il s'agit de la cardinalité minimale à 1 (une table est servie par un à plusieurs serveurs).
+
+Cette cardinalité doit être contrôlée dès l'instanciation de `Table` car une table doit toujours être associée au minimum à un serveur.
+Il n'est pas possible de créer une table puis de lui affecter un serveur.
+Cela irait à l'encontre du diagramme.
+****
+//end _show_correction
+endif::[]
+
+[.question]
+****
+*Q{counter:_question})*
+Dans le diagramme ci-dessous, y a-t-il des cardinalités à contrôler ?
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=waiter_one_to_many_table_uni,format=svg]
+
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Waiter {
+
+}
+left to right direction
+Waiter "1..*" ---> "0..*" Table : serves
+....
+//_show_plantuml
+endif::[]
+//end _question
+****
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+Il n'y a aucune cardinalité à contrôler car l'association n'est pas navigable de `Table` vers `Waiter`.
+Donc il n'y a pas à se soucier du nombre de serveurs associés à une table.
+****
+//end _show_correction
+endif::[]
+
+[.question]
+****
+*Q{counter:_question})*
+Dans le diagramme ci-dessous, y a-t-il des cardinalités à contrôler ?
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=waiter_1_to_4_table_uni,format=svg]
+
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Waiter {
+
+}
+left to right direction
+Waiter "1..*" ---> "0..4" Table : serves
+....
+//_show_plantuml
+endif::[]
+//end _question
+****
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+Il y a une cardinalité à contrôler.
+Il s'agit de la cardinalité qui fixe à 4 le nombre maximum de tables qu'un serveur peut servir.
+La cardinalité à 1 concerne l'association non navigable.
+Elle n'est donc pas à contrôler.
+
+La cardinalité à contrôler doit l'être à chaque fois que l'on ajoute un élément dans la collection de tables associée au serveur.
+****
+//end _show_correction
+endif::[]
+
+[.question]
+****
+*Q{counter:_question})*
+Dans le diagramme ci-dessous, y a-t-il des cardinalités à contrôler ?
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=waiter_1_to_4_table_bi,format=svg]
+
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Waiter {
+
+}
+left to right direction
+Waiter "1..*" --- "0..4" Table : serves
+....
+//_show_plantuml
+endif::[]
+//end _question
+****
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+Il y a deux cardinalités à contrôler :
+
+* la cardinalité qui fixe à 4 le nombre maximum de tables qu'un serveur peut servir
+* la cardinalité minimale qui indique qu'une table doit être servie par au moins un serveur (et cela dès son instanciation)
+
+La cardinalité minimale 1 doit être contrôlée dès l'instanciation d'une table.
+Une table doit dès son instanciation être associée à un serveur.
+Il n'est pas possible de créer une table puis de lui associer un serveur.
+Cela irait à l'encontre de ce que précise le diagramme.
+****
+//end _show_correction
+endif::[]
+
+[.question]
+****
+*Q{counter:_question})*
+Implémentez le diagramme suivant :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=waiter_1_to_4_table_uni_2,format=svg]
+
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Waiter {
+
+}
+left to right direction
+Waiter "1..*" ---> "0..4" Table : serves
+....
+//_show_plantuml
+endif::[]
+//end _question
+****
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+* Code de la classe `Table`
+
+[source%linenums,php]
+----
+include::../assets/source_code/implementation_waiter_one_to_four_table_uni.php[tags=!*;class_Table]
+----
+
+* Code de la classe `Waiter` avec la navigabilité vers `Table` sans contrôle de la limite de 4 tables maximum :
+
+[source%linenums,php]
+----
+include::../assets/source_code/implementation_waiter_one_to_four_table_uni.php[tags=!*;class_Waiter]
+----
+
+* On définit une propriété qui permet de fixer une limite de tables pouvant être affectées à un serveur.
+Comme cette limite ne dépend pas des instances de `Waiter`, c'est une propriété de classe.
+Elle n'est pas destinée à évoluer au cours du script ce qui nous oriente vers l'utilisation d'une constante :
+
+[source%linenums,php]
+----
+//A ajouter dans la classe Waiter
+include::../assets/source_code/implementation_waiter_one_to_four_table_uni.php[tags=!*;property_max_tables]
+----
+
+* Cette constante peut être utilisée dans la méthode `addTable` afin de vérifier que la limite n'est pas dépassée :
+
+[source%linenums,php]
+----
+//A ajouter dans la classe Waiter
+include::../assets/source_code/implementation_waiter_one_to_four_table_uni.php[tags=!*;method_add_table]
+----
+
+Avec ce code, il ne sera pas possible d'affecter plus de 4 tables.
+
+****
+//end _show_correction
+endif::[]
+
+[.question]
+****
+*Q{counter:_question})*
+Implémentez le diagramme suivant :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=table_zero_to_onemultiple_waiter_unid,format=svg]
+
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Waiter {
+
+}
+left to right direction
+Waiter "1..*" <--- "0..4" Table : serves
+....
+//_show_plantuml
+endif::[]
+//end _question
+****
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+Le contrôle porte sur le nombre de serveurs minimum devant être affectés à une table.
+
+* Code de la classe `Waiter` (il est fait le choix de lever une exception lorsque la contrainte n'est pas respectée):
+
+[source%linenums,php]
+----
+include::../assets/source_code/implementation_table_zero_to_onemultiple_waiter_uni.php[tags=!*;class_Waiter]
+----
+
+* Code de la classe `Table` :
+
+[source%linenums,php]
+----
+include::../assets/source_code/implementation_table_zero_to_onemultiple_waiter_uni.php[tags=!*;class_Table]
+----
+<1> Aucune valeur par défaut n'est utilisée car il faut forcer l'utilisateur de la classe `Table` à passer une collection.
+Celle-ci est ensuite passée à la méthode `setWaiters()` de façon à contrôler son contenu.
+<2> On vérifie le nombre d'items dans la collection avant de procéder à la suppression.
+Cela pourrait être fait avant de rechercher si l'item est dans la collection mais il est plus pertinent de lever l'exception si le serveur à supprimer est effectivement affecté à la table courante.
+<3> Une fois la collection mise à jour, on compte le nombre d'items afin de s'assurer que la contrainte est respectée.
+****
+//end _show_correction
+endif::[]
+
+[.question]
+****
+*Q{counter:_question})*
+Implémentez le diagramme suivant :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=waiter_onemultiple_to_zeromultiple_table_bi,format=svg]
+
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Waiter {
+
+}
+left to right direction
+Waiter "1..*" --- "0..4" Table : serves
+....
+//_show_plantuml
+endif::[]
+//end _question
+****
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+Nous sommes dans le cas d'une navigation bidirectionnelle.
+Il est donc nécessaire de choisir la classe propriétaire.
+Les cardinalités maximales sont multiples de chaque côté de l'association.
+Ainsi, nous devons choisir la classe depuis laquelle il est plus naturel de faire l'association.
+Ce sera la classe `Table` car elle est forcément liée à un serveur (cardinalité minimale à 1).
+
+Dans les exercices précédents, nous avons mis en place les navigabilités pour chaque sens de lecture de l'association.
+Il suffit dans cet exercice de reprendre le code que nous avons écrit.
+Ce code contient déjà les contrôles des cardinalités.
+Je ne reviens pas dessus.
+
+Voici le code de la classe `Waiter` :
+
+[source%linenums,php]
+----
+include::../assets/source_code/implementation_waiter_onemultiple_to_zeromultiple_table_bi.php[tags=!*;class_Waiter]
+----
+Voici le code de la classe `Table` qui est celui de l'exercice précédent auquel est ajouté la mise à jour des objets inverses :
+
+[source%linenums,php]
+----
+include::../assets/source_code/implementation_waiter_onemultiple_to_zeromultiple_table_bi.php[tags=!*;class_Table]
+----
+<1> L'objet inverse est mis à jour car nous sommes dans une navigabilité bidirectionnelle.
+
+****
+//end _show_correction
+endif::[]
+
+ifndef::_main_loaded[]
+Point suivant : 
+link:06-1-association_reflexive.adoc[L'association réflexive]
+include::../config/index.adoc[]
+endif::_main_loaded[]

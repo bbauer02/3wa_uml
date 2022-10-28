@@ -1,0 +1,52 @@
+@startuml
+
+class Product {
+    #description: ?string
+}
+
+
+'litterie
+class Bedding {
+
+}
+
+'matelas
+class Mattress {
+    -dimension
+}
+
+'mobilier
+class Furniture {
+
+
+}
+
+'extérieur
+class Outdoor {
+    #uvResistance: int
+    #waterResistance: string
+}
+
+class Lighting {
+    -name:string
+    -lumenPower: ?int
+    -type: LightingType
+    +convertLumenToWatt():int
+}
+
+enum LightingType <<enumeration>> {
+    INCANDESCENT
+    HALOGEN
+    CFL
+    DEL
+}
+
+class Accessories
+
+Bedding -up-|> Product
+Mattress -up-|> Bedding
+Furniture -up-|> Product
+Outdoor -up-|> Product
+Accessories -up-|> Bedding
+Lighting -up-|> Outdoor
+@enduml

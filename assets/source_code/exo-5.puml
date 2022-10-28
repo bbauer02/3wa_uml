@@ -1,0 +1,38 @@
+@startuml
+hide circle
+skinparam classAttributeIconSize 0
+
+class Vehicle {
+- registrationNumber {unique}
+- nbWheels : int
+- color : string
+- typeEngine : string
+- position: int = 0
++ movesForward(int nbKm):self
++ movesBack(int nbKm):self
++ getPosition():int
++ __toString():string
+}
+
+class Driver {
+- name: string
+- birthDate: DateTimeImmutable|null
++ isLegal(): bool
+-messageIsNotLegal(): void
+}
+
+Vehicle "0..*"--"1" Driver
+
+note "Une conducteur ne\npeut conduire une voiture\nque s'il est majeur" as N1
+
+note "classe responsable de la mise à jour de la classe inverse Vehicle" as N2
+
+Driver -- N2
+
+note right of Driver::isMajor
+retourne true si le
+conducteur est majeur,
+false dans le cas contraire
+end note
+
+@enduml

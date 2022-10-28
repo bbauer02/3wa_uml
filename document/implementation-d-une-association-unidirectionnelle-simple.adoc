@@ -1,0 +1,174 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+//titre de la section
+[[implémentation_d_une_association_unidirectionnelle_simple]]
+= Implémentation d'une association unidirectionnelle simple
+ifndef::_main_loaded[]
+include::../config/header_attributes.adoc[]
+{empty}
+Point précédent :
+link:02-3-la-navigabilite.adoc[La navigabilité d'une association]
+endif::_main_loaded[]
+
+
+[NOTE]
+====
+Rappel 1 : une association entre deux classes `A` et `B` traduit un lien de contenance.
+Dans ce cas `A` doit prévoir un attribut permettant de stocker une instance de  `B` et/ou vice-versa.
+
+
+Rappel 2 : une association unidirectionnelle n'est navigable que dans un sens (de `A` vers `B` OU de `B` vers `A`).
+
+Rappel 3 : Une association est qualifiée de simple lorsque zéro ou une seule instance de `B` est liée à `A` (ou l'inverse en fonction du sens de navigabilité).
+====
+
+Le diagramme suivant exprime une association unidirectionnelle simple.
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=asso_uni_simple,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Vehicle {
+- registerNumber: string
++__toString():string
+}
+
+class Technician {
+-name: string
+}
+
+Vehicle "1..*" -up-> "0..1" Technician : maintains
+
+note right of Vehicle::__toString
+Retourne le nom du véhicule
+et de son technicien le cas échéant
+end note
+
+....
+// end _show_plantuml
+endif::[]
+
+
+Lecture de l'association : Un véhicule est maintenu par 0 ou 1 technicien.
+
+L'association représentée indique clairement au développeur le code qu'il doit écrire.
+Si deux développeurs doivent implémenter ce diagramme, le code doit être le même !
+
+Nous allons commencer par la classe `Technician` :
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_uni_simple.php[tags=!*;class_Technician]
+----
+
+Maintenant, implémentons la classe `Vehicle` comme si elle n'était pas liée à `Technician` :
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_uni_simple.php[tags=!*;class_Vehicle]
+----
+
+Nous avons nos deux classes mais le lien associatif n'apparaît pas dans le code.
+C'est maintenant qu'il faut regarder le sens de navigabilité.
+Il faut exprimer le lien depuis l'objet qui peut naviguer vers l'objet lié soit ici la classe `Vehicle`.
+Puisqu'une association traduit un lien de contenance, la classe `Vechicle` doit prévoir un attribut qui va contenir zéro ou une instance de `Technician` :
+
+Concrètement, il faut ajouter dans la classe `Vehicle` un attribut `$technician` qui va *contenir* zéro ou une instance de type `Technician`
+
+[source%linenums,php]
+----
+//à ajouter dans la classe Vehicle
+include::../assets/source_code/_implementation_asso_uni_simple.php[tags=!*;property_technician]
+----
+
+Comme l'attribut `technician` est privé, il faut l'encapsuler dans un mutateur et un accesseur :
+
+[source%linenums,php]
+----
+//à ajouter dans la classe Vehicle
+include::../assets/source_code/_implementation_asso_uni_simple.php[tags=!*;mutator_accessor_of_technician]
+----
+
+[NOTE]
+====
+Nous venons de mettre en place la notion de navigabilité !
+====
+
+Nous n'avons pas encore implémenté la méthode `__toString()`.
+Elle va nous permettre d'illustrer le principe de navigabilité car depuis la classe `Vehicle`, nous allons manipuler une instance de `Technician` :
+
+[source%linenums,php]
+----
+//à ajouter dans la classe Vehicle
+include::../assets/source_code/_implementation_asso_uni_simple.php[tags=!*;method_to_string]
+----
+<1> Le technicien est manipulé à l'intérieur du véhicule courant.
+
+En affichant le véhicule, on obtient bien le nom de son technicien :
+[source%linenums,php]
+----
+//à ajouter dans la classe Vehicle
+include::../assets/source_code/_implementation_asso_uni_simple.php[tags=!*;meo_1]
+----
+
+Résultat :
+----
+Je suis le véhicule immatriculé AAAA. Mon technicien est Paul.
+----
+
+
+
+Cette navigabilité peut être démontrée en récupérant le technicien depuis le véhicule :
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_uni_simple.php[tags=!*;meo_2]
+----
+<1> Depuis une instance de `Vehicle` on navigue vers l'instance de `Technician` associée.
+C'est le concept de navigabilité.
+
+Résultat :
+----
+Sofien est le technicien du véhicule BBBB.
+----
+
+[TIP]
+====
+Depuis PHP 8, il est possible de promouvoir les arguments du constructeur d'une classe comme étant des propriétés d'objets.
+Cela s'appelle la [[keyword_promotion_de_propriété_de_constructeur]]*[.keyword]#((promotion de propriété de constructeur))#* (https://www.php.net/manual/fr/language.oop5.decon.php#language.oop5.decon.constructor.promotion[voir la documentation])
+
+C'est-à-dire qu'un argument de constructeur qui est déclaré avec une visibilité  devient automatiquement un attribut d'objet.
+
+La valeur passée au constructeur à l'instanciation de l'objet sera la valeur par défaut de la propriété promue.
+
+Voici la classe `Technician` avec l'utilisation de la promotion des propriétés de son constructeur :
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_uni_simple_php_8.php[tags=!*;class_Technician]
+----
+<1> Le paramètre `$name` est déclaré avec la visibilité `private`.
+`$name` devient alors automatiquement une propriété d'objet.
+Lorsqu'un technicien sera instancié et qu'une chaîne sera passée en argument, la propriété d'objet `name` sera initialisée avec cette valeur.
+
+
+Voici maintenant la classe `Vehicle` réécrite avec cette technique :
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_asso_uni_simple_php_8.php[tags=!*;class_Vehicle]
+----
+<1> Les deux arguments du constructeur sont déclarés avec une visibilité.
+Ils sont automatiquement promus au rang de propriété d'objet.
+
+L'utilisation des deux classes reste exactement la même.
+====
+
+Vous savez maintenant implémenter une association undirectionnelle simple.
+
+ifndef::_main_loaded[]
+Point suivant :
+link:implementation-d-une-association-unidirectionnelle-multiple.adoc[Implémentation d'une association unidirectionnelle multiple]
+include::../config/index.adoc[]
+endif::_main_loaded[]
