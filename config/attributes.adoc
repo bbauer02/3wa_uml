@@ -15,7 +15,7 @@ include::custom_attributes.adoc[]
 :_document_author: Emmanuel Ravrat
 
 //titre du document
-:_document_title: Modéliser une base de données avec Merise
+:_document_title: Le diagramme de classes
 
 //Si le document a des diagrammes, il faut indiquer la valeur 1 afin que le script qui génère le pdf utilise l'outil qui génère les diagrammes
 :_document_with_diagrams: 1
