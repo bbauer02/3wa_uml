@@ -50,7 +50,7 @@ footer:
             content: '{chapter-title} | {page-number} / {page-count}'
     verso: *shared_footer_recto
 title_page:
-    text_align: right
+        text_align: left
         title:
             top: 10%
 
