@@ -45,11 +45,12 @@ footer:
 #        columns: =100%
         left:
 #            content: 'image:../images/licence-80x15.png[]  {_document_author}'
-            content: '(c) {_document_author} | Tous droits réservés |'
+            content: '(c) {_document_author} | '
         right:
             content: '{chapter-title} | {page-number} / {page-count}'
     verso: *shared_footer_recto
 title_page:
+    text_align: right
         title:
             top: 10%
 
