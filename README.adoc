@@ -20,9 +20,9 @@ Mais je ne conseille son ouverture que pour avoir un aperçu du contenu global v
 Effectivement, le contenu sera tronqué par gitlab ou github car trop long.
 
 Les parties du présent cours sont placées dans le dossier link:document/[`document/`].
-Pour connaître l'ordre dans lequel ils sont inclus, veuillez vous référer à la source du fichier link:document/00-content-to-include.adoc[`document/00-content-to-include.adoc`].
+Pour connaître l'ordre dans lequel elles sont incluses, veuillez vous référer à la source du fichier link:document/00-content-to-include.adoc[`document/00-content-to-include.adoc`].
 
-Le code source des exemples et des exercices sont la plupart du temps écrit dans des fichiers à part situés dans link:assets/source_code/[`assets/source_code/`].
+Le code source des exemples et des exercices est la plupart du temps écrit dans des fichiers à part situés dans link:assets/source_code/[`assets/source_code/`].
 
 == Options de configuration
 
