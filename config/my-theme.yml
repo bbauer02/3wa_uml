@@ -53,6 +53,8 @@ title_page:
         text_align: left
         title:
             top: 3%
+            font_color: #E25800
+
 
 
 
