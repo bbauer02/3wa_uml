@@ -15,10 +15,19 @@ include::custom_attributes.adoc[]
 :_document_author: Emmanuel Ravrat
 
 //titre du document
-:_document_title: Le diagramme de classes UML
+:_document_title: Modéliser une base de données avec Merise
 
 //Si le document a des diagrammes, il faut indiquer la valeur 1 afin que le script qui génère le pdf utilise l'outil qui génère les diagrammes
-:_document_with_diagrams: 1
+:_document_with_diagrams: 0
+
+//URL du dépôt distant. Pour gérer l'authentification en HTTPS, il faut utiliser GCM : https://github.com/GitCredentialManager/git-credential-manager. S'il y a plusieurs dépôts, ils doivent être séparés par un point virgule).
+:_git_remote_for_current_adocument: https://gitlab.com/gemkod/uml.git
+
+//URL du dépôt ouvert aux étudiants (ne seront publiés que le contenu du dossier shared. Pour gérer l'authentification en HTTPS, il faut utiliser GCM : https://github.com/GitCredentialManager/git-credential-manager. S'il y a plusieurs dépôts, les séparer par un ;
+:_git_remotes_for_students:
+
+//url menant vers le dépôt partagé aux étudiants (pour l'instant, ce n'est pas cohérent avec l'attribut _git_remotes_for_students car ce dernier peut accepter plusieurs valeurs.
+:_url_to_repo_for_students: 
 
 
 // ***************************************************************
@@ -39,7 +48,7 @@ include::custom_attributes.adoc[]
 :_show_note_prof: 0
 
 //affichage des diagrammes réalisés avec PlantUml (si les diagrammes sont encadrées par le test de la valeur de cet attribut)
-:_show_plantuml: 1
+:_show_plantuml: 0
 
 //affichage des informations de version en fin de document
 :_show_versions_information: 0
@@ -95,8 +104,14 @@ include::custom_attributes.adoc[]
 //nom du dossier contenant les fichiers qui composent le document (sans slash)
 :_folder_document: document
 
-//nom du dossier contenant les fichiers pdf générés (attention, si la valeur de cet attribut est modifié, il faut reporter la modification dans le fichier .gitignore car le dossier correspondant n'est pas versionné par défaut)
-:_folder_release_pdf: pdf
+//nom du dossier du document courant contenant les fichiers pdf générés (attention, si la valeur de cet attribut est modifié, il faut reporter la modification dans le fichier .gitignore car le dossier correspondant n'est pas versionné par défaut pour ne pas alourdir le projet)
+:_folder_release_pdf: assets/shared/cours
+
+//dossier qui doit être pushé sur le dépôt distant accessible aux apprenants
+:_folder_repo_for_students: assets/shared
+
+//Liste des dossiers à synchroniser dans les SPOT shadow (séparer chaque chemin par un ;).
+:_folders_to_sync: {_folder_repo_for_students}
 
 //path vers le thème qui personnalise le thème par défaut
 // le nom du thème doit toujours avoir un suffixe *-theme.yml
@@ -117,7 +132,7 @@ include::custom_attributes.adoc[]
 //si le document est chargé depuis main, on vérifie que l'on n'est pas dans un environnement gitlab avant d'inclure les fichiers car ils sont inutiles dans cet environnement et ne sont pas présents dans le dépôt
 ifdef::_main_loaded[]
 ifndef::env-gitlab[]
-//attribut contenant le numéro version du document
+//attribut contenant le numéro de version du document
 include::../{_folder_cache}/{_file_cache_version_number}[]
 
 //attribut contenant la date de version du document
