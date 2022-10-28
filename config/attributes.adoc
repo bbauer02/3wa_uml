@@ -18,7 +18,7 @@ include::custom_attributes.adoc[]
 :_document_title: Modéliser une base de données avec Merise
 
 //Si le document a des diagrammes, il faut indiquer la valeur 1 afin que le script qui génère le pdf utilise l'outil qui génère les diagrammes
-:_document_with_diagrams: 0
+:_document_with_diagrams: 1
 
 //URL du dépôt distant. Pour gérer l'authentification en HTTPS, il faut utiliser GCM : https://github.com/GitCredentialManager/git-credential-manager. S'il y a plusieurs dépôts, ils doivent être séparés par un point virgule).
 :_git_remote_for_current_adocument:
@@ -48,7 +48,7 @@ include::custom_attributes.adoc[]
 :_show_note_prof: 0
 
 //affichage des diagrammes réalisés avec PlantUml (si les diagrammes sont encadrées par le test de la valeur de cet attribut)
-:_show_plantuml: 0
+:_show_plantuml: 1
 
 //affichage des informations de version en fin de document
 :_show_versions_information: 0
