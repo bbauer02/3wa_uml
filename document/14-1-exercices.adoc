@@ -1,0 +1,25 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+//titre de la section
+[[quelques_exercices_d_implémentation]]
+= Quelques exercices d'implémentation
+ifndef::_main_loaded[]
+include::../config/header_attributes.adoc[]
+{empty}
+Point précédent :
+link:13-1-L-interface.adoc[]
+endif::_main_loaded[]
+
+include::_exercice_1.adoc[]
+include::_exercice_2.adoc[]
+include::_exercice_3.adoc[]
+include::_exercice_4.adoc[]
+include::_exercice_5.adoc[]
+//todo : à partir de là, il faut contrôler le code des exercices
+//include::_exercice_6.adoc[]
+//include::_exercice_7.adoc[]
+//include::_exercice_8.adoc[]
+//include::_exercice_9.adoc[]
+//include::_exercice_10.adoc[]
+

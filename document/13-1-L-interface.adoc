@@ -1,0 +1,171 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+//titre de la section
+[[l_interface]]
+= L'interface
+ifndef::_main_loaded[]
+include::../config/header_attributes.adoc[]
+{empty}
+Point précédent :
+link:12-1-La-relation-abstraite.adoc[La relation abstraite]
+endif::_main_loaded[]
+
+== Notion d'interface et modélisation UML
+
+[WARNING]
+====
+Il faut avoir parfaitement compris ce qu'est une <<la_relation_abstraite, relation abstraite>> pour comprendre la relation d'interface.
+====
+
+Une [.keyword]#((interface))# est une *classe dont toutes les méthodes sont publiques et abstraites*.
+
+Cela ressemble à une classe abstraite sauf que contrairement à elle, une interface n'a que des méthodes sans corps.
+Il n'y a donc que la <<la_signature_de_la_methode, signature>> d'une ou plusieurs méthodes.
+
+Vous devez vous demander à quoi peut servir une "classe" qui n'a que des méthodes abstraites.
+
+Dans la partie sur <<la_relation_abstraite, la relation abstraite>>, nous avons vu qu'une classe qui hérite d'une classe abstraite qui contient des méthodes abstraites doit obligatoirement implémenter celles-ci.
+La classe qui hérite est contrainte, elle n'a pas le choix, elle DOIT implémenter ces méthodes.
+
+Donc, si une classe _hérite_ d'une interface, elle devra obligatoirement implémenter les méthodes de celle-ci.
+C'est très utile pour contraindre les classes à être manipulées avec des méthodes qui sont prévisibles car définies par l'interface.
+
+En programmation, on ne dit pas qu'une classe _hérite_ d'une interface, on dit qu'une classe *implémente une interface*.
+
+Le mieux est d'illustrer cette logique par un diagramme :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=file-interface,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+interface File {
+    +getAge:int()
+    +isObsolete:bool()
+}
+
+note top of File
+Le nom d'une interface
+est écrit en italique
+comme pour les classes
+abstraites
+end note
+
+note right of File::getAge
+une méthode d'interface n'est qu'une signature.
+Elle n'a pas de corps.
+Elle n'est pas écrite en italique comme c'était
+le cas pour les méthodes abstraites.
+end note
+
+....
+// end _show_plantuml
+endif::[]
+
+[NOTE]
+====
+Il est difficile de distinguer une interface d'une classe abstraite (dans les deux cas, le nom est écrit en italique).
+Il est possible d'utiliser le stéréotype pour une meilleure lisibilité :
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=interface-stereotype,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+interface File <<interface>>{
+    +getAge:int()
+    +isObsolete:bool()
+}
+
+....
+// end _show_plantuml
+endif::[]
+====
+
+Nous avons dans ce diagramme une interface (il ne faut pas utiliser le terme de "classe" dans le cadre d'une interface) qui prévoit deux méthodes.
+Cela signifie que toute classe implémentant cette interface devra prévoir l'implémentation de ces 2 méthodes.
+
+Ajoutons une classe `FileText` qui *implémente* l'interface `File`  :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=interface-implement,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+interface File <<interface>>{
+    +getAge:int()
+    +isObsolete:bool()
+}
+
+class FileText{
+    -specificAttribut
+    +specificMethod()
+   <color:#red> +getAge:int()
+   <color:#red> +isObsolete:bool()
+}
+
+FileText .up.|> File
+
+note left of FileText
+Une classe qui implémente une interface doit
+implémenter les méthodes de celle-ci.
+end note
+
+....
+// end _show_plantuml
+endif::[]
+
+
+== Implémentation d'une relation avec une interface
+
+Une interface est déclarée (en PHP) avec le mot `interface`  :
+
+[source%linenums,php]
+----
+include::../assets/source_code/interface_implementation.php[tags=interface_file]
+----
+<1> Déclaration d'une interface
+<2> Signature des méthodes qui devront être implémentées par les classes qui vont implémenter l'interface
+
+Maintenant que notre interface est en place, nous pouvons indiquer à la classe `FileText` de l'implémenter :
+
+[source%linenums,php]
+----
+include::../assets/source_code/interface_implementation.php[tags=filetext_implement_file;!constraint_implementation]
+----
+<1> La classe *implémente* l'interface `File` .
+
+Enfin, il ne reste plus qu'à implémenter les méthodes de l'interface :
+[source%linenums,php]
+----
+include::../assets/source_code/interface_implementation.php[tags=filetext_implement_file]
+----
+<1> Notre classe implémente toutes les méthodes de l'interface
+
+[NOTE]
+====
+Si une classe ne peut pas hériter de plusieurs classes mères, elle peut implémenter plusieurs interfaces :
+
+[source%linenums,php]
+----
+class classA implements classB, classC, classD {
+    //ici les membres spécifiques de classA
+
+    //ici toutes les méthodes déclarées dans les interfaces classB, classC et classD
+}
+----
+
+====
+
+//todo: créer un exercice ?
+
+
+ifndef::_main_loaded[]
+Partie suivante :
+link:14-1-exercices.adoc[Pour s'entrainer]
+endif::_main_loaded[]
+
+

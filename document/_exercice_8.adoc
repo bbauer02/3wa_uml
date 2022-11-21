@@ -1,0 +1,116 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+
+=== Implémenter une composition
+
+ifeval::[{_show_note_prof} == 1]
+.Note pour le professeur
+[.note_prof]
+*****
+Cet exercice est assez complexe.
+
+Peut-être faudrait-il donner un exercice plus simple ou donner celui-ci comme devoir maison ou simplement poser des questions en donnant le code.
+
+L'autre possibilité est de mettre un lien composite unidirectionnel de `Furniture` vers `WoodPiece`.
+//end note_prof
+*****
+//end _show_note_prof
+endif::[]
+
+[.question]
+****
+*Q{counter:_question})*
+
+* Implémentez le diagramme suivant :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=exo-8,format=svg]
+....
+include::../assets/source_code/exo-8.puml[]
+....
+//end _show_plantuml
+endif::[]
+
+* Créez un meuble nommé "BeautyLazy" constitué de 3 pièces de bois (2 pièces en chêne et 1 pièce en hêtre), de 5 pièces de métal (1 en acier, 2 en chrome et 2 en fer) sans plastique.
+* Créez un second meuble nommé "Nometal" constitué de 2 pièces de bois (1 pièce en noyer et 1 pièce en hêtre) et de 4 pièces de plastique (1 en PET et 3 en PEHD).
+Il n'y a pas de métal.
+* Affectez les meubles créés à la collection "Covidanne"
+* A partir de la collection, lister les meubles (leur nom) avec leur composition conformément à la sortie ci-dessous :
+----
+Contenu de la collection Covidanne :
+Meuble "BeautyLazy" composé des éléments cumulatifs suivants :
+- 1 pièce de chêne
+- 1 pièce de chêne
+- 1 pièce de hêtre
+- 1 pièce de acier
+- 1 pièce de chrome
+- 1 pièce de chrome
+- 1 pièce de fer
+- 1 pièce de fer
+Meuble "Nometal" composé des éléments cumulatifs suivants :
+- 1 pièce de noyer
+- 1 pièce de hêtre
+- 1 pièce de PET
+- 1 pièce de PEHD
+- 1 pièce de PEHD
+- 1 pièce de PEHD
+----
+
+****
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+* La classe `FurnitureCollection` est identique à celle de l'exercice précédent
+* Implémentation de la classe `WoodPiece` :
+
+[source%linenums,php]
+----
+include::../assets/source_code/exo-8-correction.php[tags=class_WoodPiece]
+----
+
+* Implémentation de la classe `MetalPiece` :
+
+[source%linenums,php]
+----
+include::../assets/source_code/exo-8-correction.php[tags=class_MetalPiece]
+----
+
+* Implémentation de la classe `PlasticPiece` :
+
+[source%linenums,php]
+----
+include::../assets/source_code/exo-8-correction.php[tags=class_PlasticPiece]
+----
+
+* Implémentation de la classe `Furniture` :
+
+_la solution proposée n'est qu'une solution parmi d'autres.
+Mais elle respecte au plus près le diagramme qu'il fallait implémenter_
+[source%linenums,php]
+----
+include::../assets/source_code/exo-8-correction.php[tags=class_Furniture]
+----
+<1> Initialisation de la collection
+<2> Pour laisser la responsabilité de la création des composants à la classe composite, la quantité de chaque pièce de bois et le nom de l'essence sont passées en argument.
+Les composants sont ainsi créés *dans le composite*.
+Ces composants ne doivent pas être accessibles depuis l'extérieur de la classe composite d'où l'absence d'accesseur les concernant.
+<3> Les pièces de bois, de métal et de plastique sont créées depuis la classe `Furniture` car il s'agit d'une composition.
+Elle est responsable du cycle de vie de ses composants.
+<4> On profite de l'instanciation de la pièce de bois pour lui affecter le meuble courant que l'on est en train de créer.
+Si cette solution fonctionne en PHP, il n'est pas garanti que cela fonctionne avec tous les langages objet.
+
+* Mise en oeuvre qui permet d'obtenir la sortie attendue :
+
+[source%linenums,php]
+----
+include::../assets/source_code/exo-8-correction.php[tags=meo]
+----
+****
+//end _show_correction
+endif::[]
+
+

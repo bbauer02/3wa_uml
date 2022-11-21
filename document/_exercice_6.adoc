@@ -1,0 +1,69 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+
+=== Implémenter une association bidirectionnelle many-to-many
+
+[.question]
+****
+*Q{counter:_question})*
+Travail à faire
+
+* Implémentez le diagramme suivant :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=exo-6,format=svg]
+....
+include::../assets/source_code/exo-6.puml[]
+....
+//end _show_plantuml
+endif::[]
+
+[loweralpha, start=1]
+* Créez deux conducteurs majeurs Anna et Jalila
+* Créez 4 véhicules A, B, C et D
+* Associez les véhicules A et B à  Anna.
+* Associez les véhicules B, C et D à Jalila
+* Afficher à partir d'Anna les véhicules qu'elle conduit
+* Afficher à partir du véhicule B ses conducteurs.
+****
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+[source%linenums,php]
+----
+include::../assets/source_code/exo-6-correction.php[tags=classes]
+----
+//<1> Comme d'habitude, on n'oublie pas d'initialiser la collection
+//<2> Mutateur pour ajouter un objet de la collection
+//<3> Mutateur pour retirer un objet de la collection
+//<4> Accesseur pour accéder à la collection
+// <5> Ne pas oublier la mise à jour de l'objet lié (association bidirectionnelle)
+
+Mise en oeuvre des classes :
+
+[source%linenums,php]
+----
+include::../assets/source_code/exo-6-correction.php[tags=mise_en_oeuvre]
+----
+<1> Attention à faire l'association du conducteur à la voiture depuis l'objet possédant (ici, l'objet possédant est le véhicule` )
+
+
+Sortie :
+----
+==== DEBUT DU TEST EXERCICE 6 ====
+
+ *** Liste des véhicules de Anna ***
+-AAAA
+-BBBB
+ *** Liste des conducteur du véhicule immatriculé BBBB ***
+-Anna
+-Jalila
+==== FIN DU TEST EXERCICE 6 ====
+----
+****
+//end _show_correction
+endif::[]

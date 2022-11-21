@@ -1,0 +1,417 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+//titre de la section
+[[représentation_d_une_classe_avec_un_diagramme_de_classes_uml]]
+= Représentation d'une classe avec un diagramme de classes UML
+ifndef::_main_loaded[]
+include::../config/header_attributes.adoc[]
+{empty}
+Point précédent :
+link:01-0-a-lire-avant-de-commencer.adoc[A lire avant de commencer]
+endif::_main_loaded[]
+
+[[représentation_générique]]
+== Représentation générique
+
+La [[keyword_représentation_d_une_classe]]*[.keyword]#((représentation d'une classe))#* est formalisée par un rectangle découpé en trois parties du haut vers la bas :
+
+. le nom de la classe
+. les attributs de la classe (également appelés membres ou propriétés)
+. les opérations de la classe (également appelées membres ou méthodes)
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=classe_uml_generique,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+
+class NomDeLaClasse <<stéréotype>> {
+- attributPrivé: type
+# attributProtégé: type
++ attributPublic: type
+- attributPrivéAvecValeurParDefaut: type = uneValeur
+- attributPrivéIdentifiant: int {id}
++ attributPublicEnLectureSeule: string {readOnly}
+-attributPrivéAvecValeurUnique: int {unique}
+- attributPrivéIdentifiantEnLectureSeule: int {id, readOnly}
++ {static} attributPublicStatic: type
+
+- opérationPrivée(): typeRetourné
+# opérationProtégée(): typeRetourné
++ opérationPublique(): typeRetourné
++ OpérationPubliqueAvecUnParamètre(nomParamètre: type): typeRetourné
++ OpérationPubliqueAvecUnParamètreDirectionnel(direction nomParamètre:string): typeRetourné
++ OpérationAvecParametreEtSaValeurParDefaut(nomParametre:type = uneValeur): valeurRetournée
+}
+....
+//_show_plantuml
+endif::[]
+
+(((Visibilité des membres)))
+
+== Précisions sur la visibilité des membres
+
+* Le signe `-` désigne une visibilité privée.
+Le membre n'est accessible que depuis l'intérieur de la classe.
+* Le signe `#` désigne une visibilité protégée.
+Le membre n'est accessible que depuis la classe et ses héritières.
+* Le signe `+` désigne une visilité publique.
+Le membre est accessible depuis la classe et en dehors.
+
+== Précisions sur la notion de type
+
+* Le type correspond aux types des attributs et des valeurs retournées par les opérations
+* Exemples de type : int, bool, string, float, array, List, etc (tout dépend du langage de programmation utilisé)
+* Le type peut être le nom d’une classe puisqu’une classe revient à définir un type.
+
+== Précisions sur la notion d’opération
+
+Une opération est tout simplement une méthode. Son nom doit être réfléchi afin d’exprimer ce qu’elle fait.
+Par exemple, une méthode qui calcule l’âge d’une personne pourrait s’appeler « calculerAge » ou encore mieux « obtenirAge ».
+Une méthode qui vérifie qu’une personne est majeur (donc soit c’est vrai, soit c’est faux) pourrait s’appeler « **est**Majeur ».
+
+[NOTE]
+====
+Il est fortement recommandé d'utiliser l'anglais pour nommer les membres.
+====
+
+== Précisions sur la notion de direction
+
+Cette notion de [.keyword]#((direction))# est pertinente dans des langages compilés tels que `C#` ou encore `Java`.
+En `PHP` et `javascript`, il n'y a pas la possibilité de spécifier une direction à un paramètre.
+
+* `in` : direction par défaut, la variable passée comme argument restera inchangée dans le programme appelant (même si dans l’opération, sa valeur a été modifiée).
+Elle est utilisée à l’intérieur de l’opération sans être modifiée.
+Cela prend le nom de passage par valeur.
+
+* `inout` : une modification de la variable passée comme argument dans l’opération se verra également modifiée dans le programme appelant.
+(c’est ce qui s’apparente à un passage par référence).
+
+[NOTE]
+====
+Les objets passés en argument le sont automatiquement par référence.
+Pour les types qui ne le sont pas par défaut (exemples : le type « int » en C#, une chaîne en PHP) et qui doivent l’être dans la méthode, il faut indiquer « `inout` » dans le diagramme.
+
+En PHP, le signe `&` représente ce type de passage alors qu’en C#, c’est le mot clé `ref`.
+====
+
+* `ref` : idem à inout (les logiciels de modélisation proposent généralement `inout`).
+* `out` : précise la variable que l’opération doit retourner afin que le programme appelant puisse l’utiliser.
+Celui-ci doit avoir prévu sa déclaration.
+Ce terme sera utilisé dans le chapitre sur les procédures stockées.
+
+IMPORTANT: Si un objet est utilisé comme argument d’une opération, il est TOUJOURS PASSE PAR REFERENCE. +
+Cela revient à utiliser par défaut « inout » ou « ref »
+
+==	Précision sur la notion de stéréotype
+
+Le [.keyword]#((stéréotype))# permet d’étendre le vocabulaire de l’UML.
+
+Le *stéréotype d’une classe* permet une meilleure compréhension des éléments qui composent une architecture logicielle.
+Vous pouvez donc utiliser n'importe quel mot qui permet de faciliter la lecture du diagramme.
+
+
+
+Voici quelques exemples :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=stereotype_entity,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Customer <<entity>>
+note as N1
+    le stéréotype <b>entity</b> indique que la classe
+est une table dans
+une base de données
+end note
+....
+//_show_plantuml
+endif::[]
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=stereotype_listener,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+class Generator <<listener>>
+
+note as N2
+Le stéréotype <b>listener</b> indique que la classe est
+un "écouteur" d'événement.
+end note
+....
+//_show_plantuml
+endif::[]
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=stereotype_controller,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class CustomerController <<controller>>
+
+note as N3
+Le stéréotype <b>controller</b> indique que la classe est
+un contrôleur.
+(dans une architecture MVC par exemple).
+end note
+....
+//_show_plantuml
+endif::[]
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=stereotype_singleton,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+class Connection <<singleton>>
+note as N4
+Le stéréotype <b>singleton</b> indique que la classe
+utilise le pattern éponyme).
+end note
+....
+//_show_plantuml
+endif::[]
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=stereotype_repository,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class CustomerRepository <<repository>>
+
+note as N4
+Le stéréotype <b>reposiroy</b> indique que la classe
+contient des méthodes faisant appel à des requêtes).
+end note
+....
+//_show_plantuml
+endif::[]
+
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=stereotype_enum,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Status <<enum>> {
+notShipped
+shipped
+received
+}
+
+note as N5
+Le stéréotype <b>enum</b> indique que la classe
+est une énumération.
+end note
+....
+//_show_plantuml
+endif::[]
+
+Le *stéréotype d’une opération* (méthode) peut permettre de la classer dans une catégorie de comportement.
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=stereotype_membres,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+abstract class DefaultRepository <<repository>> {
++ findAll: array
++ <<abstract>> findBy: array
++ <<getter>> refAttribut: string
+}
+
+note right of DefaultRepository::findBy
+Le stéréotype indique une méthode abstraite
+end note
+
+note right of DefaultRepository::refAttribut
+Le stéréotype indique un accesseur
+end note
+....
+//_show_plantuml
+endif::[]
+
+
+
+== Avec UML, on affiche que ce qui est essentiel
+
+Un diagramme UML peut rapidement devenir complexe à lire.
+Certaines classes peuvent avoir de nombreux membres.
+En fonction du destinataire de l'information, il est possible de ne montrer que l'essentiel.
+
+Imaginons une application qui laisse la possibilité à celui qui l’utilise de créer un ou plusieurs menus de navigation qui pourront être placés à des endroits spécifiques de la fenêtre (en haut, à droite, en bas ou à gauche)
+
+Le diagramme ci-dessous peut être utile au développeur car il sait exactement ce qu'il doit développer :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=diag_navigation_full_display,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Navigation {
+-id: int
+- description: string
+- name: string
+- isHidden: bool = false
+- location: Location
++getId():int
++getDescription():string
++setDescription(description:string):self
++getNanme():string
++setName(name:string):self
++getIsHidden():bool
++setIsHidden(status:bool):self
++getLocation():Location
++setLocation(location:Location):self
+}
+
+class Location <<enum>> {
+top
+right
+bottom
+left
+}
+
+Navigation -> Location
+....
+//_show_plantuml
+endif::[]
+
+Cependant, il n'y a pas besoin de connaître les méthodes pour créer la table correspondante.
+Le diagramme ci-après est suffisant :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=diag_navigation_only_attributes,format=svg]
+....
+hide circle
+hide methods
+skinparam classAttributeIconSize 0
+
+class Navigation {
+-id: int
+- description: string
+- name: string
+- isHidden: bool = false
+- location: Location
++getId():int
++getDescription():string
++setDescription(description:string):self
++getNanme():string
++setName(name:string):self
++getIsHidden():bool
++setIsHidden(status:bool):self
++getLocation():Location
++setLocation(location:Location):self
+}
+
+class Location <<enum>> {
+top
+right
+bottom
+left
+}
+
+Navigation -> Location
+....
+//_show_plantuml
+endif::[]
+
+Lors de la réflexion sur les différentes classes à créer, seule les nom des classes peuvent être affichés
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=diag_navigation_only_classe_names,format=svg]
+....
+hide circle
+hide members
+skinparam classAttributeIconSize 0
+
+class Navigation {
+-id: int
+- description: string
+- name: string
+- isHidden: bool = false
+- location: Location
++getId():int
++getDescription():string
++setDescription(description:string):self
++getNanme():string
++setName(name:string):self
++getIsHidden():bool
++setIsHidden(status:bool):self
++getLocation():Location
++setLocation(location:Location):self
+}
+
+class Location <<enum>> {
+top
+right
+bottom
+left
+}
+
+Navigation -> Location
+....
+//_show_plantuml
+endif::[]
+
+L'utilisateur d'une classe n'a besoin de connaître que ce qu'il peut utiliser (donc les membres publiques) :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=diag_navigation_only_interface,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+
+class Navigation {
+-id: int
+- description: string
+- name: string
+- isHidden: bool = false
+- location: Location
++getId():int
++getDescription():string
++setDescription(description:string):self
++getNanme():string
++setName(name:string):self
++getIsHidden():bool
++setIsHidden(status:bool):self
++getLocation():Location
++setLocation(location:Location):self
+}
+
+class Location <<enum>> {
+top
+right
+bottom
+left
+}
+
+hide Navigation attributes
+Navigation -> Location
+....
+//_show_plantuml
+endif::[]
+
+[NOTE]
+====
+Comme vous pouvez le constater, il n’y a pas qu’une seule façon de représenter un même diagramme.
+Le degré de précision de la conceptualisation dépend de la volonté de transmettre plus ou moins d’informations.
+Il convient de s’interroger sur le destinataire du diagramme de classes.
+====
+
+ifndef::_main_loaded[]
+Partie suivante :
+link:01-2-outils_uml.adoc[Quels outils pour faire des diagrammes de classes ?]
+include::../config/index.adoc[]
+endif::_main_loaded[]

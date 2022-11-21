@@ -1,0 +1,82 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+
+=== Implémenter une agrégation
+
+[.question]
+****
+*Q{counter:_question})*
+Travail à faire
+
+Un artisan réputé fabrique des meubles de grande valeur et propose chaque année une nouvelle collection.
+Il lui faut pouvoir gérer les meubles qu'il affecte à chaque collection.
+Effectivement, chaque meuble fabriqué n'est pas systématiquement placé dans une collection.
+
+* Implémentez le diagramme suivant :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=exo-7,format=svg]
+....
+include::../assets/source_code/exo-7.puml[]
+....
+//end _show_plantuml
+endif::[]
+
+
+[loweralpha, start=1]
+. Créez une collection nommée "Covidanne" qui sera la collection de meuble pour l'année prochaine.
+. Créez les meubles "Repostar", "Sietanne" et "Letanne"
+. Affectez les meubles à la collection.
+. Depuis la collection, affichez la liste des meubles qui la compose.
+. Depuis un meuble, affichez le nom de la collection dans laquelle il figure.
+. Justifiez ici l'utilisation d'une agrégation plutôt qu'une composition.
+****
+
+
+
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+Rappel  : L'agrégation s'implémente comme une association classique.
+
+* Implémentation de la classe `Furniture` : +
+_Cette classe ne connaît pas la classe `FurnitureCollection` car nous sommes dans une association unidirectionnelle de `FurnitureCollection` vers `Furniture`_
+
+[source%linenums,php]
+----
+include::../assets/source_code/exo-7-correction.php[tags=class_Furniture]
+----
+
+* Implémentation de la classe `FurnitureCollection` : +
+_Cette classe connaît la classe `Furniture` car nous sommes dans une association unidirectionnelle de `FurnitureCollection` vers `Furniture`_
+
+[source%linenums,php]
+----
+include::../assets/source_code/exo-7-correction.php[tags=class_FurnitureCollection]
+----
+
+* Mise en oeuvre des classes :
+
+[source%linenums,php]
+----
+include::../assets/source_code/exo-7-correction.php[tags=meo]
+----
+<1> initialisation de la collection d'objets de type `Furniture`
+<2> mutateurs et accesseur de la collection
+
+* Sortie :
+
+----
+ *** Liste des meubles de la collection Covidanne ***
+-Repostar
+-Sietanne
+-Letanne
+----
+
+****
+//end _show_correction
+endif::[]

@@ -1,0 +1,52 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+
+== Implémenter une association bidirectionnelle one-to-many
+
+
+[.question]
+****
+*Q{counter:_question})*
+Travail à faire
+
+* Implémentez le diagramme suivant :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=exo-5,format=svg]
+....
+include::../assets/source_code/exo-5.puml[]
+....
+//end _show_plantuml
+endif::[]
+
+* Créez le conducteur Paul dont la date de naissance le conduit à être majeur.
+* Créez le conducteur Juliette dont la date de naissance la conduit à être mineure.
+* Créez un véhicule A et tenter de lui affecter Juliette.
+* Créez un véhicule B et tenter de lui affecter Paul.
+* Afficher la liste des véhicules associés à Paul.
+* Afficher la liste des véhicules associés à Juliette.
+
+****
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+* Voici les modifications à apporter aux classes `Vehicle` et `Driver` utilisée précédemment :
+
+[source%linenums,php]
+----
+include::../assets/source_code/exo-5-correction.php[tags=class_vehicle_difference_ex_5]
+----
+<1> La classe véhicule est obligatoirement la classe responsable de la mise à jour de la classe inverse puisqu'elle doit être associée à un Driver dès son instanciation
+<2> Attribut qui va contenir l'objet lié
+<3> Mise à jour de l'objet lié (navigabilité de `Driver` vers Vehicle)
+<4> pas de mise à jour de l'objet lié car c'est l'objet Vehicle qui est responsable de la navigabilité bidirectionnelle
+<5> Même si vous utilisez la promotion des arguments pour initialiser l'attribut `Vehicle::driver`, il faut passer par la méthode `setDriver` de façon à mettre à jour l'objet inverse (ici le conducteur)
+****
+//end _show_correction
+endif::[]
+
+

@@ -1,0 +1,8 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+
+=== Implémenter une classe association
+
+//todo :  exercice avec une classe association
+WARNING: A faire : exercice avec une classe association

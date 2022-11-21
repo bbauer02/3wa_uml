@@ -1,0 +1,218 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+//titre de la section
+[[le_lien_associatif_l_association]]
+= Le lien associatif : l'association
+ifndef::_main_loaded[]
+include::../config/header_attributes.adoc[]
+{empty}
+Point précédent :
+link:02-0-les-liaisons-entre-classes.adoc[Les liaisons entre classes]
+endif::_main_loaded[]
+
+L'[[keyword_association]]*[.keyword]#((association))#* désigne un lien entre deux objets A et B sachant que A *contient* une ou des instances de B et/ou que B *contient* une ou des instances de A.
+
+Une association exprime une [[keyword_relation_de_contenance]]*[.keyword]#((relation de contenance))#*.
+A prévoit un *attribut qui stocke* une ou plusieurs instances de B et / ou vice-versa.
+
+Ce lien est représenté par un trait continu entre les classes dont les objets sont liés.
+
+Modélisons le fait qu'un véhicule est entretenu par un technicien :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=association-vehicule-technician,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+hide members
+
+Vehicle - Technician
+
+note as N1
+La relation d'association est représentée
+par un trait continu.
+end note
+
+....
+//_show_plantuml
+endif::[]
+
+Grâce au lien, nous savons que `Vehicle` est entretenu par `Technician`.
+S'il n'y avait aucun lien, cela signifierait que `Vehicle` n'utilise pas `Technician` et vice-versa.
+Ces deux classes n’auraient alors aucune interaction l’une avec l’autre, comme deux personnes qui vivraient à 1000km l’une de l’autre sans même connaître l’existence de l’autre.
+
+*Les représentations suivantes sont possibles :*
+//.relation plus lisible à l'aide d'une étiquette (exprimée par un verbe à la forme active ou passive)
+
+Réprésentation avec un lien et du "texte"
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=association-vehicule-technician-with-name,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+hide members
+
+Vehicle - Technician : maintains
+
+note as N
+Le lien est plus lisible grâce au
+verbe (exprimé à la forme active ou passive)
+ajouté sur le lien.
+end note
+
+....
+//_show_plantuml
+endif::[]
+
+
+Représentation qui précise le sens de lecture de la relation :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=association-vehicule-technician-with-name-and-direction,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+hide members
+
+Vehicle - Technician : maintains <
+
+note as N1
+une flèche indique le sens de lecture.
+Un technicien fait la maintenance du véhicule.
+Cela facilite la lecture du lien et sa
+compréhension.
+end note
+....
+//_show_plantuml
+endif::[]
+
+Représentation avec des *terminaisons d'association* :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=association-vehicule-technician-with-association-endings,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+hide members
+
+Vehicle "-repaired" -- "-repairman" Technician  : maintains <
+
+note as N1
+Les terminaisons d'association permettent de préciser qui
+dépanne et qui est dépannée.
+Ici, c'est évident, mais certaines fois,
+c'est plus difficile de comprendre qui est qui
+et qui fait quoi.
+end note
+....
+//_show_plantuml
+endif::[]
+
+Une [[keyword_terminaison_d_association]]*[.keyword]#((terminaison d'association))#* est un attribut de la classe liée.
+Pour mieux comprendre, la représentation précédente peut être modélisée ainsi :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=association-vehicule-technician-whithout-link,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Vehicle {
+-repairman: Technician
+}
+
+class Technician {
+-repaired: Vehicle
+}
+
+'Vehicle -- Technician : maintains <
+
+note as N
+les "mots" qui étaient placés sur le
+lien du diagramme précédent
+sont bien des attributs appartenants à la
+classe liée
+end note
+....
+//_show_plantuml
+endif::[]
+
+
+
+Il n'est pas obligatoire de nommer la relation :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=association-vehicule-technician-without-name,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+hide members
+
+Vehicle "-repaired" -- "-repairman" Technician
+
+note as N1
+Aucun nom sur la relation !
+end note
+....
+//_show_plantuml
+endif::[]
+
+Nous pouvons tout à fait ne laisser que les classes :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=association-vehicule-technician-only-classe-names,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+hide members
+
+Vehicle - Technician
+
+note as N1
+représentation très épurée !
+end note
+....
+//_show_plantuml
+endif::[]
+
+L'association peut être représentée sans le lien mais en précisant les attributs pertinents dans chacune des classes liées :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=association-vehicule-technician-without-link-but-with-attribute-referenced,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+'hide members
+
+class Vehicle {
+    - repairman: Technician
+}
+
+class Technician {
+    - repaired: Vehicle
+}
+
+note as N1
+Le lien n'a plus lieu d'être.
+La classe Vehicle contient un attribut de type Technician
+qui montre un lien avec la classe Technician (et vice versa)
+Personnellement, je préfère ajouter le lien même si les
+attributs liés sont spécifiés.
+end note
+....
+//_show_plantuml
+endif::[]
+
+[IMPORTANT]
+====
+Ce qu'il faut bien comprendre, c'est qu'une association conduit l'entité liée à *contenir* une ou plusieurs instances de l'entité liée.
+Nous reviendrons sur ce point à plusieurs reprises dans la suite du cours.
+====
+
+ifndef::_main_loaded[]
+Point suivant :
+link:04-1-les-cardinalites.adoc[Les cardinalités d'une association]
+include::../config/index.adoc[]
+endif::_main_loaded[]

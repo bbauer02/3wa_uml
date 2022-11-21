@@ -45,7 +45,7 @@ include::custom_attributes.adoc[]
 // Pour afficher, il faut affecter la valeur 1, pour masquer c'est la valeur 0
 
 //affichage de la correction (si les réponses sont encadrées par le test de la valeur de cet attribut).
-:_show_correction: 0
+:_show_correction: 1
 
 //affichage de l'index
 :_show_index: 1

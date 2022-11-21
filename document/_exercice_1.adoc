@@ -1,0 +1,48 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+
+== Implémenter une simple classe
+
+[.question]
+****
+*Q{counter:_question})*
+Travail à faire
+
+* Implémentez la classe suivante :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=exo-1,format=svg]
+....
+include::../assets/source_code/exo-1.puml[]
+....
+//end _show_plantuml
+endif::[]
+
+NOTE: La position du véhicule ne doit pas pouvoir être affectée arbitrairement. +
+Elle doit découler de la position intiale et de ses déplacements.
+
+* Testez votre implémentation en créant deux véhicules différents et en les faisant avancer et reculer différemment, puis affichez les informations de chaque véhicule en mobilisant la méthode `__toString`.
+
+****
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+[source%linenums,php]
+----
+
+include::../assets/source_code/exo-1-correction.php[]
+----
+****
+//end _show_correction
+endif::[]
+
+
+ifeval::[{show_note_prof} == 1]
+****
+peut être demander en plus ou dans un devoir la possibilité de garder un "historique" des déplacments (sans donner d'indication aux étudiants pour le faire)
+****
+endif::[]

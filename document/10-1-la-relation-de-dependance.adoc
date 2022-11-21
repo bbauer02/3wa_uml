@@ -1,0 +1,116 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+//titre de la section
+[[la_relation_de_dépendance]]
+= La relation de dépendance
+ifndef::_main_loaded[]
+include::../config/header_attributes.adoc[]
+{empty}
+Point précédent :
+link:05-1-l-association-porteuse.adoc[L'association porteuse (classe association)]
+endif::_main_loaded[]
+
+== Qu'est-ce qu'une dépendance ?
+
+*Il y a [[keyword_dépendance]]*[.keyword]#((dépendance))#* entre deux objets lorsqu’un objet A utilise un objet B sans le « stocker » dans un de ses attributs*.
+Il n'y a pas de navigabilité vers cet objet B.
+
+Dans le cas d'une dépendance, l'instance utilisée ne l'est que temporairement (contrairement à une association classique).
+Il n'y a donc pas besoin de stocker celle-ci dans un attribut.
+Le lien aux objets utilisés ne sont pas permanents.
+
+Nous allons illustrer ces concepts au travers d'un gestionnaire d'entité client `CustomManager`.
+Ce gestionnaire est responsable de la récupération d'un objet en bdd et de sa mise à jour.
+
+
+Voici sa modélisation :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,format=svg,role=class]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+Class CustomerManager {
+    +read(): Customer
+    +update(c: Customer): bool
+}
+
+class Customer {
+    -id: int {id}
+    -name: string|null
+}
+
+CustomerManager .[#red]up.> Customer
+CustomerManager .[#red]up.> PDOStatement
+CustomerManager -up-> "1" PDO
+
+....
+//_show_plantuml
+endif::[]
+
+La classe `CustomerManager` manipule trois objets :
+
+* *un objet `PDO`* qui correspond à la connexion à la base de données.
++
+Comme cet objet va être utilisé dans différentes méthodes, il est nécessaire de le stocker durablement dans la classe utilisatrice.
+Le lien est permanent, nous sommes dans le cadre d'une association (d'où l'association unidirectionnelle).
++
+(Pour rappel, un objet `PDO` permet d'accéder aux méthodes `prepare`, `query` qui retourne une objet de type `PDOStatement`.)
+
+* *un objet `PDOStatement`*
++
+(Pour rappel, un objet `PDOStatement` permet d'utiliser des méthodes telles que `bindParam`, `execute`, `fetch`, `rowCount`,... )
++
+Cet objet est différent en fonction de la requête exécutée.
+Il n'est donc pas pertinent de le stocker dans un attribut car il ne sera pas utilisé en dehors de la méthode dans laquelle il a été créé.
+Le lien entre `PDOStatement` et `CustomerManager` n'est pas durable.
+
+* *un objet `Customer`*.
+Cet objet correspond au client sur lequel porte la requête.
+Un client récupéré via la méthode `read()` n'est pas forcément le client qui sera mis à jour.
+Il n'est pas forcément le client manipulé par les autres méthodes (update, delete, etc).
+Il n'y a donc pas d'intérêt à stocker le client dans un attribut spécifique.
+Le lien entre `CustomerManager` et `Customer` est éphémère.
+
+Compte tenu du caractère non durable de leur lien avec la classe `CustomerManager`, les classes `PDOStatement` et `Customer` sont appelées des *dépendances*.
+
+Sur le diagramme de classes, une dépendance est pointée par une flèche en pointillé.
+
+== Implémentation d'une dépendance
+
+Je vais implémenter le diagramme précédent.
+
+Les classes `PDO` et `PDOStatement` sont des classes déjà incluses dans PHP.
+Par contre, il faut implémenter la classe `Customer` :
+
+[source,php]
+----
+include::../assets/source_code/implementation-dependances.php[tags=customer]
+----
+
+Puis la classe `CustomerManager` :
+
+[source,php]
+----
+include::../assets/source_code/implementation-dependances.php[tags=customer_manager]
+----
+<1> l'objet de type `PDOStatement` est stocké dans une variable locale à la méthode mais pas dans un attribut d'objet
+(cela marque le lien non durable entre l'objet utilisateur et l'objet utilisé)
+<2> L'objet `PDOStatement` n'a d'intérêt que dans le contexte de la méthode `read()`.
+La requête qu'il contient ne concerne que le client à retourner. Cette requête n'aurait pas d'utilité dans une autre méthode (update, delete, create par exemple).
+<3> L'objet `Customer` n'a d'intérêt que pour lier les paramètres nommés utilisés dans la requête préparée.
+Le client utilisé n'est pas forcément utilisé dans les autres méthodes.
+
+
+[NOTE]
+====
+Pour faire simple : une dépendance traduit un lien non durable entre deux objets.
+====
+
+ifndef::_main_loaded[]
+Point suivant :
+link:11-1-relation-heritage.adoc[La relation d'héritage]
+include::../config/index.adoc[]
+endif::_main_loaded[]

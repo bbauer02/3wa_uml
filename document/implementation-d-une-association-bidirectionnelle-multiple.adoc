@@ -1,0 +1,217 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+//titre de la section
+[[implémentation_d_une_association_bidirectionnelle_multiple]]
+= Implémentation d'une association bidirectionnelle multiple
+ifndef::_main_loaded[]
+include::../config/header_attributes.adoc[]
+{empty}
+Point précédent :
+link:implementation-d-une-association-bidirectionnelle-simple.adoc[Implémentation d'une association bidirectionnelle simple]
+endif::_main_loaded[]
+
+
+[NOTE]
+====
+*Rappel 1* : une association entre deux classes `A` et `B` traduit un lien de contenance.
+Dans ce cas `A` doit prévoir un attribut permettant de stocker une instance de  `B` et/ou vice-versa.
+
+
+*Rappel 2* : une association bidirectionnelle est navigable dans les deux sens (de `A` vers `B` *ET* de `B` vers `A`).
+
+*Rappel 3* : Une association est qualifiée de multiple lorsque zéro, une ou plusieurs instances de `B` sont liées à `A` (ou l'inverse).
+
+*Rappel 4* : Dans une association bidirectionnelle, il faut choisir la classe propriétaire qui va être responsable de la mise à jour de l'objet inverse.
+====
+
+Le diagramme suivant exprime une association bidirectionnelle multiple car au moins une des cardinalités maximales de l'association est à plusieurs.
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=asso_bi_multiple,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Vehicle {
+- registerNumber: string
++__toString():string
+}
+
+class Technician {
+-name: string
++__toString():string
+}
+left to right direction
+Vehicle "0..1" -- "*" Technician : maintains
+....
+// end _show_plantuml
+endif::[]
+
+
+Lecture de l'association : Un véhicule est maintenu par 0, 1 ou plusieurs techniciens et un technicien maintient 0 ou un véhicule.
+
+Nous avons appris dans le cadre de l'<<implémentation_d_une_association_bidirectionnelle_simple,implémentation d'une association bidirectionnelle simple>> qu'il fallait choisir la <<keyword_classe_propriétaire,classe propriétaire>>.
+
+Compte tenu de notre diagramme, la classe propriétaire sera `Technician` car c'est celle qui est à l’opposée de la cardinalité maximale à 1.
+
+A ce niveau, il n'y a plus rien de nouveau pour nous.
+L'implémentation se fera en plusieurs étapes :
+
+. Mettre en place la navigabilitié de `Vehicule` vers `Technician` (en utilisant un attribut permettant de contenir une <<notion_de_collection,collection>>)
+. Mettre en place la navigabilitié de `Technician` vers `Vehicule` (en utilisant un attribut permettant de contenir zéro ou une instance de `Vehicle`)
+. Mettre en place dans la classe propriétaire `Technician` la mise à jour de l'objet inverse.
+
+[.question]
+****
+*Q{counter:_question})*
+Travail à faire
+
+* Implémentez scrupuleusement le diagramme suivant :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=asso_bi_multiple_1,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+left to right direction
+Vehicle "0..1" -- "*" Technician : maintains
+....
+// end _show_plantuml
+endif::[]
+
+* Testez votre implémentation en répondant aux questions suivantes :
+
+[loweralpha, start=1]
+. Créez deux instances de véhicules respectivement référencées par les variables `$vA` et `$vB`.
+. Créez trois instances de technicien respectivement référencées par les variables `$t1`, `$t2` et `$t3`.
+. Associez le véhicule A aux techniciens t1 et t2 et le véhicule B au technicien t3.
+. Faire un `var_dump()` de chaque véhicule et repérer l'identifiant de ressource associé à chaque instance (un identifiant de ressource est noté `#` suivi d'un numéro. Cet identifiant est propre à chaque instance)
+. Pour chaque identifiant véhicule, listez les identifiants des techniciens associés.
+. Associez le véhicule B aux techniciens t1 et t2.
+. A ce stade, à combien de technicien doit être associé le véhicule A ? Et le véhicule B ?
+. Faire un `var_dump()` de chaque véhicule et repérer l'identifiant de ressource associé à chaque instance
+. Pour chaque identifiant véhicule, listez les identifiants des techniciens associés afin de valider la réponse apportée à la question "g".
+//end _question
+****
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+* Nous sommes dans le cas d'une navigabilité bidirectionnelle.
+Il faut choisir la classe propriétaire.
+Ce sera la classe `Technician` car elle est associée à `Vehicle` avec une cardinalité maximale à 1 alors que le lien dans l'autre sens est multiple.
+
+* Voici le code de la classe `Vehicule` (navigable vers `Technician` avec son attribut `technicians` permettant de stocker une collection d'objets `Technician`).
+
+_Cette correction reprend tous les concepts que nous avons abordés dans les parties précédentes._
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_vehicle_zeroone_to_multiple_tehnicians_bi.php[tags=!*;class_Vehicle]
+----
+* Classe `Technician` (navigable vers `Vehicule`)
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_vehicle_zeroone_to_multiple_tehnicians_bi.php[tags=!*;class_Technician;method_setVehicle]
+----
+
+* Mise à jour depuis la classe propriétaire `Technician` de l'objet inverse de type `Vehicle`.
+
+[source%linenums,php]
+----
+//class Technician
+include::../assets/source_code/_implementation_vehicle_zeroone_to_multiple_tehnicians_bi.php[tags=!*;method_setVehicle;maj_inverse_vehicle]
+----
+
+
+* Réponses aux questions a) à i) :
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_vehicle_zeroone_to_multiple_tehnicians_bi.php[tags=!*;meo_1]
+----
+
+****
+//end _show_correction
+endif::[]
+
+[.question]
+****
+*Q{counter:_question})*
+Travail à faire
+
+* Implémentez scrupuleusement le diagramme suivant :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=asso_bi_multiple_2,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+left to right direction
+Vehicle "*" -- "*" Technician : maintains
+....
+// end _show_plantuml
+//end _question
+****
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+Nous sommes dans le cas d'une association bidirectionnelle.
+Il faut déterminer la classe propriétaire.
+
+Ici les cardinalités maximales sont multiples des deux côtés de l'association.
+Il faut donc choisir la classe qu'il est le plus naturel d'utiliser, c'est-à-dire la classe dominante.
+
+Si vous considérez qu'il est plus naturel d'affecter un technicien à une voiture, alors la classe dominante sera `Vehicle`.
+
+Si vous considérez qu'il est plus naturel d'affecter une voiture à un technicien, alors la classe dominante sera `Technician`.
+
+Si je me place du point de vue d'un garage, il peut paraître plus naturel d'affecter un véhicule à un technicien.
+Il est plus logique de dire que Paul doit s'occuper de la voiture A que de dire que la voiture A va être réparée par Paul (enfin, selon moi).
+Dans ce cas, la classe dominante est la classe `Technician`.
+
+La correction proposée affecte la responsabilité de la mise à jour de l'objet inverse à la classe `Technician`.
+
+* Voici le code de la classe `Vehicle` qui doit être navigable vers les techniciens liés à elle.
+Puisqu'il y en a plusieurs, une collection est utilisée pour les stocker.
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_vehicle_multiple_to_multiple_technician_bi.php[tags=!*;class_Vehicle;]
+----
+
+* Voici le code de la classe `Technician` qui doit être navigable vers les véhicules liés à elle.
+Puisqu'il y en a plusieurs, une collection est utilisée pour les stocker.
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_vehicle_multiple_to_multiple_technician_bi.php[tags=!*;class_Technician;mutator_accessor_of_vehicle]
+----
+
+* Il ne reste plus qu'à prévoir la mise à jour de l'objet inverse depuis la classe dominante (ici `Technician`)
+
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_vehicle_multiple_to_multiple_technician_bi.php[tags=!*;mutator_accessor_of_vehicle;maj_inverse_vehicle]
+----
+<1> mise à jour de l'objet inverse (on associe un technicien au véhicule)
+
+****
+//end _show_correction
+endif::[]
+
+ifndef::_main_loaded[]
+Point suivant :
+link:implementation_des_cardinalites.adoc[Implémentation des cardinalités]
+include::../config/index.adoc[]
+endif::_main_loaded[]
+

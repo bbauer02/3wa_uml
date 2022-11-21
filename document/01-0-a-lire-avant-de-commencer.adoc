@@ -1,0 +1,42 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+//titre de la section
+[[a_lire_avant_de_commencer]]
+= A lire avant de commencer
+ifndef::_main_loaded[]
+include::../config/header_attributes.adoc[]
+endif::_main_loaded[]
+
+Ce support contient de nombreux extraits de code PHP.
+
+Vous allez voir régulièrement des renvois numérotés dans le code.
+Ces renvois ne font pas partie du langage.
+Il ne faut donc pas les copier.
+
+Voici l'illustration d'un renvoi :
+
+[source%linenums,php]
+----
+class UneClassePhp {
+
+    public function uneMethode():void{ //<1>
+        //du code qui fait de la magie //<2>
+    }
+----
+<1> Je suis du texte qui est lié au numéro de renvoi.
+Je ne fais pas partie de la syntaxe du langage PHP.
+<2> Je suis un autre renvoi.
+
+Ces renvois permettent de cibler des lignes afin d'apporter des explications spécifiques.
+Il est important de les lire.
+
+NOTE: Le langage utilisé dans ce support est le langage PHP dans sa version 8.1.
+
+Bonne lecture !
+
+ifndef::_main_loaded[]
+Partie suivante :
+link:01-1-representation-d-une-classe.adoc[Représentation d'une classe]
+include::../config/index.adoc[]
+endif::_main_loaded[]

@@ -1,0 +1,368 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+//titre de la section
+[[la_composition]]
+= La composition
+ifndef::_main_loaded[]
+include::../config/header_attributes.adoc[]
+{empty}
+Point précédent :
+link:08-1-l-agregation.adoc[L'agrégation]
+endif::_main_loaded[]
+
+== Qu'est-ce qu'une composition ?
+
+Si l'<<keyword_agrégation,agrégation>> désigne un assemblage d'objets, la composition exprime la même chose à la différence près que ce qui
+
+La composition reprend l'idée de l'<<keyword_agrégation,agrégation>>.
+La composition exprime un assemblage d'objets.
+Cet assemblage est tellement "fort" que les objets assemblés ne peuvent pas servir dans un autre assemblage.
+
+Imaginons des parpaings et le mortier qui permettent de construire un mur.
+Les parpaings et le mortier sont les composants et le mur est le composé ou la composition.
+Une fois le mur réalisé, les parpaings ne peuvent pas être utilisés pour construire un autre mur.
+De plus, si le mur est détruit, les parpaings le sont également.
+
+Une [[keyword_composition]]*[.keyword]#((composition))#* est donc une association qui traduit un assemblage d'objets tellement fort que ceux-ci ne peuvent faire partie d'un autre assemblage.
+Les éléments assemblés sont appelés des [[keyword_composants]]*[.keyword]#((composants))#* et le résultat de leur assemblage est appelé une composition ou un [[keyword_objet_composite]]*[.keyword]#((objet composite))#*.
+
+Imaginons un concessionnaire de véhicules. Pour ce dernier, une voiture est composée d'un moteur et d'un chassis.
+La voiture est donc composée de deux éléments. +
+La voiture ne devient une voiture qu'à l'assemblage du chassis et du moteur. Sans l'un ou l'autre, ou sans les deux, l'objet voiture n'existe pas. +
+Par ailleurs, si la voiture est détruite, le moteur et son chassis le sont également.
+
+Voici le diagramme de classes qui représente cette situation :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,format=svg,role=class]
+....
+hide circle
+skinparam classAttributeIconSize 0
+hide members
+left to right direction
+Vehicle *-- Chassis
+Vehicle *-- Engine
+
+note top of Vehicle
+composite
+end note
+
+note bottom of Engine
+composant
+end note
+
+note bottom of Chassis
+composant
+end note
+....
+//_show_plantuml
+endif::[]
+
+* L'objet composé d'éléments est appelé *composite*.
+* L'objet qui compose le composite est un *composant*.
+* Le losange *plein* est placé du côté du composite.
+
+La composition présente donc les caractéristiques suivantes :
+
+* *la destruction du composite détruit également ses composants*.
+* *le composant ne peut pas être partagé*
+(c'est logique puisque si le composite qui le contient est détruit, le composant est aussi détruit.
+Il ne peut donc être utilisé par un autre objet.)
+* puisque le composant ne peut pas être partagé, *la cardinalité du côté du composite est forcément 1* (c'est pourquoi elle n'est en fait jamais précisée).
+Un même moteur ne peut être utilisé par deux véhicules.
++
+ifeval::[{_show_plantuml} == 1]
+[plantuml,format=svg,role=class]
+....
+hide circle
+skinparam classAttributeIconSize 0
+hide members
+Vehicle "1" *--  Engine
+Vehicle "1" *-  Chassis
+....
+//_show_plantuml
+endif::[]
+* La composition implique que *le composite contient ses composants dès sa création* d'où l'absence de cardinalités minimales à 0 (en voici une illustration avec en plus des roues)
++
+ifeval::[{_show_plantuml} == 1]
+[plantuml,format=svg,role=class]
+....
+hide circle
+skinparam classAttributeIconSize 0
+hide members
+Vehicle "1" *--- "1..1" Engine
+Vehicle "1" *--- "2..4" Wheel
+left to right direction
+Vehicle "1" *---  "1..1" Chassis
+....
+//_show_plantuml
+endif::[]
+
+[.question]
+****
+*Q{counter:_question})*
+La modélisation précédente serait-elle la même pour une casse automobile ?
+****
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+Dans une casse automobile, les éléments d'une voiture sont vus comme des éléments partageables.
+Effectivement, chaque partie peut être vendue sous forme d'élément ayant sa propre vie (un moteur est démonté pour être remonté dans une autre voiture, etc).
+
+Une casse auto verrait plutôt cette modélisation :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,format=svg,role=class]
+....
+hide circle
+skinparam classAttributeIconSize 0
+hide members
+Vehicle "1" o--- "0..1" Engine
+Vehicle "1" o--- "0..4" Wheel
+left to right direction
+Vehicle "1" o---  "0..1" Chassis
+....
+//_show_plantuml
+endif::[]
+Dès lors, on voit les cardinalités minimales qui peuvent être à zéro.
+Dans une casse, une voiture peut ne plus avoir de moteur.
+****
+//_show_correction
+endif::[]
+
+
+[.question]
+****
+*Q{counter:_question})*
+A votre avis, peut-on modéliser le diagramme suivant ?
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,format=svg,role=class]
+....
+hide circle
+skinparam classAttributeIconSize 0
+hide members
+
+left to right direction
+File --* Folder
+
+note "Un dossier est composé de fichiers\nUn  fichier compose un dossier.\nLa destruction du dossier va supprimer les fichiers contenus" as N
+....
+//_show_plantuml
+endif::[]
+****
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+Il faut valider les caractéristiques de la composition :
+
+* [x] les composants (fichiers) ne sont pas partageables
+* [x] la destruction du composite (dossier) détruit ses composants (fichiers)
+* [ ] le composite ne peut pas exister sans ses composants
+
+La dernière caractéristique n'est pas cochée.
+La bonne modélisation est donc une agrégation :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,format=svg,role=class]
+....
+hide circle
+skinparam classAttributeIconSize 0
+hide members
+
+left to right direction
+File --o Folder
+....
+//_show_plantuml
+endif::[]
+****
+//_show_correction
+endif::[]
+
+== Navigabilité et composition
+
+Tout ce que nous avons vu dans la <<la_navigabilité_d_une_association, partie sur la navigabilité>> s'applique dans le cadre d'une composition à une exception près :
+*Il est toujours possible de naviguer de la composition vers ses composants.*
+C'est logique puisque le composite "connait" ses composants dès sa création.
+
+[IMPORTANT]
+====
+Il est toujours possible de naviguer de la composition vers ses composants.
+====
+
+Le diagramme suivant nous indique qu'il est possible de naviguer de `Vehicle` vers `Engine` et de `Engine` vers `Vehicle`.
+Il en va de même avec le composant `Chassis`.
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=navigabilite_composition,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+hide members
+
+Vehicle "1" *--  Engine
+Vehicle "1" *--  Chassis
+....
+// end _show_plantuml
+endif::[]
+
+Il est possible de restreintre la navigabilité d'une relation de composition mais seulement de la composition vers le composant :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=navigabilite_restreinte_composition,format=svg]
+
+....
+hide circle
+skinparam classAttributeIconSize 0
+hide members
+Vehicle "1" *-->  Engine
+Vehicle "1" *--  Chassis
+....
+//_show_plantuml
+endif::[]
+
+Le diagramme nous indique qu'il y a navigabilité bidirectionnelle entre `Vehicle` et `Chassis` et navigabilité unidirectionnelle de `Vehicle` vers `Engine`.
+
+== Implémentation d'une composition
+
+La composition nécessite une implémentation qui prend en compte ces caractéristiques :
+
+* la création du composite nécessite les composants
+* composants non partageables
+* destruction du composite = destruction des composants
+
+[.question]
+****
+*Q{counter:_question})*
+Implémentez le diagramme de classes suivant compte tenu des notions qui ont été abordées dans cette partie.
+
+[WARNING]
+====
+Dans cette implémentation, il sera considéré que les composants peuvent exister avant d'être utilisés dans une composition.
+*Dans la solution proposée, les composants seront donc instanciés avant d'instancier la composition.*
+====
+
+Ce travail est loin d'être trivial, c'est pourquoi votre travail consiste à étudier attentivement la correction proposée. Veillez à réellement comprendre le code et ses explications !
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,format=svg,role=class]
+....
+hide circle
+skinparam classAttributeIconSize 0
+hide members
+Vehicle  *--> "1" Engine
+Vehicle  *->  "1" Chassis
+....
+//_show_plantuml
+endif::[]
+
+[NOTE]
+====
+Pour rappel, une composition est responsable du cycle de vie de ses composants.
+Ainsi, si le composite est détruit, les composants doivent l'être également.
+
+Cela m'amène à vous rappeler deux aspects techniques propres à PHP :
+
+* En php, pour réellement détruire un objet, il faut détruire *toutes* ses références.
+* En php, toutes les références existantes sont détruites à la fin du script.
+====
+****
+
+[.answer]
+****
+_Correction de Q{_question}_ (affichée volontairement du fait de l'approche qui n'est pas toujours simple à "deviner")
+
+La correction de cette question va être faite en plusieurs parties :
+
+* les classes `Vehicle`, `Chassis` et `Engine` vont être implémentées dans un premier temps
+* 3 scénarios d'utilisation de ces classes vont être expliqués pour respecter le principe suivant : "si le composite est détruit, les composants le sont également" +
+
+En PHP, comme le souligne la note dans la question, il faut détruire toutes les références pour détruire l'objet référencé.
+****
+
+* les 3 classes à implémenter :
+
+[source,php]
+----
+include::../assets/source_code/implementation-composition.php[tags=composition_classes;!vehicle_2]
+----
+
+* [[solution1]]*[solution 1]* Création d'un véhicule avec ses composants (observez bien la destruction du composite et des composants)
+
+[source,php]
+----
+include::../assets/source_code/implementation-composition.php[tags=usage_1]
+----
+<1> Le destruction de l'objet véhicule détruit également les deux références qu'il contenait vers le chassis et le moteur.
+<2> Il ne faut pas oublier de supprimer toutes les autres références vers les composants du véhicule détruit.
+
+Cela affiche la sortie suivante qui nous indique bien que les éléments sont détruits :
+----
+voiture détruite
+chassis détruit
+moteur détruit
+
+---FIN DU SCRIPT---
+----
+Pour bien comprendre ce point, je vous invite à regarder cette vidéo de 7min sur https://youtu.be/47ThHa20lkE[le destructeur].
+
+
+* *[solution 2]* Création d'un véhicule en passant les instances directement en argument sans les référencer avant son instanciation :
+
+[source,php]
+----
+include::../assets/source_code/implementation-composition.php[tags=usage_2]
+----
+
+Les éléments sont également tous détruits avec cette solution qui évite d'oublier de supprimer toutes les références aux composants :
+----
+voiture détruite
+chassis détruit
+moteur détruit
+
+---FIN DU SCRIPT---
+----
+
+* [[solution3]][solution 3] : Les objets composants sont directement instanciés dans le constructeur ce qui nous assure qu'il n'y a pas de référence extérieure (enfin, tant qu'aucune méthode ne retourne un des composants à un programme appelant).
+
+[source,php]
+----
+include::../assets/source_code/implementation-composition.php[tags=vehicle_2;usage_3]
+
+----
+<1>  pas de mutateurs et d'accesseurs pour les composants car ils ne doivent pas être accessibles depuis l'extérieur de la classe.
+Ainsi, aucune référence extérieure ne pourra être créée.
+
+Nous arrivons au même résultat :
+
+----
+voiture détruite
+chassis détruit
+moteur détruit
+
+---FIN DU SCRIPT---
+----
+
+[NOTE]
+====
+Nous avons 3 solutions possibles, alors laquelle choisir ?
+
+La solution qui consiste à prévoir l'instanciation des composants dans le constructeur de la classe composite est la plus proche du concept de composition (<<solution3, solution 3>>).
+
+Dans la réalité applicative, les composants sont souvent instanciés en dehors de l'objet composite et passés en argument du constructeur (<<solution1,solution 1>>).
+====
+
+ifndef::_main_loaded[]
+Point suivant : 
+link:07-1-l-association-n-aire.adoc[L'association n-aire]
+include::../config/index.adoc[]
+endif::_main_loaded[]
+
+
