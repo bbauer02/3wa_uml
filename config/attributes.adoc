@@ -54,7 +54,7 @@ include::custom_attributes.adoc[]
 :_show_note_prof: 1
 
 //affichage des diagrammes réalisés avec PlantUml (si les diagrammes sont encadrées par le test de la valeur de cet attribut)
-:_show_plantuml: 0
+:_show_plantuml: 1
 
 //affichage des informations de version en fin de document
 :_show_versions_information: 0
