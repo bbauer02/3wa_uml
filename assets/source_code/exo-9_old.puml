@@ -1,0 +1,42 @@
+@startuml
+hide circle
+skinparam classAttributeIconSize 0
+
+'collection de meubles
+class FurnitureCollection {
+' nom de la collection
+-name: string
+' année de la collection
+-year:int
+}
+
+class MaterialPiece{
+    -quantityByPiece:int
+}
+
+' meuble
+class Furniture {
+' nom du meuble
+-name: string
+}
+
+class WoodPiece extends MaterialPiece{
+' essence (de bois) utilisée
+-species:string
+}
+
+class MetalPiece extends MaterialPiece{
+' type de métal utilisé
+-type:string
+
+}
+
+class PlasticPiece extends MaterialPiece{
+' type de plastique utilisé
+-nature
+}
+
+FurnitureCollection "0..1" o-->"*" Furniture
+Furniture --> "0..1" MaterialPiece
+
+@enduml

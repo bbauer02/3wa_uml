@@ -1,0 +1,22 @@
+@startuml
+hide circle
+skinparam classAttributeIconSize 0
+
+'collection de meubles
+class FurnitureCollection {
+' nom de la collection
+- name: string
+' année de la collection
+- year: int
+}
+
+' meuble
+class Furniture {
+' nom du meuble
+- name: string
+}
+
+FurnitureCollection "0..1" o-->"*" Furniture
+
+
+@enduml

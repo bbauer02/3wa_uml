@@ -1,0 +1,26 @@
+@startuml
+hide circle
+skinparam classAttributeIconSize 0
+
+class Vehicle {
+- registrationNumber {unique}
+- nbWheels : int
+- color : string
+- typeEngine : string
+- position: int = 0
++ movesForward(int nbKm):self
++ movesBack(int nbKm):self
++ getPosition():int
++ __toString():string
+}
+
+
+note right of Vehicle::__toString
+retourne la valeur de
+tous les attributs
+de l'instance de
+façon à faciliter
+leur lecture
+end note
+
+@enduml
