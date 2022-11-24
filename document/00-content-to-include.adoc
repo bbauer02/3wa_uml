@@ -15,12 +15,12 @@
 // include::06-1-association_reflexive.adoc[]
 // include::08-1-l-agregation.adoc[]
 // include::09-1-la-composition.adoc[]
-include::07-1-l-association-n-aire.adoc[]
-include::05-1-l-association-porteuse.adoc[]
-include::10-1-la-relation-de-dependance.adoc[]
-// include::11-1-relation-heritage.adoc[]
-// include::12-1-La-relation-abstraite.adoc[]
-// include::13-1-L-interface.adoc[]
+// include::07-1-l-association-n-aire.adoc[]
+// include::05-1-l-association-porteuse.adoc[]
+// include::10-1-la-relation-de-dependance.adoc[]
+include::11-1-relation-heritage.adoc[]
+include::12-1-La-relation-abstraite.adoc[]
+//include::13-1-L-interface.adoc[]
 // include::14-1-exercices.adoc[]
 
 
