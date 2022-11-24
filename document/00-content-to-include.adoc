@@ -18,9 +18,9 @@
 // include::07-1-l-association-n-aire.adoc[]
 // include::05-1-l-association-porteuse.adoc[]
 // include::10-1-la-relation-de-dependance.adoc[]
-//include::11-1-relation-heritage.adoc[]
-//include::12-1-La-relation-abstraite.adoc[]
-include::13-1-L-interface.adoc[]
+// include::11-1-relation-heritage.adoc[]
+// include::12-1-La-relation-abstraite.adoc[]
+// include::13-1-L-interface.adoc[]
 include::14-1-exercices.adoc[]
 
 
