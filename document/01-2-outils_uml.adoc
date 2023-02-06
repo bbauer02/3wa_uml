@@ -157,6 +157,8 @@ WARNING: Un fichier `puml` doit commencer par `@startuml` et se terminer par `@e
 Il faut installer l'extension
 https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml[plantuml pour VSCode]
 
+Si le "preview" n'affiche rien, voir ce https://stackoverflow.com/questions/70039939/how-to-use-the-plantuml-preview-in-vscode[sujet]
+
 L'extension par défaut d'un fichier utilisant PlantUml est `plantuml`. 
 Mais on peut tout à fait utiliser l'extension `puml`.
 ====
