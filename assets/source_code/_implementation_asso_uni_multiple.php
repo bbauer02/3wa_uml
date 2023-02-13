@@ -3,6 +3,8 @@
 //tag::class_Technician[]
 class Technician
 {
+
+
     public function __construct(
         private string $name, //<1>
     )
@@ -51,7 +53,6 @@ class Vehicle
         //end::check_array_technicians_from_constructor[]
     }
     //end::method_constructor[]
-
     //tag::method_add_technician[]
     /**
      * @param Technician $technician ajoute un item de type Technician à la
@@ -68,7 +69,6 @@ class Vehicle
         return false;
     }
     //end::method_add_technician[]
-
     //tag::method_remove_technician[]
     /**
      * @param Technician $technician retire l'item de la collection
@@ -96,7 +96,6 @@ class Vehicle
         return $this->technicians;
     }
     //end::method_get_technicians[]
-
     //tag::method_set_technicians[]
     /**
      * Initialise la collection avec la collection passée en argument

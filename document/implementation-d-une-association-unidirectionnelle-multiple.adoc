@@ -11,14 +11,6 @@ Point précédent :
 link:implementation-d-une-association-unidirectionnelle-simple.adoc[Implémentation d'une association unidirectionnelle simple]
 endif::_main_loaded[]
 
-ifndef::_hide_breakpoint[]
-//todo: breakpoint à supprimer
-:breakpoint_date: lun. 13/02 à 16:31
-//on masque la correction à partir de ce point
-:_show_correction: 0
-#Point d'arrêt du cours au lun. 13/02 à 16:31#
-endif::_hide_breakpoint[]
-
 [NOTE]
 ====
 Rappel 1 : une association entre deux classes `A` et `B` traduit un lien de contenance.
@@ -71,7 +63,7 @@ include::../assets/source_code/_implementation_asso_uni_simple.php[tags=!*;class
 Maintenant, implémentons la classe `Vehicle` comme si elle n'était pas liée à `Technician` :
 [source%linenums,php]
 ----
-include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;class_Vehicle]
+include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;class_Vehicle;method_constructor]
 ----
 
 Nous avons nos deux classes mais le lien associatif n'apparaît pas dans le code.
