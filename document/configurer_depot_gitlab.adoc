@@ -1,0 +1,37 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+//titre de la section
+[[configurer_l_accès_ssh_d_un_dépôt_git]]
+= Configurer l'accès SSH d'un dépôt GIT
+ifndef::_main_loaded[]
+include::../config/header_attributes.adoc[]
+{empty}
+endif::_main_loaded[]
+
+
+[[objectifs]]
+== Objectifs
+
+* Configurer un accès SSH au dépôt partagé du formateur
+* Mettre à disposition (pour chaque apprenti) d'un dépôt partagé pour le formateur
+* Utiliser une clé SSH pour chaque compte gitlab et/ou github
+
+Un dépôt git est situé sur un serveur (qu'il soit interne à l'entreprise ou situé quelque part dans le monde)
+L'accès au serveur nécessite une authentification.
+Celle-ci peut être réalisée avec le protocole HTTPS ou le protocole SSH.
+
+[[l_authentification_par_mot_de_passe_avec_https]]
+== L'authentification par mot de passe avec HTTPS
+
+
+Lorsque l'on utilise l'[[keyword_authentification_avec_https]]*[.keyword]#((authentification avec HTTPS))#*, il faut saisir ses informations de connexion à chaque push / pull.
+Les éditeurs savent mémoriser ces paramètres et ne les redemanderons que s'ils sont relancés.
+Ce n'est pas une méthode très sécurisée car il faut saisir le mot de passe qui généralement ne sont pas assez complexes.
+
+
+Lorsque l'on utilise l'[[keyword_authentification_ssh]]*[.keyword]#((authentification SSH))#*, l'authentification est réalisée grâce à une paire de clés chiffrées.
+Une paire de clés est constituée d'une clé privée et d'une clé publique.
+
+
+la clé publique sert à crypter les messages que seule la clé privée pourra déchiffrer.
