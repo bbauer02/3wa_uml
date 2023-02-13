@@ -292,9 +292,11 @@ Une entreprise gère des hôtels.
 Des clients peuvent réserver des chambres dans ces hôtels.
 Une réservation ne peut porter que sur une seule chambre.
 Des prestations supplémentaires (petit déjeuner, réveil par l'accueil, encas nocturne) peuvent compléter la mise à disposition d'une chambre. Ces prestations peuvent être prévues lors de la réservation ou ultérieurement.
-Une chambre est équipé ou non de différentes options (lit simple / double, micro-onde, lit enfant, baignoire de type balnéo, etc)
+Une chambre est équipée ou non de différentes options (lit simple / double, micro-onde, lit enfant, baignoire de type balnéo, etc)
 
 Les associations doivent être nommées et les cardinalités précisées.
+
+Afin de gagner du temps, les attributs et méthodes ne sont pas attendus.
 //end _question
 ****
 

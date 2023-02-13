@@ -11,14 +11,6 @@ Point précédent :
 link:02-0-les-liaisons-entre-classes.adoc[Les liaisons entre classes]
 endif::_main_loaded[]
 
-ifndef::_hide_breakpoint[]
-//todo: breakpoint à supprimer
-:breakpoint_date: lun. 13/02 à 14:24
-//on masque la correction à partir de ce point
-:_show_correction: 0
-#Point d'arrêt du cours au lun. 13/02 à 14:24#
-endif::_hide_breakpoint[]
-
 L'[[keyword_association]]*[.keyword]#((association))#* désigne un lien entre deux objets A et B sachant que A *contient* une ou des instances de B et/ou que B *contient* une ou des instances de A.
 
 Une association exprime une [[keyword_relation_de_contenance]]*[.keyword]#((relation de contenance))#*.
