@@ -63,7 +63,7 @@ ifeval::[{_show_plantuml} == 1]
 hide circle
 skinparam classAttributeIconSize 0
 
-class Person {
+class Person <<entity>> {
     - id: int {id} //pas besoin d'écrire {unique} pour un id
     - name: string
     - dateOfBirth: Datetime //ou tout équivalent
@@ -85,7 +85,7 @@ end note
 
 
 
-class Enterprise {
+class Enterprise <<entity>>{
     -corporateName: string
     -employees: Person[ ] //collection d'objets de type Person
 
@@ -107,7 +107,6 @@ faut remplacer l'accesseur par les méthodes
 en une fois la collection d'employés à
 l'attribut "employees"
 end note
-
 ....
 //_show_plantuml
 endif::[]
@@ -206,6 +205,13 @@ class Enterprise {
 //_show_correction
 endif::[]
 
+ifndef::_hide_breakpoint[]
+//todo: breakpoint à supprimer
+:breakpoint_date: lun. 13/02 à 12:16
+//on masque la correction à partir de ce point
+:_show_correction: 0
+#Point d'arrêt du cours au lun. 13/02 à 12:16#
+endif::_hide_breakpoint[]
 
 [.question]
 ****
