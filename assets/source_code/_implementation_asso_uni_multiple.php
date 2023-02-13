@@ -37,9 +37,8 @@ class Vehicle
     //tag::method_constructor[]
     public function __construct(
         private string $registerNumber,
-
         //tag::property_technicians[]
-        private array $techniciansTEST = [],  //<1>
+        private array $technicianstest = [],  //<1>
         //end::property_technicians[]
     )
     {
