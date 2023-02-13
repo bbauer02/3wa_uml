@@ -3,15 +3,12 @@
 //tag::class_Technician[]
 class Technician
 {
-
-
     public function __construct(
         private string $name, //<1>
     )
     {
         //il n'y a plus besoin d'écrire $this->name = $name
     }
-
     /**
      * @return string
      */
@@ -31,11 +28,8 @@ class Technician
 
         return $this;
     }
-
 }
-
 //end::class_Technician[]
-
 //tag::class_Vehicle[]
 class Vehicle
 {
@@ -120,7 +114,6 @@ class Vehicle
     }
     //end::method_set_technicians[]
 
-
     /**
      * @return string
      */
@@ -185,7 +178,6 @@ foreach ($vehicleAAAA->getTechnicians() as $technician) { //<1>
     echo "\n* Technicien {$technician->getName()}";
 }
 //end::meo_3[]
-
 //tag::meo_4[]
 $cedric = new Technician('Cédric');
 $baptiste = new Technician('Baptiste');
@@ -212,7 +204,7 @@ $arrayInt = [14,84,170];
 $vehicleCCCC = new Vehicle('CCCC', $arrayInt); //<1>
 //tag::echo_vehicle_error[]
 
-//echo $vehicleCCCC; //<1>
+echo $vehicleCCCC; //<1>
 //end::echo_vehicle_error[]
 //end::meo_6[]
 //tag::meo_7[]
