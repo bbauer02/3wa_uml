@@ -65,7 +65,7 @@ include::../assets/source_code/_implementation_asso_uni_simple.php[tags=!*;class
 Maintenant, implémentons la classe `Vehicle` comme si elle n'était pas liée à `Technician` :
 [source%linenums,php]
 ----
-include::../assets/source_code/_implementation_asso_uni_simple.php[tags=!*;class_Vehicle]
+include::../assets/source_code/_implementation_asso_uni_simple.php[tags=!*;class_Vehicle;!arg_technician]
 ----
 
 Nous avons nos deux classes mais le lien associatif n'apparaît pas dans le code.
@@ -81,7 +81,7 @@ Concrètement, il faut ajouter dans la classe `Vehicle` un attribut `$technician
 include::../assets/source_code/_implementation_asso_uni_simple.php[tags=!*;property_technician]
 ----
 
-Comme l'attribut `technician` est privé, il faut l'encapsuler dans un mutateur et un accesseur :
+Comme l'attribut `technician` est privé, il faut l'encapsuler dans un mutateur et un accesseur (et éventuellement ajouter la possibilité de le passer dans le constructeur si on le désire):
 
 [source%linenums,php]
 ----

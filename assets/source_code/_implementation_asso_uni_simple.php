@@ -45,14 +45,15 @@ class Vehicle
 
     public function __construct(
         string $registerNumber,
-        //tag::property_technician[]
-        ?Technician $techniciantest2 = null
-        //end::property_technician[]
-
+        //tag::arg_technician[]
+        ?Technician $technician = null
+        //end::arg_technician[]
     )
     {
         $this->registerNumber = $registerNumber;
+        //tag::set_techician_with_arg[]
         $this->technician = $technician;
+        //end::set_techician_with_arg[]
     }
 
     /**
