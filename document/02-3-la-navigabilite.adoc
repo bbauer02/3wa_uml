@@ -11,14 +11,6 @@ Point précédent :
 link:04-1-les-cardinalites.adoc[Les cardinalités d'une association]
 endif::_main_loaded[]
 
-ifndef::_hide_breakpoint[]
-//todo: breakpoint à supprimer
-:breakpoint_date: lun. 13/02 à 15:50
-//on masque la correction à partir de ce point
-:_show_correction: 0
-#Point d'arrêt du cours au lun. 13/02 à 15:50#
-endif::_hide_breakpoint[]
-
 La [[keyword_navigabilité]]*[.keyword]#((navigabilité))#* désigne le fait de connaître à partir d’une instance de classe la ou les instances d’une autre classe.
 Autrement dit, la navigabilité permet de savoir qu'une instance d'une classe A contient une ou des instances de la classe B.
 
