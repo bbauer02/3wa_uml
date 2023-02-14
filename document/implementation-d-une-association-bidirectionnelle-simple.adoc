@@ -11,6 +11,13 @@ Point précédent :
 link:implementation-d-une-association-unidirectionnelle-multiple.adoc[Implémentation d'une association bidirectionnelle simple]
 endif::_main_loaded[]
 
+ifndef::_hide_breakpoint[]
+//todo: breakpoint à supprimer
+:breakpoint_date: mar. 14/02 à 09:29
+//on masque la correction à partir de ce point
+:_show_correction: 0
+#Point d'arrêt du cours au mar. 14/02 à 09:29#
+endif::_hide_breakpoint[]
 
 [NOTE]
 ====
