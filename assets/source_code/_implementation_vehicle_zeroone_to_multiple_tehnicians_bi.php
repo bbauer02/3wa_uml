@@ -133,7 +133,6 @@ $t3 = new Technician();
 $t1->setVehicle($vA);
 $t2->setVehicle($vA);
 $t3->setVehicle($vB);
-
 //d) Faire un `var_dump()` de chaque véhicule et repérer l'identifiant de ressource associé à chaque instance (un identifiant de ressource est noté `#` suivi d'un numéro. Cet identifiant est propre à chaque instance)
 var_dump($vA); //#1 pour le véhicule A
 var_dump($vB); //#2 pour le véhicule B
@@ -147,13 +146,13 @@ $t1->setVehicle($vB);
 $t2->setVehicle($vB);
 
 //g) A ce stade, à combien de technicien doit être associé le véhicule A ? Et le véhicule B ?
-//A est associé aux trois techniciens et B à aucun.
+//A est associé aux deux techniciens et B à un seul technicien.
 
 //h) Faire un `var_dump()` de chaque véhicule et repérer l'identifiant de ressource associé à chaque instance
 var_dump($vA); //#1 pour le véhicule A
-var_dump($vB); //#2 pour le véhicule B
+var_dump($vB); //#5 pour le véhicule B
 
 //i) Pour chaque identifiant véhicule, listez les identifiants des techniciens associés afin de valider la réponse apportée à la question "g".
-//véhicule #1 -- #5, #3, #4
-//véhicule #2 -- aucun
+//véhicule #1 -- #3, #4
+//véhicule #2 -- #5
 //end::meo_1[]

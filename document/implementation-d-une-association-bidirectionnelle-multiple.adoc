@@ -11,14 +11,6 @@ Point précédent :
 link:implementation-d-une-association-bidirectionnelle-simple.adoc[Implémentation d'une association bidirectionnelle simple]
 endif::_main_loaded[]
 
-ifndef::_hide_breakpoint[]
-//todo: breakpoint à supprimer
-:breakpoint_date: mar. 14/02 à 10:44
-//on masque la correction à partir de ce point
-:_show_correction: 0
-#Point d'arrêt du cours au mar. 14/02 à 10:44#
-endif::_hide_breakpoint[]
-
 [NOTE]
 ====
 *Rappel 1* : une association entre deux classes `A` et `B` traduit un lien de contenance.
@@ -146,6 +138,14 @@ include::../assets/source_code/_implementation_vehicle_zeroone_to_multiple_tehni
 ****
 //end _show_correction
 endif::[]
+
+ifndef::_hide_breakpoint[]
+//todo: breakpoint à supprimer
+:breakpoint_date: mar. 14/02 à 15:11
+//on masque la correction à partir de ce point
+:_show_correction: 0
+#Point d'arrêt du cours au mar. 14/02 à 15:11#
+endif::_hide_breakpoint[]
 
 [.question]
 ****
