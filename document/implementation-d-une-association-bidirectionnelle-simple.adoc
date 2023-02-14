@@ -11,14 +11,6 @@ Point précédent :
 link:implementation-d-une-association-unidirectionnelle-multiple.adoc[Implémentation d'une association bidirectionnelle simple]
 endif::_main_loaded[]
 
-ifndef::_hide_breakpoint[]
-//todo: breakpoint à supprimer
-:breakpoint_date: mar. 14/02 à 09:29
-//on masque la correction à partir de ce point
-:_show_correction: 0
-#Point d'arrêt du cours au mar. 14/02 à 09:29#
-endif::_hide_breakpoint[]
-
 [NOTE]
 ====
 *Rappel 1* : une association entre deux classes `A` et `B` traduit un lien de contenance.
@@ -72,14 +64,14 @@ Commençons par la classe `Technician` sans nous soucier de la navigabilité :
 
 [source%linenums,php]
 ----
-include::../assets/source_code/_implementation_asso_bi_simple.php[tags=!*;class_Technician]
+include::../assets/source_code/_implementation_asso_bi_simple.php[tags=!*;class_Technician;method_technician_constructor]
 ----
 
 Faisons de même pour la classe `Vehicle` :
 
 [source%linenums,php]
 ----
-include::../assets/source_code/_implementation_asso_bi_simple.php[tags=!*;class_Vehicle]
+include::../assets/source_code/_implementation_asso_bi_simple.php[tags=!*;class_Vehicle;method_vehicle_constructor]
 ----
 
 Maintenant, nous pouvons nous intéresser à la navigabilité entre les deux classes.
@@ -192,7 +184,7 @@ Ce n'est pas parce que vous liez un objet `B` à un objet `A` que `A` sera lié 
 Si la navigabilité est bidirectionnelle, cela signifie que si l'on navigue d'un objet à l'autre, il faut pouvoir le faire dans les deux sens !
 Cela nécessite donc de mettre à jour la navigabilité dans l'autre sens.
 
-La mise à jour de l'objet lié peut être fait de deux façons, soit manuellement, soit automatiquement.
+La mise à jour de l'objet lié peut être faite de deux façons, soit manuellement, soit automatiquement.
 ====
 
 [[mise_à_jour_manuelle_de_l_association_bidirectionnelle]]
