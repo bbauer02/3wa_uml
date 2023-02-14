@@ -29,6 +29,7 @@ include::custom_attributes.adoc[]
 :_git_remotes_for_students: https://gitlab.com/gemkod/230213_umldata_apprentis.git
 // :_git_remotes_for_students:
 
+
 //url menant vers le dépôt partagé aux étudiants (pour l'instant, ce n'est pas cohérent avec l'attribut _git_remotes_for_students car ce dernier peut accepter plusieurs valeurs.
 :_url_to_repo_for_students: https://gitlab.com/gemkod/230213_umldata_apprentis.git
 // :_url_to_repo_for_students:
