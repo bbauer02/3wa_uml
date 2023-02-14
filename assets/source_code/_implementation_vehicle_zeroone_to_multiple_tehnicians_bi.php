@@ -1,9 +1,9 @@
 <?php
-
 //tag::class_Technician[]
 class Technician
 {
     public function __construct(
+        private string $name,
         private ?Vehicle $vehicle = null,
     ) {
     }
@@ -44,13 +44,12 @@ class Technician
     }
     //end::method_setVehicle[]
 }
-
 //end::class_Technician[]
-
 //tag::class_Vehicle[]
 class Vehicle
 {
     public function __construct(
+        private string $registerNumber,
         private array $technicians = [],
     ) {
 
@@ -112,47 +111,101 @@ class Vehicle
     {
         return $this->technicians;
     }
-
-
 }
 //end::class_Vehicle[]
-
 //tag::meo_1[]
-//a) Créez deux instances de véhicules respectivement référencées par les variables `$vA` et `$vB`.
-$vA = new Vehicle();
-$vB = new Vehicle();
+echo "\n".'===================================================='."\n\n";
+echo 'a) Créez deux instances de véhicules respectivement référencées par les variables `$vA` et `$vB`.'."\n Faire un `var_dump()` de chaque variable et noter l'identifiant propre à chaque objet (un identifiant est un `#` suivi d'un chiffre tel que `#1`)\n";
 
-//b) Créez trois instances de technicien respectivement référencées par les variables `$t1`, `$t2` et `$t3`.
-$t1 = new Technician();
-$t2 = new Technician();
-$t3 = new Technician();
+//tag::question_a[]
+$vA = new Vehicle('AAAA');
+$vB = new Vehicle('BBBB');
 
-//c) Associez le véhicule A aux techniciens t1 et t2 et le véhicule B au technicien t3.
+echo "-----------------------\n";
+echo "*** var_dump de \$vA : \n";
+echo "-----------------------\n";
+var_dump($vA);
+echo "L'identifiant de \$vA est #1. Le véhicule A n'est associé à aucun technicien.";
 
+echo " \n-----------------------\n";
+echo "*** var_dump de \$vB : \n";
+echo "-----------------------\n";
+var_dump($vB);
+echo "L'identifiant de \$vB est #2. Le véhicule B n'est associé à aucun technicien.";
+//end::question_a[]
+echo "\n".'===================================================='."\n\n";
+echo "b) Créez trois instances de technicien respectivement référencées par les variables `\$paul`, `\$juliette` et `\$jalila` (leur affecter le prénom correspondant aux noms des variables).\n";
+echo "Faire un `var_dump()` de chaque technicien et noter l'identifiant d'objet qui leur est propre. \n";
+//tag::question_b[]
+$paul = new Technician('Paul');
+$juliette = new Technician('Juliette');
+$jalila = new Technician('Jalila');
+
+echo "-----------------------\n";
+echo "*** var_dump de \$paul : \n";
+echo "-----------------------\n";
+var_dump($paul);
+echo "L'identifiant de \$paul est #3. Paul n'est associé à aucune voiture.";
+
+echo "-----------------------\n";
+echo "*** var_dump de \$juliette : \n";
+echo "-----------------------\n";
+var_dump($juliette);
+echo "L'identifiant de \$juliette est #4. Juliette n'est associée à aucune voiture.";
+
+echo "-----------------------\n";
+echo "*** var_dump de \$jalila : \n";
+echo "-----------------------\n";
+var_dump($jalila);
+echo "L'identifiant de \$jalila est #5. Jalila n'est associée à aucune voiture.";
+//end::question_b[]
+
+echo "\n".'===================================================='."\n\n";
+
+echo "c) Associez le véhicule A aux techniciens Paul et Juliette et le véhicule B au technicien Jalila (il ne faut pas oublier que l'objet responsable de la mise à jour de l'objet lié est la technicien). ";
+echo "\nFaire un var_dump de chaque véhicule afin de constater que la mise à jour de l'objet inverse (ici Vehicle) a été réalisée à partir de la classe Technician. Noter pour chaque voiture le ou les techniciens associés.";
 //la classe propriétaire est Technician, les affectations doivent avoir lieu depuis les instances de celle-ci
-$t1->setVehicle($vA);
-$t2->setVehicle($vA);
-$t3->setVehicle($vB);
-//d) Faire un `var_dump()` de chaque véhicule et repérer l'identifiant de ressource associé à chaque instance (un identifiant de ressource est noté `#` suivi d'un numéro. Cet identifiant est propre à chaque instance)
-var_dump($vA); //#1 pour le véhicule A
-var_dump($vB); //#2 pour le véhicule B
+//tag::question_c[]
+$paul->setVehicle($vA);
+$juliette->setVehicle($vA);
+$jalila->setVehicle($vB);
 
-//e) Pour chaque identifiant véhicule, listez les identifiants des techniciens associés.
-//véhicule #1 -- #3, #4
-//véhicule #2 -- #5
+echo "\n-----------------------\n";
+echo "*** var_dump de \$vA : \n";
+echo "-----------------------\n";
+var_dump($vA);
+echo "Le véhicule A (#1) est associé aux techniciens Paul et Juliette.\n";
+echo "-----------------------\n";
+echo "*** var_dump de \$vB : \n";
+echo "-----------------------\n";
+var_dump($vB);
+echo "Le véhicule B (#2) est associé au technicien Jalila.\n";
+//end::question_c[]
 
-//f) Associez le véhicule B aux techniciens t1 et t2.
-$t1->setVehicle($vB);
-$t2->setVehicle($vB);
+echo "\n".'===================================================='."\n\n";
 
-//g) A ce stade, à combien de technicien doit être associé le véhicule A ? Et le véhicule B ?
-//A est associé aux deux techniciens et B à un seul technicien.
+echo "d) Associez le véhicule B au technicien Paul (sans oublier qui est la classe propriétaire). \nConstatez que le fait d'avoir affecté le véhicule B à Paul à produit trois effets : \n";
+echo "- Paul n'est plus associé au véhicule A\n";
+echo "- Le véhicule A n'est plus associé au technicien Paul mais encore à Juliette.\n";
+echo "- Le véhicule B est associé au technicien Paul\n";
+//tag::question_d[]
+$paul->setVehicle($vB);
 
-//h) Faire un `var_dump()` de chaque véhicule et repérer l'identifiant de ressource associé à chaque instance
-var_dump($vA); //#1 pour le véhicule A
-var_dump($vB); //#5 pour le véhicule B
+echo "-----------------------\n";
+echo "*** var_dump de \$paul : \n";
+echo "-----------------------\n";
+var_dump($paul);
+echo "L'identifiant de \$paul est #3. Paul n'est associé à aucune voiture.";
 
-//i) Pour chaque identifiant véhicule, listez les identifiants des techniciens associés afin de valider la réponse apportée à la question "g".
-//véhicule #1 -- #3, #4
-//véhicule #2 -- #5
+echo "\n-----------------------\n";
+echo "*** var_dump de \$vA : \n";
+echo "-----------------------\n";
+var_dump($vA);
+echo "Le véhicule A (#1) est encore associé à Juliette.\n";
+echo "-----------------------\n";
+echo "*** var_dump de \$vB : \n";
+echo "-----------------------\n";
+var_dump($vB);
+echo "Le véhicule B (#2) est maintenant associé à Paul en plus de Jalila.\n";
+//end::question_d[]
 //end::meo_1[]

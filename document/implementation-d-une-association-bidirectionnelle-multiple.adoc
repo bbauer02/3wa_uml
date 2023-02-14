@@ -66,13 +66,21 @@ L'implémentation se fera en plusieurs étapes :
 *Q{counter:_question})*
 Travail à faire
 
-* Implémentez scrupuleusement le diagramme suivant :
+* Implémentez scrupuleusement le diagramme suivant (les propriétés `registerNumber` et `name` seront toutes les deux initialisées dans les constructeurs. Inutile de prévoir des mutateur et accesseur les concernant) :
 
 ifeval::[{_show_plantuml} == 1]
 [plantuml,target=asso_bi_multiple_1,format=svg]
 ....
 hide circle
 skinparam classAttributeIconSize 0
+
+class Vehicle {
+-registerNumber
+}
+
+class Technician {
+-name
+}
 
 left to right direction
 Vehicle "0..1" -- "*" Technician : maintains
@@ -84,14 +92,16 @@ endif::[]
 
 [loweralpha, start=1]
 . Créez deux instances de véhicules respectivement référencées par les variables `$vA` et `$vB`.
-. Créez trois instances de technicien respectivement référencées par les variables `$t1`, `$t2` et `$t3`.
-. Associez le véhicule A aux techniciens t1 et t2 et le véhicule B au technicien t3.
-. Faire un `var_dump()` de chaque véhicule et repérer l'identifiant de ressource associé à chaque instance (un identifiant de ressource est noté `#` suivi d'un numéro. Cet identifiant est propre à chaque instance)
-. Pour chaque identifiant véhicule, listez les identifiants des techniciens associés.
-. Associez le véhicule B aux techniciens t1 et t2.
-. A ce stade, à combien de technicien doit être associé le véhicule A ? Et le véhicule B ?
-. Faire un `var_dump()` de chaque véhicule et repérer l'identifiant de ressource associé à chaque instance
-. Pour chaque identifiant véhicule, listez les identifiants des techniciens associés afin de valider la réponse apportée à la question "g".
+Faire un `var_dump()` de chaque variable et noter l'identifiant propre à chaque objet (un identifiant est un `#` suivi d'un chiffre tel que `#1`)
+. Créez trois instances de technicien respectivement référencées par les variables `$paul`, `$juliette` et `$jalila` (leur affecter le prénom correspondant aux noms des variables).
+Faire un `var_dump()` de chaque technicien et noter l'identifiant d'objet qui leur est propre.
+. Associez le véhicule A aux techniciens Paul et Juliette et le véhicule B au technicien Jalila (il ne faut pas oublier que l'objet responsable de la mise à jour de l'objet lié est la technicien).
+Faire un var_dump de chaque véhicule afin de constater que la mise à jour de l'objet inverse (ici Vehicle) a été réalisée à partir de la classe Technician. Noter pour chaque voiture le ou les techniciens associés.
+. Associez le véhicule B au technicien Paul (sans oublier qui est la classe propriétaire).
+Constatez que le fait d'avoir affecté le véhicule B à Paul à produit trois effets :
+- Paul n'est plus associé au véhicule A
+- Le véhicule A n'est plus associé au technicien Paul mais encore à Juliette.
+- Le véhicule B est associé au technicien Paul
 //end _question
 ****
 
@@ -128,31 +138,222 @@ include::../assets/source_code/_implementation_vehicle_zeroone_to_multiple_tehni
 ----
 
 
-* Réponses aux questions a) à i) :
-
+* Réponse à la *question a* (création de 2 véhicules et récupération de leur identifiant php)
++
 [source%linenums,php]
 ----
-include::../assets/source_code/_implementation_vehicle_zeroone_to_multiple_tehnicians_bi.php[tags=!*;meo_1]
+include::../assets/source_code/_implementation_vehicle_zeroone_to_multiple_tehnicians_bi.php[tags=!*;question_a]
+----
++
+[source%linenums,text, subs="attributes"]
+----
+-----------------------
+*** var_dump de $vA :
+-----------------------
+object(Vehicle)#1 (2) {
+  ["registerNumber":"Vehicle":private]=>
+  string(4) "AAAA"
+  ["technicians":"Vehicle":private]=>
+  array(0) {
+  }
+}
+L'identifiant de $vA est #1. Le véhicule A n'est associé à aucun technicien.
+-----------------------
+*** var_dump de $vB :
+-----------------------
+object(Vehicle)#2 (2) {
+  ["registerNumber":"Vehicle":private]=>
+  string(4) "BBBB"
+  ["technicians":"Vehicle":private]=>
+  array(0) {
+  }
+}
+L'identifiant de $vB est #2. Le véhicule B n'est associé à aucun technicien.
 ----
 
+* Réponses à la *question b* (création de 3 techniciens et récupération de leur identifiant php)
++
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_vehicle_zeroone_to_multiple_tehnicians_bi.php[tags=!*;question_b]
+----
++
+[source,text]
+----
+-----------------------
+*** var_dump de $paul :
+-----------------------
+object(Technician)#3 (2) {
+  ["name":"Technician":private]=>
+  string(4) "Paul"
+  ["vehicle":"Technician":private]=>
+  NULL
+}
+L'identifiant de $paul est #3. Paul n'est associé à aucune voiture.-----------------------
+*** var_dump de $juliette :
+-----------------------
+object(Technician)#4 (2) {
+  ["name":"Technician":private]=>
+  string(8) "Juliette"
+  ["vehicle":"Technician":private]=>
+  NULL
+}
+L'identifiant de $juliette est #4. Juliette n'est associée à aucune voiture.-----------------------
+*** var_dump de $jalila :
+-----------------------
+object(Technician)#5 (2) {
+  ["name":"Technician":private]=>
+  string(6) "Jalila"
+  ["vehicle":"Technician":private]=>
+  NULL
+}
+L'identifiant de $jalila est #5. Jalila n'est associée à aucune voiture.
+----
+
+* Réponses à la *question c* (association du véhicule A à Paul et Juliette et B à Jalila et vérifier que A et B ont bien leurs techniciens)
++
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_vehicle_zeroone_to_multiple_tehnicians_bi.php[tags=!*;question_c]
+----
++
+[source,text]
+----
+-----------------------
+*** var_dump de $vA :
+-----------------------
+object(Vehicle)#1 (2) {
+  ["registerNumber":"Vehicle":private]=>
+  string(4) "AAAA"
+  ["technicians":"Vehicle":private]=>
+  array(2) {
+    [0]=>
+    object(Technician)#3 (2) {
+      ["name":"Technician":private]=>
+      string(4) "Paul"
+      ["vehicle":"Technician":private]=>
+      *RECURSION*
+    }
+    [1]=>
+    object(Technician)#4 (2) {
+      ["name":"Technician":private]=>
+      string(8) "Juliette"
+      ["vehicle":"Technician":private]=>
+      *RECURSION*
+    }
+  }
+}
+Le véhicule A (#1) est associé aux techniciens Paul et Juliette.
+-----------------------
+*** var_dump de $vB :
+-----------------------
+object(Vehicle)#2 (2) {
+  ["registerNumber":"Vehicle":private]=>
+  string(4) "BBBB"
+  ["technicians":"Vehicle":private]=>
+  array(1) {
+    [0]=>
+    object(Technician)#5 (2) {
+      ["name":"Technician":private]=>
+      string(6) "Jalila"
+      ["vehicle":"Technician":private]=>
+      *RECURSION*
+    }
+  }
+}
+Le véhicule B (#2) est associé au technicien Jalila.
+----
+
+* Réponses à la *question d* (association du véhicule B à Paul (qui était jusque là associé au véhicule A) et contrôle des effets)
++
+[source%linenums,php]
+----
+include::../assets/source_code/_implementation_vehicle_zeroone_to_multiple_tehnicians_bi.php[tags=!*;question_d]
+----
++
+[source,text]
+----
+-----------------------
+*** var_dump de $paul :
+-----------------------
+object(Technician)#3 (2) {
+  ["name":"Technician":private]=>
+  string(4) "Paul"
+  ["vehicle":"Technician":private]=>
+  object(Vehicle)#2 (2) {
+    ["registerNumber":"Vehicle":private]=>
+    string(4) "BBBB"
+    ["technicians":"Vehicle":private]=>
+    array(2) {
+      [0]=>
+      object(Technician)#5 (2) {
+        ["name":"Technician":private]=>
+        string(6) "Jalila"
+        ["vehicle":"Technician":private]=>
+        *RECURSION*
+      }
+      [1]=>
+      *RECURSION*
+    }
+  }
+}
+L'identifiant de $paul est #3. Paul n'est associé à aucune voiture.
+-----------------------
+*** var_dump de $vA :
+-----------------------
+object(Vehicle)#1 (2) {
+  ["registerNumber":"Vehicle":private]=>
+  string(4) "AAAA"
+  ["technicians":"Vehicle":private]=>
+  array(1) {
+    [1]=>
+    object(Technician)#4 (2) {
+      ["name":"Technician":private]=>
+      string(8) "Juliette"
+      ["vehicle":"Technician":private]=>
+      *RECURSION*
+    }
+  }
+}
+Le véhicule A (#1) est encore associé à Juliette.
+-----------------------
+*** var_dump de $vB :
+-----------------------
+object(Vehicle)#2 (2) {
+  ["registerNumber":"Vehicle":private]=>
+  string(4) "BBBB"
+  ["technicians":"Vehicle":private]=>
+  array(2) {
+    [0]=>
+    object(Technician)#5 (2) {
+      ["name":"Technician":private]=>
+      string(6) "Jalila"
+      ["vehicle":"Technician":private]=>
+      *RECURSION*
+    }
+    [1]=>
+    object(Technician)#3 (2) {
+      ["name":"Technician":private]=>
+      string(4) "Paul"
+      ["vehicle":"Technician":private]=>
+      *RECURSION*
+    }
+  }
+}
+Le véhicule B (#2) est maintenant associé à Paul en plus de Jalila.
+----
 ****
 //end _show_correction
 endif::[]
 
-ifndef::_hide_breakpoint[]
-//todo: breakpoint à supprimer
-:breakpoint_date: mar. 14/02 à 15:11
-//on masque la correction à partir de ce point
-:_show_correction: 0
-#Point d'arrêt du cours au mar. 14/02 à 15:11#
-endif::_hide_breakpoint[]
+
 
 [.question]
 ****
 *Q{counter:_question})*
 Travail à faire
 
-* Implémentez scrupuleusement le diagramme suivant :
+* Implémentez scrupuleusement le diagramme ci-dessous (les propriétés `registerNumber` et `name` seront toutes les deux initialisées dans les constructeurs. Inutile de prévoir des mutateur et accesseur les concernant). (testez votre implémentation en ajoutant / retirant des techniciens aux voitures et en consultant le contenu des objets avec des `var_dump()`)
 
 ifeval::[{_show_plantuml} == 1]
 [plantuml,target=asso_bi_multiple_2,format=svg]
@@ -160,10 +361,24 @@ ifeval::[{_show_plantuml} == 1]
 hide circle
 skinparam classAttributeIconSize 0
 
+class Vehicle{
+-registerNumber
+}
+
+class Technician {
+-name
+}
+
 left to right direction
 Vehicle "*" -- "*" Technician : maintains
 ....
 // end _show_plantuml
+
+[NOTE]
+====
+Nous partirons du principe que la classe propriétaire est `Technician` afin que la correction corresponde à votre travail.
+====
+
 //end _question
 ****
 

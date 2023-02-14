@@ -160,10 +160,19 @@ class Vehicle
 //end::class_Vehicle[]
 
 //tag::meo_1[]
-//a) Créez deux instances de véhicules respectivement référencées par les variables `$vA` et `$vB`.
+echo "\n";
+echo '====================================================';
+écho 'a) Créez deux instances de véhicules respectivement référencées par les variables `$vA` et `$vB` et afficher le var_dump de chacune d\'elle.';
 $vA = new Vehicle();
 $vB = new Vehicle();
 
+echo 'var_dump de $vA :';echo "\n";
+var_dump($vA);
+
+echo 'var_dump de $vB :';echo "\n";
+var_dump($vB);
+
+echo "\n";
 //b) Créez trois instances de technicien respectivement référencées par les variables `$t1`, `$t2` et `$t3`.
 $t1 = new Technician();
 $t2 = new Technician();
