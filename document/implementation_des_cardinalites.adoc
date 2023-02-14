@@ -10,16 +10,6 @@ include::../config/header_attributes.adoc[]
 Point précédent :
 link:implementation-d-une-association-bidirectionnelle-multiple.adoc[Implémentation d'une association bidirectionnelle multiple]
 endif::_main_loaded[]
-
-ifndef::_hide_breakpoint[]
-//todo: breakpoint à supprimer
-:breakpoint_date: mar. 14/02 à 16:52
-//on masque la correction à partir de ce point
-:_show_correction: 0
-#Point d'arrêt du cours au mar. 14/02 à 16:52#
-endif::_hide_breakpoint[]
-
-
 Nous avons appris lors de l'étude de la <<les_cardinalités_d_une_association,notion de cardinalité>> qu'elle permet d'exprimer une contrainte
 
 Dans la partie du cours sur les <<les_cardinalités_d_une_association,cardinalités>>, nous avons vu que les cardinalités exprimait une contrainte sur le nombre d'objets B associés à un objet A.
@@ -189,6 +179,14 @@ Cela irait à l'encontre de ce que précise le diagramme.
 ****
 //end _show_correction
 endif::[]
+
+ifndef::_hide_breakpoint[]
+//todo: breakpoint à supprimer
+:breakpoint_date: mar. 14/02 à 17:20
+//on masque la correction à partir de ce point
+:_show_correction: 0
+#Point d'arrêt du cours au mar. 14/02 à 17:20#
+endif::_hide_breakpoint[]
 
 [.question]
 ****
