@@ -8,7 +8,7 @@ class Table
 
     public function __construct(
         //il faut forcer le passage d'un  tableau à l'instanciation afin de contrôler s'il contient au moins une instance de Waiter
-        private array $waiters //<1>
+        private array $waiters = [] // <1>
     )
     {
         $this->setWaiters($waiters);
