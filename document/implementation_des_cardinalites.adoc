@@ -179,15 +179,6 @@ Cela irait à l'encontre de ce que précise le diagramme.
 ****
 //end _show_correction
 endif::[]
-
-ifndef::_hide_breakpoint[]
-//todo: breakpoint à supprimer
-:breakpoint_date: mar. 14/02 à 17:20
-//on masque la correction à partir de ce point
-:_show_correction: 0
-#Point d'arrêt du cours au mar. 14/02 à 17:20#
-endif::_hide_breakpoint[]
-
 [.question]
 ****
 *Q{counter:_question})*
@@ -206,6 +197,21 @@ class Waiter {
 left to right direction
 Waiter "1..*" ---> "0..4" Table : serves
 ....
+
+[NOTE]
+====
+Lorsqu'une cardinalité n'est plus respectée, une exception doit être levée avec un message explicatif.
+
+En PHP, https://www.php.net/manual/fr/class.exception.php[une exception] se lance de la façon suivante :
+
+[source%linenums,php]
+----
+throw new Exception('ici un message');
+----
+
+Il n'est pas demandé de gérer l'exception. Elle sera seulement levée ce qui mettra fin au programme.
+
+====
 //_show_plantuml
 endif::[]
 //end _question
@@ -227,7 +233,7 @@ include::../assets/source_code/implementation_waiter_one_to_four_table_uni.php[t
 
 [source%linenums,php]
 ----
-include::../assets/source_code/implementation_waiter_one_to_four_table_uni.php[tags=!*;class_Waiter]
+include::../assets/source_code/implementation_waiter_one_to_four_table_uni.php[tags=!*;class_Waiter;method_add_table]
 ----
 
 * On définit une propriété qui permet de fixer une limite de tables pouvant être affectées à un serveur.
@@ -245,7 +251,7 @@ include::../assets/source_code/implementation_waiter_one_to_four_table_uni.php[t
 [source%linenums,php]
 ----
 //A ajouter dans la classe Waiter
-include::../assets/source_code/implementation_waiter_one_to_four_table_uni.php[tags=!*;method_add_table]
+include::../assets/source_code/implementation_waiter_one_to_four_table_uni.php[tags=!*;method_add_table;check_limit_number_tables]
 ----
 
 Avec ce code, il ne sera pas possible d'affecter plus de 4 tables.
@@ -254,10 +260,18 @@ Avec ce code, il ne sera pas possible d'affecter plus de 4 tables.
 //end _show_correction
 endif::[]
 
+ifndef::_hide_breakpoint[]
+//todo: breakpoint à supprimer
+:breakpoint_date: mer. 15/02 à 09:48
+//on masque la correction à partir de ce point
+:_show_correction: 0
+#Point d'arrêt du cours au mer. 15/02 à 09:48#
+endif::_hide_breakpoint[]
+
 [.question]
 ****
 *Q{counter:_question})*
-Implémentez le diagramme suivant :
+Implémentez le diagramme suivant et levez une exception lorsque la cardinalité n'est pas respectée :
 
 ifeval::[{_show_plantuml} == 1]
 [plantuml,target=table_zero_to_onemultiple_waiter_unid,format=svg]
@@ -309,7 +323,7 @@ endif::[]
 [.question]
 ****
 *Q{counter:_question})*
-Implémentez le diagramme suivant :
+Implémentez le diagramme suivant  et levez une exception lorsque la cardinalité n'est pas respectée :
 
 ifeval::[{_show_plantuml} == 1]
 [plantuml,target=waiter_onemultiple_to_zeromultiple_table_bi,format=svg]

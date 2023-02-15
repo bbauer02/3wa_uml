@@ -28,11 +28,13 @@ class Waiter
      */
     public function addTable(Table $table): bool
     {
+        //tag::check_limit_number_tables[]
         //on vérifie que le nombre maximum de tables n'est pas déjà atteint
         if (count($this->tables) === self::MAX_TABLES) {
-            return false;
+//            return false;
+            throw new Exception('Il n\'est pas possible d\'affecter plus de '.self::MAX_TABLES.' tables à un serveur.');
         }
-
+        //end::check_limit_number_tables[]
         if (!in_array($table, $this->tables, true)) {
             $this->tables[] = $table;
 
