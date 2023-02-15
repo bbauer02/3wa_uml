@@ -11,14 +11,6 @@ Point précédent :
 link:10-1-la-relation-de-dependance.adoc[La relation de dépendance]
 endif::_main_loaded[]
 
-ifndef::_hide_breakpoint[]
-//todo: breakpoint à supprimer
-:breakpoint_date: mer. 15/02 à 15:42
-//on masque la correction à partir de ce point
-:_show_correction: 0
-#Point d'arrêt du cours au mer. 15/02 à 15:42#
-endif::_hide_breakpoint[]
-
 == Comprendre et modéliser la notion d'héritage
 La [[keyword_relation_d_héritage]]*[.keyword]#((relation d'héritage))#* n'exprime plus l'idée qu'un objet A est lié à un objet B mais qu'*un objet A est un objet B*.
 
@@ -153,7 +145,7 @@ class FileImage {
 endif::[]
 
 Le problème de cette approche est que nous nous répétons.
-Il y a un autre grand principe en programmation, c'est le principe https://https://fr.wikipedia.org/wiki/Ne_vous_r%C3%A9p%C3%A9tez_pas[DRY] (don't repeat yourself => ne vous répéter pas). Dans le cas présent, ce principe n'est clairement pas respecté.
+Il y a un autre grand principe en programmation, c'est le principe https://https://fr.wikipedia.org/wiki/Ne_vous_r%C3%A9p%C3%A9tez_pas[DRY] (don't repeat yourself => ne vous répétez pas). Dans le cas présent, ce principe n'est clairement pas respecté.
 
 L'idéal serait de mettre dans une classe les attributs et les méthodes communes aux 3 classes et de laisser ce qui est spécifique dans les classes précédemment créées.
 
@@ -685,7 +677,7 @@ Effectivement, il reste bien des aspects à aborder concernant l'héritage et le
 [.question]
 ****
 *Q{counter:_question})*
-Faites évoluer le diagramme ci-dessous de façon à prendre compte les évolutions suivantes :
+Faites évoluer le diagramme ci-dessous de façon à prendre compte les évolutions suivantes (https://plantuml.com/fr/class-diagram[la documnentation plantuml]) :
 
 * l'application doit prendre en compte un nouveau sous-type pour les fichiers exécutables.
 Un fichier exécutable doit disposer d'une méthode `isValidate` qui indique qu'il ne s'agit pas d'un virus.
@@ -779,6 +771,14 @@ endif::[]
 ****
 //_show_correction
 endif::[]
+
+ifndef::_hide_breakpoint[]
+//todo: breakpoint à supprimer
+:breakpoint_date: mer. 15/02 à 17:00
+//on masque la correction à partir de ce point
+:_show_correction: 0
+#Point d'arrêt du cours au mer. 15/02 à 17:00#
+endif::_hide_breakpoint[]
 
 [.question]
 ****

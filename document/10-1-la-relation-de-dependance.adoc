@@ -13,7 +13,7 @@ endif::_main_loaded[]
 
 == Qu'est-ce qu'une dépendance ?
 
-*Il y a [[keyword_dépendance]]*[.keyword]#((dépendance))#* entre deux objets lorsqu’un objet A utilise un objet B sans le « stocker » dans un de ses attributs*.
+Il y a [[keyword_dépendance]]*[.keyword]#((dépendance))#* entre deux objets lorsqu’un objet A utilise un objet B sans le « stocker » dans un de ses attributs*.
 Il n'y a pas de navigabilité vers cet objet B.
 
 Dans le cas d'une dépendance, l'instance utilisée ne l'est que temporairement (contrairement à une association classique).
