@@ -1,6 +1,4 @@
 <?php
-
-
 //tag::class_Vehicle[]
 class Vehicle
 {
@@ -90,9 +88,6 @@ class Vehicle
         return $this;
     }
     //end::method_setTechnicians[]
-
-
-
     /**
      * @return Technician[]
      */
@@ -100,11 +95,8 @@ class Vehicle
     {
         return $this->technicians;
     }
-
 }
-
 //end::class_Vehicle[]
-
 //tag::class_Technician[]
 class Technician
 {
@@ -179,8 +171,6 @@ class Technician
 }
 
 //end::class_Technician[]
-
-
 //tag::class_Intervention[]
 class Intervention
 {

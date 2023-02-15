@@ -11,6 +11,14 @@ Point précédent :
 link:10-1-la-relation-de-dependance.adoc[La relation de dépendance]
 endif::_main_loaded[]
 
+ifndef::_hide_breakpoint[]
+//todo: breakpoint à supprimer
+:breakpoint_date: mer. 15/02 à 15:42
+//on masque la correction à partir de ce point
+:_show_correction: 0
+#Point d'arrêt du cours au mer. 15/02 à 15:42#
+endif::_hide_breakpoint[]
+
 == Comprendre et modéliser la notion d'héritage
 La [[keyword_relation_d_héritage]]*[.keyword]#((relation d'héritage))#* n'exprime plus l'idée qu'un objet A est lié à un objet B mais qu'*un objet A est un objet B*.
 

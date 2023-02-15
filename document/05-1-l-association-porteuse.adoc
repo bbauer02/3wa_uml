@@ -386,15 +386,6 @@ echo "\n- $t->getName()"; //affiche le nom du technicien en supposant que la mé
 //end _show_corection
 endif::[]
 
-ifndef::_hide_breakpoint[]
-//todo: breakpoint à supprimer
-:breakpoint_date: mer. 15/02 à 14:38
-//on masque la correction à partir de ce point
-:_show_correction: 0
-
-#Point d'arrêt du cours au mer. 15/02 à 14:38#
-endif::_hide_breakpoint[]
-
 [.question]
 ****
 *Q{counter:_question})*

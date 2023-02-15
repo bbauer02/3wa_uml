@@ -1,6 +1,4 @@
 <?php
-
-
 //tag::class_Vehicle[]
 class Vehicle
 {
