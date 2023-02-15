@@ -313,14 +313,6 @@ Cela pourrait être fait avant de rechercher si l'item est dans la collection ma
 //end _show_correction
 endif::[]
 
-ifndef::_hide_breakpoint[]
-//todo: breakpoint à supprimer
-:breakpoint_date: mer. 15/02 à 11:18
-//on masque la correction à partir de ce point
-:_show_correction: 0
-#Point d'arrêt du cours au mer. 15/02 à 11:18#
-endif::_hide_breakpoint[]
-
 [.question]
 ****
 *Q{counter:_question})*
