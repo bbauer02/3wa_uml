@@ -4,20 +4,14 @@ endif::_main_loaded[]
 //titre de la section
 [[l_association_porteuse_ou_classe_association_]]
 = L'association porteuse (ou classe association)
+
 ifndef::_main_loaded[]
 include::../config/header_attributes.adoc[]
 {empty}
 Point précédent :
+
 link:07-1-l-association-n-aire.adoc[L'association n-aire]
 endif::_main_loaded[]
-
-ifndef::_hide_breakpoint[]
-//todo: breakpoint à supprimer
-:breakpoint_date: mer. 15/02 à 12:19
-//on masque la correction à partir de ce point
-:_show_correction: 0
-#Point d'arrêt du cours au mer. 15/02 à 12:19#
-endif::_hide_breakpoint[]
 
 == Qu'est-ce qu'une association porteuse ou classe association ?
 
@@ -80,7 +74,6 @@ Vehicle "0..*" --- "0..*" Technician
 //_show_plantuml
 endif::[]
 
-
 Avec cette nouvelle solution, on sait par qui est écrite une description d'intervention mais on ne sait pas quel véhicule cela concerne.
 
 *Conclusion : l'attribut ne peut être rattaché à aucune des deux classes de l'association*.
@@ -89,8 +82,6 @@ L'attribut est rattaché à l'association ce qui en fait une [[keyword_associati
 Lorsque vous vous trouvez dans une telle situation, c'est forcément que les cardinalités maximales de l'association sont multiples (sinon, c'est que vous vous êtes trompés sur les cardinalités ou que vous rattachez mal votre attribut).
 
 La solution, c'est de créer une classe qui va contenir cet attribut et lier cette classe à l'association :
-
-
 
 ifeval::[{_show_plantuml} == 1]
 [plantuml,format=svg,role=class]
@@ -115,7 +106,8 @@ Vehicle "0..*" -- "0..*" Technician
 endif::[]
 
 Si nous souhaitons savoir si l'intervention a résolu le problème, un nouvel attribut  `isResolved` peut être ajouté.
-Cet attribut est à placer dans la classe association car il n'est pas logique de le lier au véhicule (quelle signification aurait cet attribut placé dans `Vehicle`. On peut faire la même remarque si on le place dans `Technician`).
+Cet attribut est à placer dans la classe association car il n'est pas logique de le lier au véhicule (quelle signification aurait cet attribut placé dans `Vehicle`.
+On peut faire la même remarque si on le place dans `Technician`).
 Si nous souhaitons connaître la présence de certains mots clés dans la description de l'intervention, l'attribut à créer ne peut être placé que dans la classe association pour les mêmes raisons.
 
 Voici le diagramme compte tenu de ces évolutions :
@@ -143,8 +135,6 @@ Vehicle "0..*" -- "0..*" Technician
 ....
 //_show_plantuml
 endif::[]
-
-
 
 == Implémentation d'une classe associative
 
@@ -176,6 +166,7 @@ Cela n'impacte que les méthodes `Vehicle::AddTechnician`, `Vehicle::removeTechn
 ----
 include::../assets/source_code/implementation_classe_association.php[tags=class_Vehicle_addTechnician;class_Vehicle_removeTechnician;method_setTechnicians]
 ----
+
 <1> Lorsque l'on associe un technicien, il faut que ce dernier soit associé au véhicule courant.
 <2> Lorsqu'on retire un technicien du véhicule, il faut retirer le véhicule du technicien.
 Cela doit être fait AVANT de supprimer le technicien sans quoi nous n'aurons plus accès à ce dernier pour appeler la méthode `Technician::removeVehicle`
@@ -183,7 +174,7 @@ Cela doit être fait AVANT de supprimer le technicien sans quoi nous n'aurons pl
 L'implémentation de l'association bidirectionnelle est terminée.
 Il faut maintenant gérer la classe association.
 
-La classe association `Intervention`  est avant tout une classe comme une autre,  simple à implémenter :
+La classe association `Intervention`  est avant tout une classe comme une autre, simple à implémenter :
 
 [source%linenums,php]
 ----
@@ -253,7 +244,6 @@ include::../assets/source_code/implementation_classe_association.php[tags=!*;cla
 Désormais, vous savez implémenter une classe association.
 Cependant, cette implémentation n'est généralement pas la solution retenue.
 
-
 [[dans_la_pratique_on_simplifie_les_choses]]
 == Dans la pratique, on simplifie les choses
 
@@ -308,7 +298,7 @@ Technician "1" -up--o "0..*"  Intervention
 //_show_plantuml
 endif::[]
 
-La classe association est transformée en une agrégation (et encore, la plupart du temps,  l'agrégation n'est même pas représentée !).
+La classe association est transformée en une agrégation (et encore, la plupart du temps, l'agrégation n'est même pas représentée !).
 Il n'y a plus d'association directe entre `Vehicle` et `Technician` .
 
 Cette solution offre plusieurs avantages :
@@ -322,14 +312,16 @@ Cette solution est donc compatible avec leur usage.
 
 Voici l'implémentation qui en découle (en partant du code que nous avons écrit jusque là):
 
-* La classe `Vehicle` n'a plus d'attribut `$technicians` et donc plus de méthode `addTechnician` et `removeTechnician` :
+* La classe `Vehicle` n'a plus d'attribut `$technicians`.
+Par conséquent, les mutateurs et l'accesseur associés sont à retirer.
+Il n'y a plus les méthodes `addTechnician`, `removeTechnician`, `setTechnicians` et `getTechnicians` :
 
 [source%linenums,php]
 ----
-include::../assets/source_code/implementation_classe_association_simplification.php[tags=class_Vehicle]
+include::../assets/source_code/implementation_classe_association_simplification.php[tags=!*;class_Vehicle]
 ----
 
-* La classe `Technician` n'a plus d'attribut `$vehicles` et donc plus de méthode `addVehicle` et `removeVehicle` :
+* La classe `Technician` n'a plus d'attribut `$vehicles` ainsi que les méthodes associées à celui-ci (`addVehicle`, `removeVehicle`, `setVehicles` et `getVehicles`)  :
 
 [source%linenums,php]
 ----
@@ -349,6 +341,7 @@ include::../assets/source_code/implementation_classe_association_simplification.
 Faites évoluer le code précédent de façon à ce qu'à partir d'une instance de `Vehicle`, il soit possible de récupérer les techniciens qui sont intervenus dessus.
 
 L'objectif est de pouvoir faire la chose suivante :
+
 [source%linenums,php]
 ----
 $liste = $vehicleA->getTechnicians(); //tableau contenant tous les techniciens qui sont intervenus sur le véhicule A
@@ -367,8 +360,40 @@ include::../assets/source_code/implementation_classe_association_simplification.
 ----
 //end _question
 ****
+
+Utilisation :
+
+[source%linenums,php]
+----
+$t1 = new Technician();
+$t2 = new Technician();
+
+$v1 = new Vehicle(),
+$v2 = new Vehicle(),
+$v3 = new Vehicle(),
+
+//une intervention est composée d'un véhicule et d'un technicien.
+new Intervention('changement fusible', true,$v1,$t1);
+new Intervention('crevaison', true,$v2,$t1);
+new Intervention('voyant moteur allume', false,$v3,$t2);
+
+//Liste des techniciens qui sont intervenues sur v1
+foreach($v1->getTechnicians() as $t) {
+echo "\n- $t->getName()"; //affiche le nom du technicien en supposant que la méthode getName() existe
+}
+----
+
 //end _show_corection
 endif::[]
+
+ifndef::_hide_breakpoint[]
+//todo: breakpoint à supprimer
+:breakpoint_date: mer. 15/02 à 14:38
+//on masque la correction à partir de ce point
+:_show_correction: 0
+
+#Point d'arrêt du cours au mer. 15/02 à 14:38#
+endif::_hide_breakpoint[]
 
 [.question]
 ****
@@ -385,6 +410,27 @@ _Correction de Q{_question}_
 ----
 //class Technician
 include::../assets/source_code/implementation_classe_association_simplification.php[tags=class_Technician_getVehicles]
+----
+
+Utilisation :
+[source%linenums,php]
+----
+$t1 = new Technician();
+$t2 = new Technician();
+
+$v1 = new Vehicle(),
+$v2 = new Vehicle(),
+$v3 = new Vehicle(),
+
+//une intervention est composée d'un véhicule et d'un technicien.
+new Intervention('changement fusible', true,$v1,$t1);
+new Intervention('crevaison', true,$v2,$t1);
+new Intervention('voyant moteur allume', false,$v3,$t2);
+
+//Liste des véhicules sur lesquels est intervenu le technicien 1
+foreach($t1->getVehicles() as $v) {
+echo "\n- $v->getRegisterNumber()"; //affiche le numéro d'immatricuation en supposant que la méthode getRegisterNumber() existe
+}
 ----
 
 ****
@@ -480,9 +526,11 @@ Vous n'avez maintenant que des liens bidirectionnels.
 L'implémentation d'une telle modélisation n'a plus de secret pour vous dorénavant !
 
 ifndef::_main_loaded[]
-Point suivant : 
+Point suivant :
 link:10-1-la-relation-de-dependance.adoc[La relation de dépendance]
+
 include::../config/index.adoc[]
+
 endif::_main_loaded[]
 
 

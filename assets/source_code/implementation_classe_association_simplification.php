@@ -5,13 +5,13 @@
 class Vehicle
 {
     /**
-     * @param array $intervention|Intervention[] tableau d'objets de type Intervention
+     * @param array $intervention |Intervention[] tableau d'objets de type
+     *                            Intervention
      */
     public function __construct(
         private array $interventions = []
 
     ) {
-
     }
 
     /**
@@ -55,12 +55,14 @@ class Vehicle
 
     //tag::class_Vechicule_getTechnician[]
     //méthode à ajouter dans la classe Vehicle
-    public function getTechnicians(){
+    public function getTechnicians()
+    {
         $technicians = [];
         /** @var Intervention $intervention */
-        foreach($this->interventions as $intervention){
-            $technicians[]= $intervention->getTechnician();
+        foreach ($this->interventions as $intervention) {
+            $technicians[] = $intervention->getTechnician();
         }
+
         return $technicians;
 
     }
@@ -73,7 +75,8 @@ class Vehicle
 class Technician
 {
     /**
-     * @param array $intervention|Intervention[] tableau d'objets de type Intervention
+     * @param array $intervention |Intervention[] tableau d'objets de type
+     *                            Intervention
      */
     public function __construct(
         private array $interventions = []
@@ -82,7 +85,8 @@ class Technician
     }
 
     /**
-     * @param Intervention $intervention ajoute un item de type Intervention à la collection
+     * @param Intervention $intervention ajoute un item de type Intervention à
+     *                                   la collection
      */
     public function addIntervention(Intervention $intervention): bool
     {
@@ -121,12 +125,14 @@ class Technician
 
     //tag::class_Technician_getVehicles[]
     //méthode à ajouter dans la classe Technician
-    public function getVehicles(){
+    public function getVehicles()
+    {
         $vehicles = [];
         /** @var Intervention $intervention */
-        foreach($this->interventions as $intervention){
-            $vehicles[]= $intervention->getVehicle();
+        foreach ($this->interventions as $intervention) {
+            $vehicles[] = $intervention->getVehicle();
         }
+
         return $vehicles;
 
     }
@@ -150,12 +156,12 @@ class Intervention
         private bool $isResolved,
         private Vehicle $vehicle,
         private Technician $technician
-    )
-    {
+    ) {
     }
 
 
     //accesseur pour le véhicule
+
     /**
      * @return Vehicle
      */
@@ -165,6 +171,7 @@ class Intervention
     }
 
     //mutateur pour le véhicule (on pourrait ne pas avoir de mutateur car le véhicule est affecté à l'intervention au moment de l'instanciation de cette dernière). Laisse le mutateur permet de modifier le véhicule associé (suite à une erreur de saisi par exemple)
+
     /**
      * @param Vehicle $vehicle
      */
