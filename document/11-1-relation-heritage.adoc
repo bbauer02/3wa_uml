@@ -719,6 +719,36 @@ FileVideo -up-|> File
 ....
 //_show_plantuml
 endif::[]
+
+
+Code "plantuml" du diagramme :
+
+[source,text]
+----
+class File {
+    #name
+    #fileSize
+    #author
+    #isSecret
+    +getAge()
+    +isObsolete()
+}
+class FileText {
+}
+class FileVideo {
+    -duration
+    +compressMovie()
+}
+class FileImage {
+    -with
+    -height
+    +resize()
+}
+FileText -up-|> File
+FileImage -up-|> File
+FileVideo -up-|> File
+----
+
 ****
 
 ifeval::[{_show_correction} == 1]
@@ -769,6 +799,45 @@ FileExecutable -up-|> File
 //_show_plantuml
 endif::[]
 ****
+
+Code "plantuml" :
+
+[source,text]
+----
+class File {
+    #name
+    #fileSize
+    #author
+    #isSecret
+    +getAge()
+    +isObsolete()
+}
+class FileText {
+}
+class FileVideo {
+    -duration
+    +compressMovie()
+}
+class FileImage {
+    -with
+    -height
+    +resize()
+}
+
+class FileMedia #pink {
+    #note
+}
+
+class FileExecutable #pink {
+    +isValidate()
+}
+
+FileText -up-|> File
+FileImage -up-|> FileMedia
+FileVideo -up-|> FileMedia
+FileMedia -up-|> File
+FileExecutable -up-|> File
+----
 //_show_correction
 endif::[]
 
