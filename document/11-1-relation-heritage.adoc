@@ -619,7 +619,7 @@ end note
 // end _show_plantuml
 endif::[]
 
-[source%linenums,php, highlight=13..17]
+[source%linenums,php, highlight=12..15]
 ----
 include::../assets/source_code/file_construct_inheritence.php[tags=classes;!call_parent_construct]
 ----
@@ -641,7 +641,7 @@ Ce comportement est utile lorsque la classe fille doit prévoir un comportement 
 
 Il est également possible de profiter du comportement de la classe mère et d'ajouter celui de la classe fille :
 
-[source%linenums,php, highlight=18]
+[source%linenums,php, highlight=16]
 ----
 include::../assets/source_code/file_construct_inheritence.php[tags=classes]
 ----
@@ -840,14 +840,6 @@ FileExecutable -up-|> File
 ----
 //_show_correction
 endif::[]
-
-ifndef::_hide_breakpoint[]
-//todo: breakpoint à supprimer
-:breakpoint_date: mer. 15/02 à 17:00
-//on masque la correction à partir de ce point
-:_show_correction: 0
-#Point d'arrêt du cours au mer. 15/02 à 17:00#
-endif::_hide_breakpoint[]
 
 [.question]
 ****

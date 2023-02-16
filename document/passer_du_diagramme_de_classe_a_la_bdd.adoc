@@ -1,0 +1,27 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+//titre de la section
+[[passer_du_diagramme_de_classe_à_la_bdd]]
+= Passer du diagramme de classe à la bdd
+ifndef::_main_loaded[]
+include::../config/header_attributes.adoc[]
+{empty}
+Point précédent :
+link:13-1-L-interface.adoc[Les interfaces]
+endif::_main_loaded[]
+
+
+[[lien_entre_diagramme_de_classe_et_bdd]]
+== Lien entre diagramme de classe et bdd
+
+Le diagramme de classe est utilisé pour modéliser une application.
+Certaines classes donnent des instances qui doivent être enregistrée en bdd. Cela s'appelle la [[keyword_persistance_des_données]]*[.keyword]#((persistance des données))#*.
+En programmation, ces classes sont appelées des [[keyword_entités]]*[.keyword]#((entités))#*.
+
+Dans un diagramme de classe, ces classes sont marquées avec le <<keyword_stéréotype, stéréotype>> `entity`.
+Grâce à cela, le développeur qui lit le diagramme sait qu'il doit gérer la persistance des instance de cette classe.
+
+
+
+

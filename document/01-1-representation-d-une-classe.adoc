@@ -107,7 +107,7 @@ Cela revient à utiliser par défaut « inout » ou « ref »
 
 ==	Précision sur la notion de stéréotype
 
-Le [.keyword]#((stéréotype))# permet d’étendre le vocabulaire de l’UML.
+Le [[keyword_stéréotype]]*[.keyword]#((stéréotype))#* permet d’étendre le vocabulaire de l’UML.
 
 Le *stéréotype d’une classe* permet une meilleure compréhension des éléments qui composent une architecture logicielle.
 Vous pouvez donc utiliser n'importe quel mot qui permet de faciliter la lecture du diagramme.

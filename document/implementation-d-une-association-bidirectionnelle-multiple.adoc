@@ -57,7 +57,7 @@ Compte tenu de notre diagramme, la classe propriétaire sera `Technician` car c'
 A ce niveau, il n'y a plus rien de nouveau pour nous.
 L'implémentation se fera en plusieurs étapes :
 
-. Mettre en place la navigabilitié de `Vehicule` vers `Technician` (en utilisant un attribut permettant de contenir une <<notion_de_collection,collection>>)
+. Mettre en place la navigabilitié de `Vehicule` vers `Technician` (en utilisant un attribut permettant de contenir une <<keyword_collection,collection>>)
 . Mettre en place la navigabilitié de `Technician` vers `Vehicule` (en utilisant un attribut permettant de contenir zéro ou une instance de `Vehicle`)
 . Mettre en place dans la classe propriétaire `Technician` la mise à jour de l'objet inverse.
 
