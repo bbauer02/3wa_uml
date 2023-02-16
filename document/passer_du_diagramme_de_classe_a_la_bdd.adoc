@@ -20,8 +20,178 @@ Certaines classes donnent des instances qui doivent être enregistrée en bdd. C
 En programmation, ces classes sont appelées des [[keyword_entités]]*[.keyword]#((entités))#*.
 
 Dans un diagramme de classe, ces classes sont marquées avec le <<keyword_stéréotype, stéréotype>> `entity`.
-Grâce à cela, le développeur qui lit le diagramme sait qu'il doit gérer la persistance des instance de cette classe.
+Grâce à cela, le développeur qui lit le diagramme sait qu'il doit gérer la persistance des instances de cette classe.
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=commerce_base,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+skinparam class {
+    BackgroundColor<<entity>> aliceblue/lightskyblue
+    BackgroundColor<<controller>> lightgreen/green
+}
 
 
+'permet de gérer un CRUD (Create, Read, Update, Delete)
+class CustomerManager {
++save(c:Customer):bool
++readById(id:int):Customer|null
++readAll():Customer[]
++update(c:Customer):bool
+}
+
+class SupplierManager {
++save(c:Supplier):bool
++readById(id:int):Supplier|null
++readAll():Supplier[]
++update(c:Supplier):bool
+}
+
+class Response{}
+
+class CustomerController <<controller>> {
+- customerManager:CustomerManager
++createCustomer():Response
+}
+
+class SupplierController <<controller>> {
+- supplierManager:SupplierManager
++createSupplier():Response
+}
+
+class Customer <<entity>>{
+-id: int {id}
+-fistname:string
+-lastname:string
+-birthDate:Date
+}
+
+class Order <<entity>>{
+-id: int {id}
+-num: int
+-dateOrder:DateTime
+}
+
+class Product <<entity>>{
+-id: int {id}
+-ref:string
+-designation:string
+}
+
+class OrderLine <<entity>>{
+-quantity: int
+}
+
+class Price <<entity>>{
+-id: int {id}
+-price: int
+-startDate: DateTime
+-endDate: DateTime|null
+}
+
+class Supplier <<entity>>{
+-id: int {id}
+-name:string
+-phone:string
+}
+
+CustomerController ..> Customer
+CustomerController ..> Response
+CustomerController --> CustomerManager
+Customer "1" -- "*" Order: Orders
+Order "*" -- "1..*" Product: contains
+(Order, Product) .. OrderLine
+Product "1" -> "*" Price
+Supplier "1" <-- "*" Product
+SupplierController --> SupplierManager
+SupplierController ..> Supplier
+SupplierController ..> Response
+....
+// end _show_plantuml
+endif::[]
+
+Lorsqu'une classe est marquéE avec le stéréotype `entity`, il faut déterminer un [[keyword_identifiant]]*[.keyword]#((identifiant))#*.
+Généralement, comme les applications utilisent un ORM, l'identifiant est un entier autoincrémenté.
+
+Par exemple, pour l'entité `Customer`, l'[[keyword_identifiant_naturel]]*[.keyword]#((identifiant naturel))#* pourrait être le "numéro de client".
+Mais, comme on utilise généralement un ORM, il faut préférer le nom `id` pour "identifiant".
+
+Si les ORM utilise un identifiant numérique autoincrémenté, c'est parce que cela permet de s'assurer que la valeur qui désigne l'élément inséré est *unique*.
+Ainsi, même si deux clients ont le même  nom, alors il sera possible de les différencier grâce à leur identifiant.
+Dans une table, on appelle cet identifiant [[keyword_clé_primaire]]*[.keyword]#((clé primaire))#*
+
+[[passer_du_diagramme_uml_au_schéma_relationnel]]
+== Passer du diagramme UML au schéma relationnel
+
+Le [[keyword_schéma_relationnel]]*[.keyword]#((schéma relationnel))#* va permettre de mettre en évidence les *relations* entre les futures tables de la base de données.
+
+Voici quelques règles de formalisme :
+
+* Une relation est représentée par une flèche.
+* La clé primaire doit être soulignée
+* la future table est représentée par un rectangle.
 
 
+[WARNING]
+====
+Pour faire le schéma relationnel, j'utilise plantuml et la syntaxe pour les diagrammes de classes.
+Mais le schéma relationnel n'est pas un diagramme de classe !
+
+Je détourne seulement l'usage de plantuml pour faire le schéma relationnel.
+====
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=schema_relationnel_commerce_base,format=svg]
+....
+hide circle
+hide method
+skinparam classAttributeIconSize 0
+skinparam RectangleBackgroundColor white
+
+class Customer {
+{static} idCustomer: integer
+}
+
+class Order {
+{static} idOrder: int
+#idCustomer:integer
+}
+
+Customer "*" <-- "1" Order
+....
+// end _show_plantuml
+endif::[]
+
+.Code source (qui détourne planuml pour faire un schéma relationnel)
+[source%linenums,text, subs="attributes"]
+----
+hide circle
+hide method
+skinparam classAttributeIconSize 0
+skinparam RectangleBackgroundColor white
+
+class Customer {
+{static} idCustomer: integer
+}
+
+class Order {
+{static} idOrder: int
+#idCustomer:integer
+}
+
+Customer "*" <-- "1" Order
+----
+
+[[règle_de_passage_du_diagramme_de_classe_au_schéma_relationnel]]
+== Règle de passage du diagramme de classe au schéma relationnel
+
+* l'identifiant d'une classe devient une clé primaire
+* les cardinalités sont inversées dans le schéma relationnel
+[NOTE]
+====
+On rejoint l'analyse merise qui est une autre méthode d'analyse mais uniquement tournée base de données.
+L'objectif est de faciliter les échanges entre deux personnes, une qui utiliserait UML et l'autre Merise.
+Avec le schéma relationnel, elles "parlent" de la même chose (notamment au niveau des cardinalités)
+====
+* les méthodes n'apparaissent pas dans le schéma relationnel (tout simplement parce qu'elles ne concernent pas la bdd, seulement le côté applicatif)
