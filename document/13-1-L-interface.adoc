@@ -11,6 +11,14 @@ Point précédent :
 link:12-1-La-relation-abstraite.adoc[La relation abstraite]
 endif::_main_loaded[]
 
+ifndef::_hide_breakpoint[]
+//todo: breakpoint à supprimer
+:breakpoint_date: jeu. 16/02 à 11:09
+//on masque la correction à partir de ce point
+:_show_correction: 0
+#Point d'arrêt du cours au jeu. 16/02 à 11:09#
+endif::_hide_breakpoint[]
+
 == Notion d'interface et modélisation UML
 
 [WARNING]
@@ -18,7 +26,7 @@ endif::_main_loaded[]
 Il faut avoir parfaitement compris ce qu'est une <<la_relation_abstraite, relation abstraite>> pour comprendre la relation d'interface.
 ====
 
-Une [.keyword]#((interface))# est une *classe dont toutes les méthodes sont publiques et abstraites*.
+Une [[keyword_interface]]*[.keyword]#((interface))#* est une *classe dont toutes les méthodes sont publiques et abstraites*.
 
 Cela ressemble à une classe abstraite sauf que contrairement à elle, une interface n'a que des méthodes sans corps.
 Il n'y a donc que la <<la_signature_de_la_methode, signature>> d'une ou plusieurs méthodes.

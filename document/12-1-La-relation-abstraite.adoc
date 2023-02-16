@@ -11,13 +11,6 @@ Point précédent :
 link:11-1-relation-heritage.adoc[La relation d'héritage]
 endif::_main_loaded[]
 
-ifndef::_hide_breakpoint[]
-//todo: breakpoint à supprimer
-:breakpoint_date: jeu. 16/02 à 10:13
-//on masque la correction à partir de ce point
-:_show_correction: 0
-#Point d'arrêt du cours au jeu. 16/02 à 10:13#
-endif::_hide_breakpoint[]
 
 == Comprendre le sens de l'adjectif "abstrait"
 
