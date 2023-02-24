@@ -1,0 +1,45 @@
+@startuml
+
+@startuml
+hide circle
+hide method
+skinparam classAttributeIconSize 0
+skinparam RectangleBackgroundColor white
+
+class customer {
+{static} id_customer: integer
+}
+
+class order {
+{static} id_order: integer
+}
+
+class product {
+{static} id_product: integer
+}
+
+class supplier {
+{static} id_supplier: integer
+}
+
+class order_line {
+}
+
+class tag {
+{static} id_tag: integer
+}
+
+class product_tag #ffb7c5 {
+
+}
+
+class price {
+{static} id: integer
+}
+
+
+@enduml
+
+
+
+@enduml

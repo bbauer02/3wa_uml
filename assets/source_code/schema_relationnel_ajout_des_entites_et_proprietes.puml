@@ -1,0 +1,56 @@
+@startuml
+hide circle
+hide method
+skinparam classAttributeIconSize 0
+skinparam RectangleBackgroundColor white
+
+class customer {
+{static} id_customer: integer
+firstname: varchar
+lastname: varchar
+birth_date: date
+}
+
+class order {
+{static} id_order: integer
+num: integer
+date_order: datetime
+}
+
+class product {
+{static} id_product: integer
+ref:string
+designation:text
+}
+
+class supplier {
+{static} id_supplier: integer
+name: varchar
+phone: varchar
+}
+
+class order_line {
+quantity: integer
+}
+
+class tag {
+{static} id_tag: integer
+tag: varchar(26)
+}
+
+
+class price {
+{static} id: integer
+price: integer
+start_date: datetime
+end_date: datetime|null
+}
+
+'customer <-- order
+'supplier <-- product
+'product <-- order_line
+'order <-- order_line
+'product_tag --> product
+'product <-- price
+
+@enduml
