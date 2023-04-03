@@ -315,7 +315,7 @@ class Group {
 }
 
 left to right direction
-Student "*" --> "1" Group
+Student "*" --> "0..1" Group
 
 ....
 // end _show_plantuml
@@ -344,7 +344,7 @@ class Group {
 }
 
 left to right direction
-Student "*" <-- "1" Group
+Student "*" <-- "0..1" Group
 
 ....
 // end _show_plantuml
