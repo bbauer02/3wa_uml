@@ -114,14 +114,6 @@ endif::[]
 //_show_correction
 endif::[]
 
-ifndef::_hide_breakpoint[]
-//todo: breakpoint à supprimer
-:breakpoint_date: lun. 03/04 à 10:58
-//on masque la correction à partir de ce point
-:_show_correction: 0
-#Point d'arrêt du cours au lun. 03/04 à 10:58#
-endif::_hide_breakpoint[]
-
 [[utiliser_plant_uml_dans_son_éditeur_de_code]]
 == Utiliser PlantUml dans son éditeur de code
 
