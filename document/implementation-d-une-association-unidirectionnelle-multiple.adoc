@@ -320,6 +320,10 @@ Student "*" --> "0..1" Group
 ....
 // end _show_plantuml
 endif::[]
+
+* Après implémentation, il doit être possible de créer des étudiants et un groupe puis d'affecter ce groupe aux étudiants.
+
+* Afficher ensuite le groupe de chaque étudiant.
 //end _question
 ****
 
@@ -349,6 +353,10 @@ Student "*" <-- "0..1" Group
 ....
 // end _show_plantuml
 endif::[]
+
+* Après implémentation, il doit être possible de créer des étudiants et un groupe puis d'affecter des étudiants à ce groupe.
+
+* Lister ensuite les étudiants du groupe
 //end _question
 ****
 
