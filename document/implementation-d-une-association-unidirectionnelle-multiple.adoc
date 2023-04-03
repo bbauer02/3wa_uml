@@ -69,7 +69,7 @@ include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;cla
 Nous avons nos deux classes mais le lien associatif n'apparaît pas dans le code.
 C'est maintenant qu'il faut regarder le sens de navigabilité.
 Il faut exprimer le lien depuis l'objet qui peut naviguer vers l'objet lié soit ici la classe `Vehicle`.
-Puisqu'une association traduit un lien de contenance, la classe `Vechicle` doit *prévoir un attribut qui va contenir zéro à plusieurs instances* de `Technician` :
+Puisqu'une association traduit un lien de contenance, la classe `Vehicle` doit *prévoir un attribut qui va contenir zéro à plusieurs instances* de `Technician` :
 
 Concrètement, il faut ajouter dans la classe `Vehicle` un attribut `$technicians` (au pluriel) qui va *contenir* zéro à plusieurs instances de type `Technician`.
 Cet attribut est qualifié de [[keyword_collection]]*[.keyword]#((collection))#*.
@@ -272,6 +272,8 @@ Nous avons contrôlé qu'une collection d'objets de type `Technician` étaient p
 Cependant, il est toujours possible de passer un tableau d'entiers à l'instanciation d'un véhicule !
 Heureusement, nous pouvons faire appel au travail que l'on vient de faire en appelant la méthode `setTechnicians()` depuis le constructeur :
 
+// @todo : manque un attribut d'objet dans le constructeur concernant la collection de techniciens
+
 [source%linenums,php]
 ----
 include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;method_constructor;check_array_technicians_from_constructor]
@@ -292,6 +294,64 @@ include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;met
 ** une méthode `setXXXs` *(avec `XXX` au pluriel)* qui initialise la collection en une fois.
 * En PHP, il faut contrôler que chaque item ajouté à la collection est bien du type attendu.
 ====
+
+[.question]
+****
+*Q{counter:_question})*
+Implémenter le diagramme suivant :
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=exo_asso_uni_simple_groupes,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Student {
+-name:string
+- age: int
+}
+
+class Group {
+-name : string
+}
+
+left to right direction
+Student "*" --> "1" Group
+
+....
+// end _show_plantuml
+endif::[]
+//end _question
+****
+
+[.question]
+****
+*Q{counter:_question})*
+Implémenter le diagramme suivant :
+
+ifeval::[{_show_plantuml} == 1]
+[plantuml,target=exo_asso_uni_multiple_groupes,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Student {
+-name:string
+- age: int
+}
+
+class Group {
+-name : string
+}
+
+left to right direction
+Student "*" <-- "1" Group
+
+....
+// end _show_plantuml
+endif::[]
+//end _question
+****
+
 
 ifndef::_main_loaded[]
 Point suivant : 

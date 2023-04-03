@@ -281,14 +281,6 @@ De `Person` (enfant) à `Person` (parent), l'association est multiple.
 //end _show_correction
 endif::[]
 
-ifndef::_hide_breakpoint[]
-//todo: breakpoint à supprimer
-:breakpoint_date: lun. 03/04 à 14:27
-//on masque la correction à partir de ce point
-:_show_correction: 0
-#Point d'arrêt du cours au lun. 03/04 à 14:27#
-endif::_hide_breakpoint[]
-
 [.question]
 ****
 *Q{counter:_question})*
@@ -315,40 +307,14 @@ _Correction de Q{_question}_
 ifeval::[{_show_plantuml} == 1]
 [plantuml,target=diagramme-classes-reservation-chambre,format=svg]
 ....
-hide circle
-skinparam classAttributeIconSize 0
-
-class Customer {
-}
-
-class Hostel {
-}
-
-class Room {
-}
-
-class Reservation {
-}
-
-class Benefit{
-}
-
-class Option {
-}
-
-left to right direction
-Hostel "1" -up- "1..*" Room : be part of
-Room "1" -- "*" Reservation : concern
-Customer "1" -- "*" Reservation : make
-Benefit "*" -- "*" Reservation : consume
-Option "*" -- "*" Room : equip
-
+include::../assets/shared_pending/gestion_hotels.puml[]
 ....
 // end _show_plantuml
 endif::[]
 ****
 //end _show_correction
 endif::[]
+
 
 L'implémentation des cardinalités nécessite de savoir implémenter la navigabilité.
 Nous reviendrons alors sur ce sujet dans la partie sur l'<<implémentation_des_cardinalités,implémentation des cardinalités>>.

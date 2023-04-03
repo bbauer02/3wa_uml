@@ -1,0 +1,22 @@
+@startuml
+
+hide circle
+skinparam classAttributeIconSize 0
+
+class Customer {}
+class Room {}
+class Reservation {}
+class Hostel {}
+class Benefit {}
+class Option {}
+
+left to right direction
+Customer "1" -- "*" Reservation : make
+Reservation "*" -- "1" Room : concern
+Hostel "1" -- "1..*" Room : be part of
+Benefit "0..*" --  "*" Reservation
+Option "*" -- "*" Room : equip
+
+
+
+@enduml
