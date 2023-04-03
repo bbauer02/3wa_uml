@@ -62,8 +62,6 @@ git pull
 Lorsque le "pull" sera réalisé, l'outil GCM va ouvrir une fenêtre afin que vous saisissiez le login et le mot de passe de votre compte git distant.
 (Cela est fonctionnel pour les dépôts git quels que soient les serveurs git distants utilisés)
 
-
-
 Bonne lecture !
 
 ifndef::_main_loaded[]
