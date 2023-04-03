@@ -276,7 +276,7 @@ Heureusement, nous pouvons faire appel au travail que l'on vient de faire en app
 
 [source%linenums,php]
 ----
-include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;method_constructor;check_array_technicians_from_constructor]
+include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;method_constructor;property_technicians;check_array_technicians_from_constructor]
 ----
 <1> En faisant appel à la méthode `setTechnicians()`, on s'assure de contrôler chaque élément du tableau passé en argument.
 
