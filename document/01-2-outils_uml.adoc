@@ -34,6 +34,14 @@ Un diagramme est réalisé à partir de lignes de "code" qui décrivent ce que l
 
 Comme il s'agit de lignes de "code", il est très facile de versionner ses modélisations.
 
+ifndef::_hide_breakpoint[]
+//todo: breakpoint à supprimer
+:breakpoint_date: lun. 03/04 à 10:28
+//on masque la correction à partir de ce point
+:_show_correction: 0
+#Point d'arrêt du cours au lun. 03/04 à 10:28#
+endif::_hide_breakpoint[]
+
 [.question]
 ****
 *Q{counter:_question})*
