@@ -33,6 +33,37 @@ Il est important de les lire.
 
 NOTE: Le langage utilisé dans ce support est le langage PHP dans sa version 8.1.
 
+Le support de cours est disponible depuis un dépôt git.
+
+Pour ajouter un dépôt gitlab et éviter de devoir s'authentifier à chaque `git pull`, je recommande l'installation de l'outil https://github.com/git-ecosystem/git-credential-manager/blob/release/docs/install.md[GCM] (Git Credential Manager).
+
+Lien pour récupérer l'exécutable Windows : https://github.com/git-ecosystem/git-credential-manager/releases/tag/v2.0.935
+
+Installation pour Mac OS : https://github.com/git-ecosystem/git-credential-manager/blob/release/docs/install.md#macos
+
+Après installation de GCM, lorsque vous jouerez la commande suivante :
+
+[source,shell]
+----
+git pull <remote>
+----
+
+`remote` est l'url HTTPS du dépôt
+
+Exemple en ajoutant la "remote" dans le fichier de configuration de votre dépôt git local :
+
+[source,shell]
+----
+git remote add origin https://gitlab.com/gemkod/230403_fsd39b_uml_data.git
+
+git pull
+----
+
+Lorsque le "pull" sera réalisé, l'outil GCM va ouvrir une fenêtre afin que vous saisissiez le login et le mot de passe de votre compte git distant.
+(Cela est fonctionnel pour les dépôts git quels que soient les serveurs git distants utilisés)
+
+
+
 Bonne lecture !
 
 ifndef::_main_loaded[]
