@@ -274,7 +274,7 @@ endif::[]
 ....
 include::../assets/source_code/schema_relationnel_ajout_des_identifiants.puml[]
 ....
-
++
 . les associations plusieurs à plusieurs ([[keyword_association_many_to_many]]*[.keyword]#((associations many to many))#*) qui n'ont pas de classe association donnent une table supplémentaire :
 +
 image::../images/schema_relationnel_table_association.png[width=30%]
@@ -287,14 +287,14 @@ include::../assets/source_code/schema_relationnel_ajout_table_association.puml[]
 ....
 // end _show_plantuml
 endif::[]
-.
-** Repérer les associations "*un à plusieurs*([[keyword_association_one_to_many]]*[.keyword]#((association one to many))#*" :
+
+. Repérer les associations "*un à plusieurs* ([[keyword_association_one_to_many]]*[.keyword]#(( association one to many)))#*" :
 +
 .exemple d'association un à plusieurs (one to many)
 image::../images/schema_relationnel_association_one_to_many.png[width=40%]
-
-
++
 Le sens de la flèche respecte une logique :
++
 * une association avec cardinalités maximales `\*` vers `1` donne une relation (flèche) qui part de celle avec `*` pour pointer celle avec `1` :
 +
 image::../images/schema_relationnel_sens_relation.png[width=40%]
@@ -308,16 +308,8 @@ include::../assets/source_code/schema_relationnel_ajout_sens_relation.puml[]
 ....
 // end _show_plantuml
 endif::[]
-. Les associations "plusieurs à plusieurs"
 
-ifndef::_hide_breakpoint[]
-//todo: breakpoint à supprimer
-:breakpoint_date: ven. 17/02 à 08:41
-//on masque la correction à partir de ce point
-:_show_correction: 0
-#Point d'arrêt du cours au ven. 17/02 à 08:41#
-endif::_hide_breakpoint[]
-
+. Repérer les associations "plusieurs à plusieurs" :
 
 ifeval::[{_show_plantuml} == 1]
 //raw image name: aehdfgh
