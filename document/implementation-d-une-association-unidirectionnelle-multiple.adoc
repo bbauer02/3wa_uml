@@ -330,6 +330,18 @@ endif::[]
 [.question]
 ****
 *Q{counter:_question})*
+
+[source%linenums,php]
+----
+include::../assets/shared_pending/Student1.php[]
+----
+
+//end _question
+****
+
+[.question]
+****
+*Q{counter:_question})*
 Implémenter le diagramme suivant :
 
 ifeval::[{_show_plantuml} == 1]
