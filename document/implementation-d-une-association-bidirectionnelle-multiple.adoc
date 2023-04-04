@@ -346,7 +346,13 @@ Le véhicule B (#2) est maintenant associé à Paul en plus de Jalila.
 //end _show_correction
 endif::[]
 
-
+ifndef::_hide_breakpoint[]
+//todo: breakpoint à supprimer
+:breakpoint_date: mar. 04/04 à 14:17
+//on masque la correction à partir de ce point
+:_show_correction: 0
+#Point d'arrêt du cours au mar. 04/04 à 14:17#
+endif::_hide_breakpoint[]
 
 [.question]
 ****
