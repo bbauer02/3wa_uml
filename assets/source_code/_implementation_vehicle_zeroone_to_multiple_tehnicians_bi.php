@@ -97,6 +97,8 @@ class Vehicle
     public function setTechnicians(array $technicians): self
     {
 
+        $this->technicians = [];
+
         foreach ($technicians as $technician) {
             $this->addTechnician($technician);
         }

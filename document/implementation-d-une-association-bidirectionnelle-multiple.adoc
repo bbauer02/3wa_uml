@@ -24,14 +24,6 @@ Dans ce cas `A` doit prévoir un attribut permettant de stocker une instance de 
 *Rappel 4* : Dans une association bidirectionnelle, il faut choisir la classe propriétaire qui va être responsable de la mise à jour de l'objet inverse.
 ====
 
-ifndef::_hide_breakpoint[]
-//todo: breakpoint à supprimer
-:breakpoint_date: mar. 04/04 à 11:25
-//on masque la correction à partir de ce point
-:_show_correction: 0
-#Point d'arrêt du cours au mar. 04/04 à 11:25#
-endif::_hide_breakpoint[]
-
 Le diagramme suivant exprime une association bidirectionnelle multiple car au moins une des cardinalités maximales de l'association est à plusieurs.
 
 ifeval::[{_show_plantuml} == 1]
