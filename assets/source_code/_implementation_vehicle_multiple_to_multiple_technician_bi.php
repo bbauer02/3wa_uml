@@ -67,6 +67,8 @@ class Technician
         foreach($this->vehicles as $vehicle) {
             $vehicle->removeTechnician($this); //<1>
         }
+
+        $this->vehicles = [];
     //end::maj_inverse_vehicle[]
 
         //construction de la nouvelle collection
