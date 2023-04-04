@@ -312,15 +312,6 @@ Cela pourrait être fait avant de rechercher si l'item est dans la collection ma
 ****
 //end _show_correction
 endif::[]
-
-ifndef::_hide_breakpoint[]
-//todo: breakpoint à supprimer
-:breakpoint_date: mar. 04/04 à 16:35
-//on masque la correction à partir de ce point
-:_show_correction: 0
-#Point d'arrêt du cours au mar. 04/04 à 16:35#
-endif::_hide_breakpoint[]
-
 [.question]
 ****
 *Q{counter:_question})*
@@ -338,6 +329,7 @@ class Waiter {
 }
 left to right direction
 Waiter "1..*" --- "0..4" Table : serves
+
 ....
 //_show_plantuml
 endif::[]
@@ -377,6 +369,30 @@ include::../assets/source_code/implementation_waiter_onemultiple_to_zeromultiple
 ****
 //end _show_correction
 endif::[]
+
+[.question]
+****
+*Q{counter:_question})*
+Exercice supplémentaire (si le temps le permet).
+
+Implémentez le diagramme suivant :
+
+[plantuml,target=trois_classes_bidirectionnelle,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+class Waiter {
+
+}
+left to right direction
+Waiter "1..*" --- "0..4" Table : serves
+
+Table "*" -- "0..1" Customer
+
+....
+//end _question
+****
 
 ifndef::_main_loaded[]
 Point suivant : 

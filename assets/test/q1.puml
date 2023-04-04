@@ -1,7 +1,15 @@
 @startuml
 
-class Produit
+hide circle
+skinparam classAttributeIconSize 0
 
+class Waiter {
+
+}
+left to right direction
+Waiter "1..*" --- "0..4" Table : serves
+
+Table "*" -- "0..1" Customer
 
 
 
