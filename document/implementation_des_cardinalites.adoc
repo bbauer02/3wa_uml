@@ -180,14 +180,6 @@ Cela irait à l'encontre de ce que précise le diagramme.
 //end _show_correction
 endif::[]
 
-ifndef::_hide_breakpoint[]
-//todo: breakpoint à supprimer
-:breakpoint_date: mar. 04/04 à 15:38
-//on masque la correction à partir de ce point
-:_show_correction: 0
-#Point d'arrêt du cours au mar. 04/04 à 15:38#
-endif::_hide_breakpoint[]
-
 [.question]
 ****
 *Q{counter:_question})*
@@ -213,7 +205,7 @@ Lorsqu'une cardinalité n'est plus respectée, une exception doit être levée a
 
 En PHP, https://www.php.net/manual/fr/class.exception.php[une exception] se lance de la façon suivante :
 
-[source%linenums,php]
+[source,php]
 ----
 throw new Exception('ici un message');
 ----
@@ -269,7 +261,13 @@ Avec ce code, il ne sera pas possible d'affecter plus de 4 tables.
 //end _show_correction
 endif::[]
 
-
+ifndef::_hide_breakpoint[]
+//todo: breakpoint à supprimer
+:breakpoint_date: mar. 04/04 à 16:12
+//on masque la correction à partir de ce point
+:_show_correction: 0
+#Point d'arrêt du cours au mar. 04/04 à 16:12#
+endif::_hide_breakpoint[]
 [.question]
 ****
 *Q{counter:_question})*
