@@ -369,13 +369,7 @@ Lorsque la classe possédante peut être l'une ou l'autre des classes associées
 Par exemple, s'il paraît plus naturel de partir d'un véhicule pour lui associer un technicien, alors c'est que la classe `Vehicle` domine la classe `Technician`.
 Ce sera donc elle qui sera responsable de la mise à jour de l'objet inverse.
 ====
-ifndef::_hide_breakpoint[]
-//todo: breakpoint à supprimer
-:breakpoint_date: mar. 04/04 à 11:12
-//on masque la correction à partir de ce point
-:_show_correction: 0
-#Point d'arrêt du cours au mar. 04/04 à 11:12#
-endif::_hide_breakpoint[]
+
 [.question]
 ****
 *Q{counter:_question})*
