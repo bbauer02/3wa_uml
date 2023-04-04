@@ -23,7 +23,7 @@ include::custom_attributes.adoc[]
 :_document_with_diagrams: 1
 
 //URL du dépôt distant. Pour gérer l'authentification en HTTPS, il faut utiliser GCM : https://github.com/GitCredentialManager/git-credential-manager. S'il y a plusieurs dépôts, ils doivent être séparés par un point virgule).
-:_git_remote_for_current_adocument: https://gitlab.com/gemkod/uml.git
+:_git_remote_for_current_adocument: https://github.com/bbauer02/3wa_uml.git
 
 //URL du dépôt ouvert aux étudiants (ne seront publiés que le contenu du dossier shared. Pour gérer l'authentification en HTTPS, il faut utiliser GCM : https://github.com/GitCredentialManager/git-credential-manager. S'il y a plusieurs dépôts, les séparer par un ;
 :_git_remotes_for_students: https://github.com/bbauer02/3wa_uml_etudiant
