@@ -327,17 +327,20 @@ endif::[]
 //end _question
 ****
 
-[.question]
+
+ifeval::[{_show_correction} == 1]
+[.answer]
 ****
-*Q{counter:_question})*
+_Correction de Q{_question}_
 
 [source%linenums,php]
 ----
 include::../assets/shared_pending/Student1.php[]
 ----
-
-//end _question
 ****
+//end _show_correction
+endif::[]
+
 
 [.question]
 ****
