@@ -252,7 +252,7 @@ include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;met
 <1> La tableau passé en argument est parcouru afin d'accéder à chacun de ses items
 <2> Chaque item du tableau est passé à la méthode `addTechnician`.
 Cette méthode attend une instance de `Technician`.
-Si ce n'est pas le cas, un erreur fatale sera générée.
+Si ce n'est pas le cas, une erreur fatale sera générée.
 Il n'est alors plus possible d'avoir une collection qui ne contiendrait pas que des techniciens.
 
 Nous allons vérifier cela en affectant un tableau d'entiers en guise de collection de techniciens :
