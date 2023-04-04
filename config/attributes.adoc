@@ -26,11 +26,13 @@ include::custom_attributes.adoc[]
 :_git_remote_for_current_adocument: https://gitlab.com/gemkod/uml.git
 
 //URL du dépôt ouvert aux étudiants (ne seront publiés que le contenu du dossier shared. Pour gérer l'authentification en HTTPS, il faut utiliser GCM : https://github.com/GitCredentialManager/git-credential-manager. S'il y a plusieurs dépôts, les séparer par un ;
-:_git_remotes_for_students: https://gitlab.com/gemkod/230403_fsd39b_uml_data.git
+// :_git_remotes_for_students: https://gitlab.com/gemkod/230403_fsd39b_uml_data.git
+:_git_remotes_for_students:
 
 
 //url menant vers le dépôt partagé aux étudiants (pour l'instant, ce n'est pas cohérent avec l'attribut _git_remotes_for_students car ce dernier peut accepter plusieurs valeurs.
-:_url_to_repo_for_students: https://gitlab.com/gemkod/230403_fsd39b_uml_data.git
+//:_url_to_repo_for_students: https://gitlab.com/gemkod/230403_fsd39b_uml_data.git
+:_url_to_repo_for_students: 
 
 //chemin vers l'image de couverture (il faut indiquer un chemin relatif à partir du répertoire "config" jusqu'à l'image)
 :_cover_image: ../images/bg-document.png
