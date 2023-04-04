@@ -243,11 +243,11 @@ C'est une simple [[keyword_valeur_scalaire]]*[.keyword]#((valeur scalaire))#* (d
 
 Pour éviter ce problème, il faut contrôler chaque item de la collection.
 C'est en fait très simple à faire.
-Il suffit de boucler sur la collection passée en argument et d'ajouter à la collection de technicien chacun des items parcourus :
+Il suffit de boucler sur la collection passée en argument et d'ajouter à la collection de technicien chacun des items parcourus (*en ayant préalablement vider la collection existante*)
 
 [source%linenums,php]
 ----
-include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;method_set_technicians;init_technicians_with_check_array]
+include::../assets/source_code/_implementation_asso_uni_multiple.php[tags=!*;method_set_technicians;init_technicians_from_array;init_technicians_with_check_array]
 ----
 <1> La tableau passé en argument est parcouru afin d'accéder à chacun de ses items
 <2> Chaque item du tableau est passé à la méthode `addTechnician`.
@@ -374,6 +374,19 @@ endif::[]
 * Lister ensuite les étudiants du groupe
 //end _question
 ****
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+[source%linenums,php]
+----
+include::../assets/shared_pending/Student2.php[tags=!*;]
+----
+****
+//end _show_correction
+endif::[]
 
 
 ifndef::_main_loaded[]

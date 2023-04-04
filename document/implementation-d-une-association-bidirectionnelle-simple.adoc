@@ -92,7 +92,7 @@ Puis le mutateur et l'accesseur de l'attribut `technician` :
 [source%linenums,php]
 ----
 //classe Vehicle
-include::../assets/source_code/_implementation_asso_bi_simple.php[tags=!*;mutator_accessor_of_technician]
+include::../assets/source_code/_implementation_asso_bi_simple.php[tags=!*;method_set_technician;mutator_accessor_of_technician;]
 ----
 
 Ajoutons la méthode `__toString` qui retourne le technicien associé au véhicule :
@@ -369,7 +369,13 @@ Lorsque la classe possédante peut être l'une ou l'autre des classes associées
 Par exemple, s'il paraît plus naturel de partir d'un véhicule pour lui associer un technicien, alors c'est que la classe `Vehicle` domine la classe `Technician`.
 Ce sera donc elle qui sera responsable de la mise à jour de l'objet inverse.
 ====
-
+ifndef::_hide_breakpoint[]
+//todo: breakpoint à supprimer
+:breakpoint_date: mar. 04/04 à 11:12
+//on masque la correction à partir de ce point
+:_show_correction: 0
+#Point d'arrêt du cours au mar. 04/04 à 11:12#
+endif::_hide_breakpoint[]
 [.question]
 ****
 *Q{counter:_question})*

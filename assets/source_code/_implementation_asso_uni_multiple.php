@@ -101,7 +101,8 @@ class Vehicle
     public function setTechnicians(array $technicians): self
     {
         //tag::init_technicians_from_array[]
-        $this->technicians = $technicians; //<1>
+        //on vide la collection avant de l'initialiser
+        $this->technicians = [];
         //end::init_technicians_from_array[]
 
         //tag::init_technicians_with_check_array[]
