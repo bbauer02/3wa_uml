@@ -13,10 +13,10 @@ endif::_main_loaded[]
 
 ifndef::_hide_breakpoint[]
 //todo: breakpoint à supprimer
-:breakpoint_date: jeu. 16/02 à 11:09
+:breakpoint_date: mer. 05/04 à 16:13
 //on masque la correction à partir de ce point
 :_show_correction: 0
-#Point d'arrêt du cours au jeu. 16/02 à 11:09#
+#Point d'arrêt du cours au mer. 05/04 à 16:13#
 endif::_hide_breakpoint[]
 
 == Notion d'interface et modélisation UML
@@ -159,7 +159,7 @@ Si une classe ne peut pas hériter de plusieurs classes mères, elle peut implé
 
 [source%linenums,php]
 ----
-class classA implements classB, classC, classD {
+class classA implements InterfaceB, InterfaceC, InterfaceD {
     //ici les membres spécifiques de classA
 
     //ici toutes les méthodes déclarées dans les interfaces classB, classC et classD
