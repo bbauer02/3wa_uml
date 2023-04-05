@@ -4,12 +4,10 @@ endif::_main_loaded[]
 //titre de la section
 [[l_association_porteuse_ou_classe_association_]]
 = L'association porteuse (ou classe association)
-
 ifndef::_main_loaded[]
 include::../config/header_attributes.adoc[]
 {empty}
 Point précédent :
-
 link:07-1-l-association-n-aire.adoc[L'association n-aire]
 endif::_main_loaded[]
 

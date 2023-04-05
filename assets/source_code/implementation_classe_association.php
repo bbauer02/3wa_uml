@@ -81,6 +81,9 @@ class Vehicle
         //end::class_Vehicle_maj_objet_lie[]
 
         //mise à jour de la collection de techniciens
+
+        $this->technicians = [];
+
         foreach ($technicians as $technician) {
             $this->addTechnician($technician);
         }
@@ -152,6 +155,8 @@ class Technician
      */
     public function setVehicles(array $vehicles): self
     {
+        $this->vehicles = [];
+        
         foreach ($vehicles as $vehicle) {
             $this->addVehicle($vehicle);
         }
