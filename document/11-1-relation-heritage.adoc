@@ -377,7 +377,7 @@ FileVideo -up-|> File
 //_show_plantuml
 endif::[]
 
-Puisque l'attribut ajoutée l'est dans la classe mère, cela signifie que l'on a fait de la *généralisation*.
+Puisque l'attribut ajouté l'est dans la classe mère, cela signifie que l'on a fait de la *généralisation*.
 
 Si nous devons ajouter une méthode qui indique que le fichier est peut être obsolète car il a plus de 12 mois, l'ajout d'une méthode `isObsolete()` dans la classe mère suffit pour qu'elle soit utilisable dans les classes filles :
 
@@ -673,6 +673,14 @@ L'objectif n'est pas de faire un cours sur la programmation orientée objet.
 Effectivement, il reste bien des aspects à aborder concernant l'héritage et les aspects techniques qui en découlent.
 
 == Quelques exercices
+
+ifndef::_hide_breakpoint[]
+//todo: breakpoint à supprimer
+:breakpoint_date: mer. 05/04 à 14:27
+//on masque la correction à partir de ce point
+:_show_correction: 0
+#Point d'arrêt du cours au mer. 05/04 à 14:27#
+endif::_hide_breakpoint[]
 
 [.question]
 ****

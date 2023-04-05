@@ -323,7 +323,7 @@ include::../assets/source_code/implementation_classe_association_simplification.
 
 [source%linenums,php]
 ----
-include::../assets/source_code/implementation_classe_association_simplification.php[tags=class_Technician]
+include::../assets/source_code/implementation_classe_association_simplification.php[tags=!*;class_Technician]
 ----
 
 * La classe `Intervention` est responsable de la mise à jour des objets qui la compose (puisqu'il s'agit d'une "association")
@@ -332,14 +332,6 @@ include::../assets/source_code/implementation_classe_association_simplification.
 ----
 include::../assets/source_code/implementation_classe_association_simplification.php[tags=class_Intervention]
 ----
-
-ifndef::_hide_breakpoint[]
-//todo: breakpoint à supprimer
-:breakpoint_date: mer. 05/04 à 11:42
-//on masque la correction à partir de ce point
-:_show_correction: 0
-#Point d'arrêt du cours au mer. 05/04 à 11:42#
-endif::_hide_breakpoint[]
 
 [.question]
 ****
