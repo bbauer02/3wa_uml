@@ -4,10 +4,12 @@ endif::_main_loaded[]
 //titre de la section
 [[l_association_réflexive]]
 = L'association réflexive
+
 ifndef::_main_loaded[]
 include::../config/header_attributes.adoc[]
 {empty}
 Point précédent :
+
 link:implementation_des_cardinalites.adoc[L'implémentation des cardinalités]
 endif::_main_loaded[]
 
@@ -28,7 +30,7 @@ class "Technician" as subordinate
 superior - "0..*" subordinate : is the superior
 ....
 //_show_plantuml
-endif::[] 
+endif::[]
 
 Comme les deux classes mobilisées sont identiques, il ne faut en utiliser qu'une seule et donc faire un lien qui point sur elle-même :
 
@@ -49,7 +51,7 @@ de 0 a plusieurs autres techniciens
 end note
 ....
 //_show_plantuml
-endif::[] 
+endif::[]
 
 C'est équivalent à cette représentation :
 
@@ -64,8 +66,7 @@ class Technician {
 }
 ....
 //_show_plantuml
-endif::[] 
-
+endif::[]
 
 Voici la même modélisation mais avec une bidirectionnalité :
 
@@ -87,7 +88,7 @@ Un technicien a 0 ou un supérieur.
 end note
 ....
 //_show_plantuml
-endif::[] 
+endif::[]
 
 Ce qui est équivalent à :
 
@@ -103,7 +104,15 @@ class Technician {
 }
 ....
 //_show_plantuml
-endif::[] 
+endif::[]
+
+ifndef::_hide_breakpoint[]
+//todo: breakpoint à supprimer
+:breakpoint_date: mer. 05/04 à 09:50
+//on masque la correction à partir de ce point
+:_show_correction: 0
+#Point d'arrêt du cours au mer. 05/04 à 09:50#
+endif::_hide_breakpoint[]
 
 [.question]
 ****
@@ -114,6 +123,7 @@ Travail à faire
 . Implémentez le diagramme suivant (il n'y a rien de nouveau, cela reste une association bidirectionnelle comme nous savons les implémenter) :
 +
 ifeval::[{_show_plantuml} == 1]
+
 [plantuml,target=reflexive-technician-bidirectionnal-implementation,format=svg]
 ....
 hide circle
@@ -128,7 +138,6 @@ endif::[]
 . Vous veillerez à ce qu'un technicien ne puisse pas être son propre subordonné ou supérieur.
 
 ****
-
 
 ifeval::[{_show_correction} == 1]
 [.answer]
@@ -166,6 +175,7 @@ Lorsqu'un subordonné sa voit lié ou "délié" d'un supérieur, il faut indique
 ----
 include::../assets/source_code/implementation_technician_zeroone_to_multiple_technician_bi.php[tags=!*;class_Technician;property_superior;mutator_accessor_of_superior;maj_inverse_superior]
 ----
+
 <1> on met à jour l'ancien supérieur qui n'a plus le technicien courant comme subordonné
 <2> on met à jour le nouveau supérieur en lui indiquant qu'il a un nouveau subordonné
 
@@ -198,9 +208,11 @@ include::../assets/source_code/implementation_technician_zeroone_to_multiple_tec
 endif::[]
 
 ifndef::_main_loaded[]
-Point suivant : 
+Point suivant :
 link:08-1-l-agregation.adoc[L'agrégation]
+
 include::../config/index.adoc[]
+
 endif::_main_loaded[]
 
 
