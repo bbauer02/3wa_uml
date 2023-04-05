@@ -108,6 +108,8 @@ class Technician
      */
     public function setSubordinates(array $subordinates): self
     {
+        
+        $this->surbordinates = [];
 
         foreach ($subordinates as $subordinate) {
             $this->addSubordinate($subordinate);

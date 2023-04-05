@@ -106,14 +106,6 @@ class Technician {
 //_show_plantuml
 endif::[]
 
-ifndef::_hide_breakpoint[]
-//todo: breakpoint à supprimer
-:breakpoint_date: mer. 05/04 à 09:50
-//on masque la correction à partir de ce point
-:_show_correction: 0
-#Point d'arrêt du cours au mer. 05/04 à 09:50#
-endif::_hide_breakpoint[]
-
 [.question]
 ****
 *Q{counter:_question})*
