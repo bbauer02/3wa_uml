@@ -674,14 +674,6 @@ Effectivement, il reste bien des aspects à aborder concernant l'héritage et le
 
 == Quelques exercices
 
-ifndef::_hide_breakpoint[]
-//todo: breakpoint à supprimer
-:breakpoint_date: mer. 05/04 à 14:27
-//on masque la correction à partir de ce point
-:_show_correction: 0
-#Point d'arrêt du cours au mer. 05/04 à 14:27#
-endif::_hide_breakpoint[]
-
 [.question]
 ****
 *Q{counter:_question})*
@@ -848,6 +840,14 @@ FileExecutable -up-|> File
 ----
 //_show_correction
 endif::[]
+
+ifndef::_hide_breakpoint[]
+//todo: breakpoint à supprimer
+:breakpoint_date: mer. 05/04 à 14:58
+//on masque la correction à partir de ce point
+:_show_correction: 0
+#Point d'arrêt du cours au mer. 05/04 à 14:58#
+endif::_hide_breakpoint[]
 
 [.question]
 ****
