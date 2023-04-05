@@ -11,14 +11,6 @@ Point précédent :
 link:12-1-La-relation-abstraite.adoc[La relation abstraite]
 endif::_main_loaded[]
 
-ifndef::_hide_breakpoint[]
-//todo: breakpoint à supprimer
-:breakpoint_date: mer. 05/04 à 16:13
-//on masque la correction à partir de ce point
-:_show_correction: 0
-#Point d'arrêt du cours au mer. 05/04 à 16:13#
-endif::_hide_breakpoint[]
-
 == Notion d'interface et modélisation UML
 
 [WARNING]
