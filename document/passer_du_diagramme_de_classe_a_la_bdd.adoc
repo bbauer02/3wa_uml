@@ -298,8 +298,6 @@ endif::[]
 ** si les deux entités ont une cardinalité maximale à 1, alors il faudra faire partir la flèche depuis l'entité dominante
 ** si les deux entités ont une cardinalité maximale à plusieurs,
 
-
-
 * l'identifiant d'une classe devient une clé primaire.
 Elle est soulignée dans le schéma
 
