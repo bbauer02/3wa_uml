@@ -1,0 +1,48 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+//titre de la section
+[[le_langage_sql]]
+= Le langage SQL
+ifndef::_main_loaded[]
+include::../config/header_attributes.adoc[]
+{empty}
+Point précédent :
+link:passer_du_diagramme_de_classe_a_la_bdd.adoc[Passer du diagramme de classe à la bdd]
+endif::_main_loaded[]
+
+[[la_commande_select]]
+== La commande SELECT
+
+La commande `SELECT` permet de choisir la ou les *colonnes* que l'on souhaite récupérer.
+
+[source%linenums,sql]
+----
+SELECT nom FROM client;
+SELECT nom, prenom FROM client;
+----
+
+Il est possible de faire des calculs dans une `SELECT` :
+
+[source%linenums,sql]
+----
+SELECT 1+3
+SELECT nom, prenom, 5*2 FROM client;
+----
+
+[.question]
+****
+*Q{counter:_question})*
+Ecrire la requête qui permet d'afficher le prix HT d'un produit, le montant de tva à 20% et le prix TTC
+//end _question
+****
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+****
+_Correction de Q{_question}_
+
+
+****
+//end _show_correction
+endif::[]

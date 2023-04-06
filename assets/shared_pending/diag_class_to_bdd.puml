@@ -1,0 +1,90 @@
+@startuml
+hide circle
+skinparam classAttributeIconSize 0
+skinparam class {
+    BackgroundColor<<entity>> aliceblue/lightskyblue
+    BackgroundColor<<controller>> business/khaki
+    BackgroundColor<<manager>> cornsilk/navajowhite
+}
+class Customer <<entity>>{
+-id: int {id}
+-firstname: string
+-lastname: string
+-birthDate: Date
++getAge():int
+}
+
+class Order <<entity>>{
+-id:int {id}
+-num:int
+-dateOrder:DateTime
++totalOrder():float
+
+}
+
+class Product <<entity>>{
+-id:int {id}
+-ref:string
+-designation:string
++averagePrice():float
+}
+
+class Supplier <<entity>>{
+-id:int {id}
+-name:string
+-phone:string
+}
+
+class Tag <<entity>>{
+-id:int {id}
+-tag:string
+}
+
+class Price <<entity>>{
+-id:int {id}
+-price:int
+-startDate: DateTime
+-endDate: Date|null
+}
+
+class OrderLine <<entity>>{
+'-id:int {id}
+-qtyOfProduct:int
+-priceOfProduct:int
+}
+
+class CustomerManager <<manager>>{
++save(c:Customer):bool
++readById(id:int):Customer|null
++readAll():Customer[0..*]
+}
+
+class CustomerController <<controller>>{
++createCustomer():Response
+}
+
+class SupplierController <<controller>>{
++createSupplier():Response
+}
+
+class SupplierManager <<manager>>{
++save(c:Supplier):bool
++readById(id:int):Supplier|null
++readAll():Supplier[0..*]
+}
+
+Customer "1" -- "*" Order : Orders
+Product "1..*" - "*" Order : contains
+(Order, Product) .. OrderLine
+Product "1" --> "1..*" Price
+Tag "*" <- "1..*" Product : referenced
+Supplier "1" <-- "*" Product
+CustomerController --> "1" CustomerManager
+CustomerController ..> Response
+SupplierController ..> Response
+SupplierController --> "1" SupplierManager
+CustomerManager ..> Customer
+SupplierManager ..> Supplier
+
+
+@enduml

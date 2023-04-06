@@ -1,0 +1,30 @@
+ifndef::_main_loaded[]
+include::../config/load_attributes.adoc[]
+endif::_main_loaded[]
+//titre de la section
+[[mysql_workbench]]
+= Mysql Workbench
+ifndef::_main_loaded[]
+include::../config/header_attributes.adoc[]
+{empty}
+Point précédent :
+link:passer_du_diagramme_de_classe_a_la_bdd.adoc[Passer du diagramme de classe à la bdd]
+endif::_main_loaded[]
+
+[[qu_est_ce_que_mysql_workbench_]]
+== Qu'est-ce que Mysql Workbench ?
+
+C'est un logiciel de gestion et d'administration de bases de données MySQL.
+
+Une fois connecté à un serveur MySQL, il permet de créer des bases de données via une interface graphique, d'écrire des requêtes SQL, des procédures stockées, des triggers.
+
+Deux fonctionnalités sont très utiles :
+
+* le [[keyword_forward_engineering]]*[.keyword]#((forward engineering))#* : c'est le fait de mettre à jour la base de données à partir des modifications apportées dans Mysql Workbench
+* le [[keyword_reverse_engineering]]*[.keyword]#((reverse engineering))#* : c'est le fait de mettre à jour la diagramme de la base de données dans Mysql Workbench à partir d'une base de données existante.
+
+Téléchargement (Windows, Mac, Linux) : https://dev.mysql.com/downloads/workbench/
+
+[[initiation_à_mysql_workbench]]
+== Initiation à Mysql Workbench
+

@@ -1,0 +1,70 @@
+@startuml
+
+title Schéma relationnel de la base de données
+
+hide circle
+hide method
+skinparam classAttributeIconSize 0
+
+class supplier {
+{static} id : int
+name: varchar50
+phone: varchar12
+}
+
+class customer {
+{static} id : int
+firstname: varchar50
+lastname: varchar50
+birth_date: Date
+}
+
+class order {
+{static} id : int
+date_order:DateTime
+#id_customer
+}
+
+class order_line {
+qty_of_product:int
+price_of_product:int
+{static} #id_product:int
+{static} #id_order:int
+}
+
+class price {
+{static} id : int
+price:int
+start_date: DateTime
+end_date: Date|null
+#id_product
+}
+
+class tag {
+{static} id : int
+tag:string
+}
+
+class product {
+{static} id : int
+ref:string
+designation:string
+#id_supplier
+}
+class tag_product {
+{static} #id_product
+{static} #id_tag
+}
+
+product <-- supplier
+customer --> order
+price <-- product
+order_line <-- product
+order_line <-- order
+tag_product <-- tag
+tag_product <-- product
+
+
+
+
+@enduml

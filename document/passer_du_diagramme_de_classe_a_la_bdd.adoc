@@ -22,7 +22,7 @@ En programmation, ces classes sont appelées des [[keyword_entités]]*[.keyword]
 Dans un diagramme de classe, ces classes sont marquées avec le <<keyword_stéréotype, stéréotype>> `entity`.
 Grâce à cela, le développeur qui lit le diagramme sait qu'il doit gérer la persistance des instances de cette classe.
 
-Prenons en compte l'extrait de diagramme ci-dessous qui modélise une application e-commerce (nous allons le construire ensemble) :
+Prenons en compte l'extrait de diagramme ci-dessous qui modélise une application e-commerce :
 
 ifeval::[{_show_note_prof} == 1]
 .Note pour le professeur
@@ -47,96 +47,7 @@ endif::[]
 ifeval::[{_show_plantuml} == 1]
 [plantuml,target=commerce_base,format=svg]
 ....
-hide circle
-skinparam classAttributeIconSize 0
-skinparam class {
-    BackgroundColor<<entity>> aliceblue/lightskyblue
-    BackgroundColor<<controller>> business/khaki
-    BackgroundColor<<manager>> cornsilk/navajowhite
-}
-
-'permet de gérer un CRUD (Create, Read, Update, Delete)
-class CustomerManager <<manager>> {
-+save(c:Customer):bool
-+readById(id:int):Customer|null
-+readAll():Customer[]
-+update(c:Customer):bool
-}
-
-class SupplierManager <<manager>> {
-+save(c:Supplier):bool
-+readById(id:int):Supplier|null
-+readAll():Supplier[]
-+update(c:Supplier):bool
-}
-
-class Response{}
-
-class CustomerController <<controller>> {
-- customerManager:CustomerManager
-+createCustomer():Response
-}
-
-class SupplierController <<controller>> {
-- supplierManager:SupplierManager
-+createSupplier():Response
-}
-
-class Customer <<entity>>{
--id: int {id}
--firstname:string
--lastname:string
--birthDate:Date
-}
-
-class Order <<entity>>{
--id: int {id}
--num: int
--dateOrder:DateTime
-+totalOrder():int
-}
-
-class Product <<entity>>{
--id: int {id}
--ref:string
--designation:string
-+averagePrice(): int
-}
-
-class order_line <<entity>>{
--quantity: int
--totalQuantity():int
-}
-
-class Price <<entity>>{
--id: int {id}
--price: int
--startDate: DateTime
--endDate: DateTime|null
-}
-
-class Supplier <<entity>>{
--id: int {id}
--name:string
--phone:string
-}
-
-class Tag <<entity>> {
--id: int {id}
--tag: string
-}
-CustomerController ..> Customer
-CustomerController ..> Response
-CustomerController --> "1" CustomerManager
-Customer "1" -- "*" Order: Orders
-Order "*" -- "1..*" Product: contains
-(Order, Product) .. order_line
-Product "1" -left> "*" Price
-Supplier "1" <-- "*" Product
-SupplierController --> "1" SupplierManager
-SupplierController ..> Supplier
-SupplierController ..> Response
-Tag "*" <-- "1..*" Product
+include::../assets/shared_pending/diag_class_to_bdd.puml[]
 ....
 // end _show_plantuml
 endif::[]
@@ -172,7 +83,7 @@ Voici à quoi ressemble le schéma relationnel du diagramme de classe précéden
 ifeval::[{_show_plantuml} == 1]
 [plantuml,target=schema_relationnel,format=svg]
 ....
-include::../assets/source_code/schema_relationnel.puml[tags=!*;]
+include::../assets/shared_pending/schema_relationnel.puml[]
 ....
 // end _show_plantuml
 endif::[]
@@ -423,89 +334,41 @@ Je détourne seulement l'usage de plantuml pour faire le schéma relationnel.
 ifeval::[{_show_plantuml} == 1]
 [plantuml,target=schema_relationnel_commerce_base,format=svg]
 ....
-hide circle
-hide method
-skinparam classAttributeIconSize 0
-skinparam RectangleBackgroundColor white
-
-class customer {
-{static} id_customer: integer
-firstname: varchar
-lastname: varchar
-birth_date: date
-}
-
-class order {
-{static} id_order: integer
-num: integer
-date_order: datetime
-#id_customer:integer
-}
-
-class product {
-{static} id_product: integer
-ref:string
-designation:text
-#id_supplier:integer
-}
-
-class supplier {
-{static} id_supplier: integer
-name: varchar
-phone: varchar
-}
-
-class order_line {
-{static} #id_product:integer
-{static} #id_order: integer
-quantity: integer
-}
-
-class tag {
-{static} id_tag: integer
-tag: varchar(26)
-}
-
-class product_tag {
-{static} #id_tag: integer
-{static} #id_product: integer
-}
-
-class price {
-{static} id: integer
-price: integer
-startDate: datetime
-end_date: datetime|null
-#id_product: integer
-}
-
-customer <-- order
-supplier <-- product
-product <-- order_line
-order <-- order_line
-product_tag --> product
-product_tag --> tag
-product <-- price
+include::../assets/shared_pending/schema_relationnel.puml[]
 ....
 // end _show_plantuml
 endif::[]
 
-.Code source (qui détourne planuml pour faire un schéma relationnel)
-[source%linenums,text, subs="attributes"]
-----
-hide circle
-hide method
-skinparam classAttributeIconSize 0
-skinparam RectangleBackgroundColor white
+Une fois que le schéma relationnel est en place, il ne reste plus qu'à l'utiliser pour créer la base de données (via Phpmyadmin par exemple).
 
-class Customer {
-{static} idCustomer: integer
-}
+[NOTE]
+====
+Construire la base de données en temps réel avec les étudiants.
 
-class Order {
-{static} idOrder: int
-#idCustomer:integer
-}
+Bien insister sur les contraintes d'intégrité référentielles
+====
 
-Customer "*" <-- "1" Order
-----
+Une fois la base de données, créées, le concepteur de Phpmyadmin doit fournir un résultat très similaire à notre schéma relationnel :
+
+image::../images/schema_relationnel_phpmyadmin.png[]
+
+ifeval::[{_show_note_prof} == 1]
+.Note pour le professeur
+[.note_prof]
+****
+Bien montrer le cas de la clé primaire constituée de deux colonnes (par exemple en associant des produits à des tags)
+//end note_prof
+****
+//end _show_note_prof
+endif::[]
+
+ifeval::[{_show_note_prof} == 1]
+.Note pour le professeur
+[.note_prof]
+****
+Script SQL pour créer la base de données :
+link:../assets/shared_pending/commerce.sql[]
+//end note_prof
+****
+//end _show_note_prof
+endif::[]
