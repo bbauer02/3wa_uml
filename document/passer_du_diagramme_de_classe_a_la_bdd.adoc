@@ -370,3 +370,8 @@ link:../assets/shared_pending/commerce.sql[]
 ****
 //end _show_note_prof
 endif::[]
+
+[[gérer_l_héritage_dans_la_base_de_données]]
+== Gérer l'héritage dans la base de données
+
+Comming Soon...

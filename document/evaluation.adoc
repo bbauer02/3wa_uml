@@ -1,0 +1,249 @@
+= Evaluation de fin de semaine
+
+Vous travaillez dans une SS2I spécialisée dans la conception d'applications sur mesure.
+
+Votre responsable vous remet deux dossiers :
+
+* un dossier concernant des besoins d'information exprimés par une société de vente de produits alimentaires à des restaurants, la société Alivente. La SS2I avait mis en place une base de données il y a quelques mois. Maintenant, il faut prévoir l'interrogation de cette base de données.
+* un dossier concernant la société Edimat qui est un nouveau client.
+
+== Dossier 1 : La société Alivente
+
+[.question]
+****
+*Q{counter:_question})*
+Réalisez les requêtes SQL du support "restaurants".
+
+Ce dossier doit être traité dans un fichier *au format markdown*.
+
+_Comme vous utilisez le format markdown, sachez que vous pouvez spécifier du code sql à l'aide du marqueur suivant :_
+
+[source,text, subs="+macros"]
+----
+```sql
+SELECT .....
+FROM ...
+```
+----
+Vous aurez ainsi la coloration syntaxique du code SQL !
+//end _question
+****
+
+[[dossier_2_la_société_edimat]]
+== Dossier 2 : La société Edimat
+
+La société Edimat est une société éditrice de supports numériques textuels réalisés par des auteurs amateurs.
+Elle souhaite pouvoir suivre le versionnement des supports qui lui sont soumis et gérer leur mise en vente via un site de e-commerce.
+A ce titre, elle commande à votre entreprise une application qui serait capable de gérer les supports qui lui sont soumis.
+
+Vous êtes chargé de travailler sur cette application qui doit être développée en PHP.
+
+Voici le *recueil des besoins utilisateur* exprimés par le client :
+
+
+Des auteurs amateurs proposent des supports numériques textuels à la société Edimat.
+Un auteur a donc la possibilité d'ajouter un support dans la base Edimat une fois que son compte a été créé via son login et mot de passe.
+Un support a un titre, un code correspondant à un hash du titre et de son auteur. un support ne peut avoir qu'un seul auteur.
+Un auteur est caractérisé par son nom, prénom, adresse mail et un code alphanumérique qui est unique et personnel.
+Chaque support est lu par un à plusieurs relecteurs.
+Un relecteur a un nom, un prénom, une adresse mail et se connecte via un login et un mot de passe.
+Chaque relecteur peut écrire à une date et à une heure donnée des remarques durant la relecture d'un support.
+Lorsque l'auteur prend connaissance des remarques émises par un relecteur, il doit pouvoir indiquer qu'il les a lues.
+L'auteur peut modifier un support dont il est l'auteur.
+Dans ce cas, lorsqu'il est satisfait de ses modifications, il les valide.
+La validation de modifications dans l'application crée une version composée d'un numéro, d'un message de l'auteur, de la date et de l'heure de celle-ci.
+Chaque validation génère un nouveau numéro de version du support.
+Un nouveau numéro de version est simplement le numéro de version précédent incrémenté de 1 (un support a pour première valeur de version la valeur 1 dès son ajout par son auteur).
+Avec ce dispositif, un relecteur peut choisir la version d'un support qu'il souhaite lire et commenter.
+La version la plus récente est marqué comme étant la version "courante".
+Lorsqu'une version est considérée comme publiable, elle est marquée comme telle par un relecteur "certifié".
+Ce type de relecteur possède les mêmes caractéristiques et droits que les relecteurs "simples" mais avec en plus des droits spécifiques tels que :
+
+* la possibilité de créer de nouveaux auteurs
+* marquer un support comme refusé
+* attribuer une fois par semaine une note sur 100 concernant les objectifs de relecture d'un relecteur "simple".
+Chaque relecteur "simple" a donc une note moyenne qui doit être affichée dans son profil.
+
+ifeval::[{_show_note_prof} == 1]
+.Note pour le professeur
+[.note_prof]
+****
+
+[.question]
+*****
+*Q{counter:_question})*
+*Modélisation des cas d'utilisation*
+
+A partir du recueil des besoins utilisateur, réalisez le diagramme des cas d'utilisation.
+//end _question
+*****
+
+ifeval::[{_show_correction} == 1]
+[.answer]
+*****
+_Correction de Q{_question}_
+
+Non traité durant le cours donc non attendu
+*****
+//end _show_correction
+endif::[]
+
+//end note_prof
+****
+//end _show_note_prof
+endif::[]
+
+
+[.question]
+****
+*Q{counter:_question})*
+*Modélisation de l'application*
+
+A partir du recueil des besoins utilisateur, réalisez la modélisation de l'application à l'aide d'un diagramme de classe.
+Le diagramme doit prévoir les classes qui seront persistées dans la base de données.
+Prévoyez dans ces classes et/ou des classes spécifiques les méthodes qui permettent de réaliser les fonctionnalités de l'application (ajouter un support, versionner un support, créer un utilisateur, etc).
+Il n'est pas attendu un pattern d'architecture spécifique.
+L'idée est de pouvoir communiquer à des développeurs les classes à implémenter et la logique d'articulation de l'application.
+//end _question
+****
+
+ifeval::[{_show_note_prof} == 1]
+.Note pour le professeur
+[.note_prof]
+****
+//raw image name: edimat_diagramme_de_classe_correction
+[plantuml,target=edimat_diagramme_de_classe_correction,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+title Diagramme de classe de l'application Edimat \n (proposition de correction limitée aux entités)
+
+abstract class Person {
+-firstname:string
+-lastname:string
+-mail:string
+-login:string {unique}
+-password:string
+}
+
+class Author <<entity>>  extends Person {
+-code:string
++checkNote(note: Note)
+}
+
+class Version <<entity>> {
+-num:int
+-message:string
+-timestamp:Datetime
+-currentVersion:bool
+-isPublishable:bool
+}
+
+class Support <<entity>> {
+-titre:string
+-code:string
+-isDenied:bool
+}
+
+class Proofreader <<entity>> extends Person {
+-getAverageScore():float
+}
+
+class ProofreaderCertified <<entity>> extends Proofreader{
+}
+
+class Note <<entity>> {
+-content:string
+-timestamp:Datetime
+-seenByAuthor:bool
+}
+
+class Objective <<entity>> {
+-score:int
+}
+
+Author "1" -- "*" Support : propose
+Proofreader "*" -- "*" Version : read
+Support "1" -- "1..*" Version : linked
+(Version, Proofreader) .. Note
+Proofreader "1" -- "*" Version : tagged
+ProofreaderCertified "*" -- "*" Proofreader : assess
+(Proofreader, ProofreaderCertified) .. Objective
+....
+
+//end note_prof
+****
+//end _show_note_prof
+endif::[]
+
+[.question]
+****
+*Q{counter:_question})*
+*Créer une bdd à partir d'un diagramme de classe*
+
+Une équipe de la SS2I a modélisé la gestion de la mise à disposition des supports à des clients (médiathèques, particuliers, écoles) moyennant un paiement.
+
+A partir du diagramme de classe ci-dessous, réalisez le schéma relationnel puis créez la base de données correspondante à ce schéma.
+
+Votre production doit montrer :
+
+* le schéma relationnel qui va vous servir à créer la base de données
+* un screen des tables qui compose la bdd créée à partir de ce schéma relationnel dans MariaDb
+* le schéma obtenu via le concepteur de PhpMyAdmin (faire un effort pour positionner les différentes tables créées dans MariaDb de façon à ce que le schéma soit facile à lire)
+
+[plantuml,target=diagramme_classe_edilivre,format=svg]
+....
+hide circle
+skinparam classAttributeIconSize 0
+
+title Diagramme de classe concernant\n la mise à disposition des supports à des clients
+
+class Customer <<entity>>{
+-name:string
+-mail:string
+}
+
+class Statut <<entity>> {
+-name:string
+-description:string
+}
+
+
+
+class Share {
+-startDate:DateTime
+-endDate:DateTime
+-rate:int
+}
+
+class Support <<entity>> {
+-titre:string
+-code:string
+-version:num
+}
+
+Support "*" - "*" Customer
+(Support, Customer) .. Share
+Customer "*" --> "1" Statut
+Customer "sponsor\n0..1" --> "*\nsponsored" Customer
+....
+
+//end _question
+****
+
+[.question]
+****
+*Q{counter:_question})*
+Implémentez le diagramme précédent à l'aide du langage PHP.
+//end _question
+****
+
+[.question]
+****
+*Q{counter:_question})*
+Comment aurait-pu être simplifiée la représentation de la classe d'association `Share` liée à l'association qui associe  `Customer` et `Share` ?
+
+Pour répondre à la question, vous proposerez une modélisation de cette simplification et le code correspondant de celle-ci.
+//end _question
+****
